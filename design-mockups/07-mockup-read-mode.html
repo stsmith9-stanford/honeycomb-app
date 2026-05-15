@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Honeycomb · Read mode — daily card</title>
+
+    <!--
+      READ MODE · daily habit-forming card-at-a-time experience
+      Direction B visual language (Hex + Editorial), phone-shaped.
+
+      One card on screen at a time. Five to seven cards per day.
+      Three actions per card: save to shelf · send to a friend · next.
+      Bounded set + bounded session = habit.
+
+      Inspirations:
+        - Readwise daily review (the canonical habit-forming swipe)
+        - NYT Spelling Bee daily limit
+        - BeReal once-a-day rhythm
+        - Honeycomb's existing hex zone system (which hex = the "why" for this card)
+    -->
+
+    <style>
+      :root {
+        --paper: #f6efe2;
+        --paper-deep: #ede3cf;
+        --ink: #1f1b15;
+        --ink-soft: #4b4438;
+        --ink-faint: #8a7f6b;
+        --amber: #d2912f;
+        --amber-deep: #b8761a;
+        --amber-soft: #f1c779;
+        --shawn: #c95a2e;
+        --yedu: #2f6a64;
+        --humzah: #6b3aa0;
+        --rule: rgba(31, 27, 21, 0.12);
+        --card: #fbf6e8;
+      }
+      * { box-sizing: border-box; }
+      html, body {
+        margin: 0;
+        background: var(--paper-deep);
+        color: var(--ink);
+        font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+        font-size: 16px;
+        line-height: 1.55;
+        -webkit-font-smoothing: antialiased;
+        min-height: 100vh;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 30px 16px;
+      }
+
+      /* PHONE FRAME — for the team to read this as a mobile experience */
+      .phone {
+        width: 100%;
+        max-width: 420px;
+        min-height: 880px;
+        background: var(--paper);
+        border-radius: 36px;
+        box-shadow: 0 30px 80px -30px rgba(0,0,0,0.25);
+        overflow: hidden;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* STATUS / NAV */
+      .nav {
+        display: flex; align-items: center; justify-content: space-between;
+        padding: 22px 24px 14px;
+      }
+      .nav .word {
+        font-family: Georgia, serif;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        font-size: 11px;
+        color: var(--ink-soft);
+      }
+      .nav .progress {
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 11.5px;
+        color: var(--amber-deep);
+        letter-spacing: 0.04em;
+      }
+      .nav .later {
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 12px;
+        color: var(--ink-faint);
+        text-decoration: none;
+      }
+
+      /* MODE HEADER */
+      .mode-head {
+        text-align: center;
+        padding: 16px 24px 6px;
+      }
+      .mode-head h1 {
+        font-family: Georgia, serif;
+        font-style: italic;
+        font-size: 26px;
+        margin: 0 0 4px;
+        font-weight: 500;
+      }
+      .mode-head .sub {
+        font-size: 13px;
+        color: var(--ink-faint);
+      }
+
+      /* THE CARD */
+      .card-stage {
+        flex: 1;
+        padding: 24px 22px 0;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+      }
+
+      .card {
+        flex: 1;
+        background: var(--card);
+        border: 1px solid var(--rule);
+        border-radius: 22px;
+        padding: 22px 22px 24px;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        box-shadow: 0 6px 18px -10px rgba(0,0,0,0.08);
+      }
+
+      /* zone tag at top */
+      .zone-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        align-self: flex-start;
+        padding: 5px 11px;
+        background: rgba(210, 145, 47, 0.12);
+        border: 1px solid rgba(210, 145, 47, 0.3);
+        border-radius: 999px;
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 10.5px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--amber-deep);
+        margin-bottom: 18px;
+      }
+      .zone-tag .hex-mini {
+        width: 11px; height: 13px;
+        clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0% 50%);
+        background: var(--amber);
+      }
+      .zone-tag .pips { display: inline-flex; gap: -2px; margin-left: 2px; }
+      .zone-tag .pips .pip {
+        width: 14px; height: 14px; border-radius: 50%;
+        border: 1.5px solid var(--card);
+        display: inline-flex; align-items: center; justify-content: center;
+        color: white; font-family: Georgia, serif; font-style: italic;
+        font-size: 8.5px;
+      }
+      .zone-tag .pips .pip + .pip { margin-left: -5px; }
+      .pip.s { background: var(--shawn); }
+      .pip.y { background: var(--yedu); }
+      .pip.h { background: var(--humzah); }
+
+      /* source row */
+      .source-row {
+        display: flex; align-items: center; gap: 10px;
+        margin-bottom: 16px;
+      }
+      .source-glyph {
+        width: 34px; height: 38px;
+        clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0% 50%);
+        background: var(--paper-deep);
+        display: flex; align-items: center; justify-content: center;
+        font-size: 16px;
+      }
+      .source-meta { flex: 1; min-width: 0; }
+      .source-title {
+        font-family: Georgia, serif;
+        font-size: 15px; font-weight: 500;
+        color: var(--ink);
+        line-height: 1.3;
+      }
+      .source-sub {
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 11.5px;
+        color: var(--ink-faint);
+        margin-top: 2px;
+      }
+
+      /* the pull quote */
+      .pull-quote {
+        font-family: Georgia, serif;
+        font-style: italic;
+        font-size: 21px;
+        line-height: 1.4;
+        color: var(--ink);
+        margin: 8px 0 18px;
+        position: relative;
+        padding-left: 16px;
+      }
+      .pull-quote::before {
+        content: '"';
+        position: absolute;
+        left: -2px; top: -10px;
+        font-size: 38px; color: var(--amber);
+        font-family: Georgia, serif; font-style: italic;
+        line-height: 1;
+      }
+
+      /* why this card */
+      .why-line {
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 12.5px;
+        line-height: 1.5;
+        color: var(--ink-soft);
+        background: rgba(210, 145, 47, 0.06);
+        border-left: 2px solid var(--amber);
+        padding: 10px 14px;
+        margin-top: auto;
+        margin-bottom: 16px;
+        border-radius: 0 8px 8px 0;
+      }
+      .why-line strong { color: var(--ink); font-weight: 500; }
+
+      /* the three actions */
+      .actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 8px;
+      }
+      .action {
+        background: var(--paper);
+        border: 1px solid var(--rule);
+        border-radius: 14px;
+        padding: 14px 8px;
+        text-align: center;
+        cursor: pointer;
+        display: flex; flex-direction: column; align-items: center; gap: 5px;
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 11.5px;
+        color: var(--ink-soft);
+        transition: background .15s ease;
+      }
+      .action:hover { background: var(--paper-deep); }
+      .action .glyph { font-size: 18px; line-height: 1; }
+      .action .av-stack {
+        display: flex; align-items: center;
+        margin-top: 2px;
+      }
+      .action .av-stack .pip {
+        width: 16px; height: 16px; border-radius: 50%;
+        border: 1.5px solid var(--paper);
+        font-family: Georgia, serif; font-style: italic;
+        color: white; font-size: 9px;
+        display: inline-flex; align-items: center; justify-content: center;
+      }
+      .action .av-stack .pip + .pip { margin-left: -5px; }
+      .action .label { font-weight: 500; }
+      .action .sublabel { color: var(--ink-faint); font-size: 10.5px; }
+
+      .action.next {
+        background: var(--ink); color: var(--paper);
+        border-color: var(--ink);
+      }
+      .action.next:hover { background: #2a241b; }
+
+      /* PROGRESS STRIP */
+      .progress-strip {
+        padding: 22px 24px;
+        display: flex; align-items: center; justify-content: center;
+        gap: 8px;
+      }
+      .progress-dot {
+        width: 14px; height: 16px;
+        clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0% 50%);
+        background: var(--rule);
+      }
+      .progress-dot.done { background: var(--amber-deep); }
+      .progress-dot.current {
+        background: var(--amber);
+        transform: scale(1.4);
+        box-shadow: 0 0 0 3px rgba(210, 145, 47, 0.18);
+      }
+
+      /* TOMORROW PREVIEW */
+      .tomorrow {
+        padding: 12px 24px 24px;
+        text-align: center;
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 11px;
+        color: var(--ink-faint);
+        letter-spacing: 0.04em;
+      }
+      .tomorrow em { color: var(--ink-soft); font-style: italic; }
+
+      /* PRESENTATION LABEL ON SIDES */
+      .annotation {
+        position: absolute;
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 11px;
+        color: var(--ink-faint);
+        line-height: 1.45;
+        max-width: 220px;
+      }
+      .annotation strong { color: var(--ink-soft); font-weight: 500; }
+
+      @media (max-width: 900px) {
+        .annotation { display: none; }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="phone">
+
+      <header class="nav">
+        <span class="word">Honeycomb</span>
+        <span class="progress">card 3 of 7 today</span>
+        <a href="#" class="later">later ↓</a>
+      </header>
+
+      <div class="mode-head">
+        <h1>Read</h1>
+        <div class="sub">five more things, then you're done</div>
+      </div>
+
+      <div class="card-stage">
+        <article class="card">
+
+          <span class="zone-tag">
+            <span class="hex-mini"></span>
+            All three of you · agentic workflows
+            <span class="pips">
+              <span class="pip s">S</span>
+              <span class="pip y">Y</span>
+              <span class="pip h">H</span>
+            </span>
+          </span>
+
+          <div class="source-row">
+            <div class="source-glyph">🎬</div>
+            <div class="source-meta">
+              <div class="source-title">Karpathy — Software 3.0</div>
+              <div class="source-sub">YouTube · 38 min · 2 of 3 of you started</div>
+            </div>
+          </div>
+
+          <div class="pull-quote">The agent isn't a tool — it's a co-author with its own taste. The job is to render that taste legible so we can edit it.</div>
+
+          <div class="why-line">
+            <strong>Why this card now.</strong> Yedu watched this last week and Humzah bookmarked it yesterday. The taste-rendering frame matches all three of your agentic-workflow notes from this month.
+          </div>
+
+          <div class="actions">
+            <button class="action">
+              <span class="glyph">⭐</span>
+              <span class="label">Save to shelf</span>
+              <span class="sublabel">for all three</span>
+            </button>
+            <button class="action">
+              <span class="glyph">✉️</span>
+              <span class="label">Send</span>
+              <span class="av-stack">
+                <span class="pip y">Y</span>
+                <span class="pip h">H</span>
+              </span>
+            </button>
+            <button class="action next">
+              <span class="glyph">→</span>
+              <span class="label">Next</span>
+              <span class="sublabel" style="color: rgba(246, 239, 226, 0.6);">4 of 7</span>
+            </button>
+          </div>
+
+        </article>
+      </div>
+
+      <div class="progress-strip" aria-label="Today's progress">
+        <span class="progress-dot done"></span>
+        <span class="progress-dot done"></span>
+        <span class="progress-dot current"></span>
+        <span class="progress-dot"></span>
+        <span class="progress-dot"></span>
+        <span class="progress-dot"></span>
+        <span class="progress-dot"></span>
+      </div>
+
+      <div class="tomorrow">
+        Tomorrow's read: <em>4 things, including a note from Humzah's vault</em>
+      </div>
+
+    </div>
+  </body>
+</html>

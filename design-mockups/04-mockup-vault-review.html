@@ -1,0 +1,542 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Honeycomb · Vault review — Direction B</title>
+
+    <!--
+      VAULT REVIEW · Direction B (Hex + Editorial)
+      Approve-with-routing into the honeycomb cell.
+      Each agent-surfaced item shows a mini honeycomb cell of 4 destination hexes.
+      Tap a hex = approve the item AND place it in that zone (center / pairwise).
+
+      Inspirations:
+        - HEY Screener Yes/No queue + "deliver to..." destination picker
+        - Manus collapsible agent reasoning trail
+        - Notion per-recipient verb tier
+        - Tolan editorial cream register
+        - NYT Spelling Bee 1+3 hex cell as the destination control
+    -->
+
+    <style>
+      :root {
+        --paper: #f6efe2;
+        --paper-deep: #ede3cf;
+        --ink: #1f1b15;
+        --ink-soft: #4b4438;
+        --ink-faint: #8a7f6b;
+        --amber: #d2912f;
+        --amber-deep: #b8761a;
+        --amber-soft: #f1c779;
+        --shawn: #c95a2e;
+        --yedu: #2f6a64;
+        --humzah: #6b3aa0;
+        --rule: rgba(31, 27, 21, 0.12);
+        --card: #fbf6e8;
+      }
+      * { box-sizing: border-box; }
+      html, body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+        font-size: 16.5px;
+        line-height: 1.55;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .topbar {
+        position: sticky; top: 0; z-index: 10;
+        display: grid; grid-template-columns: 1fr auto 1fr;
+        align-items: center; gap: 32px;
+        padding: 18px 48px;
+        background: rgba(246, 239, 226, 0.92);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--rule);
+      }
+      .wordmark {
+        font-family: Georgia, serif; font-weight: 600;
+        letter-spacing: 0.06em; text-transform: uppercase;
+        font-size: 13px; color: var(--ink-soft);
+      }
+      .tab-nav { display: flex; gap: 4px; justify-self: center; }
+      .tab-nav a {
+        padding: 6px 14px; border-radius: 999px;
+        font-size: 12.5px; color: var(--ink-soft);
+        text-decoration: none;
+        font-family: -apple-system, system-ui, sans-serif;
+      }
+      .tab-nav a.active { background: var(--ink); color: var(--paper); }
+      .actions { display: flex; justify-content: flex-end; gap: 10px; font-family: -apple-system, system-ui, sans-serif; font-size: 13px; }
+      .btn {
+        padding: 8px 14px; border-radius: 999px;
+        background: var(--card); color: var(--ink-soft);
+        border: 1px solid var(--rule); cursor: pointer;
+      }
+      .btn.primary { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+      .page { max-width: 1100px; margin: 0 auto; padding: 48px 48px 96px; }
+
+      /* HERO */
+      .hero { margin-bottom: 36px; }
+      .hero-kicker {
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase;
+        color: var(--ink-faint); margin-bottom: 14px;
+      }
+      .hero h2 {
+        font-family: Georgia, serif; font-style: italic;
+        font-size: 38px; margin: 0 0 14px; font-weight: 500;
+        line-height: 1.15;
+      }
+      .hero p {
+        max-width: 660px; font-size: 17px; color: var(--ink-soft); margin: 0;
+      }
+      .hero em { color: var(--amber); font-style: italic; }
+
+      /* AGENT EXPLAINER STRIP */
+      .agent-strip {
+        margin: 32px 0;
+        padding: 18px 22px;
+        background: var(--card);
+        border: 1px solid var(--rule);
+        border-radius: 14px;
+        display: flex; align-items: center; gap: 20px;
+      }
+      .agent-strip .glyph {
+        width: 36px; height: 36px;
+        background: var(--amber); color: white;
+        clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0% 50%);
+        display: flex; align-items: center; justify-content: center;
+        font-family: Georgia, serif; font-style: italic;
+      }
+      .agent-strip .body { flex: 1; }
+      .agent-strip strong { font-family: Georgia, serif; font-weight: 500; font-size: 14.5px; }
+      .agent-strip p { margin: 2px 0 0; font-size: 12.5px; color: var(--ink-faint); font-family: -apple-system, system-ui, sans-serif; }
+
+      /* ITEMS */
+      .items { display: flex; flex-direction: column; gap: 20px; }
+      .item {
+        background: var(--card);
+        border: 1px solid var(--rule);
+        border-radius: 20px;
+        padding: 24px 26px;
+        display: grid;
+        grid-template-columns: 1fr 280px;
+        gap: 32px;
+        align-items: start;
+      }
+      .item-body { min-width: 0; }
+      .item-meta {
+        display: flex; align-items: center; gap: 8px;
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 11.5px; color: var(--ink-faint);
+        margin-bottom: 12px;
+      }
+      .item-meta .av {
+        width: 20px; height: 20px; border-radius: 50%;
+        color: white; font-family: Georgia, serif; font-style: italic;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 10.5px;
+      }
+      .av.s { background: var(--shawn); }
+      .av.y { background: var(--yedu); }
+      .av.h { background: var(--humzah); }
+      .item-meta .dot {
+        width: 3px; height: 3px; border-radius: 50%;
+        background: var(--ink-faint);
+      }
+      .item-quote {
+        font-family: Georgia, serif; font-style: italic;
+        font-size: 19px; line-height: 1.45;
+        color: var(--ink);
+        margin: 0 0 12px;
+        position: relative;
+        padding-left: 18px;
+      }
+      .item-quote::before {
+        content: '"'; position: absolute; left: 0; top: -4px;
+        font-size: 32px; color: var(--amber);
+        font-family: Georgia, serif; font-style: italic;
+      }
+      .item-source {
+        font-size: 12.5px; color: var(--ink-faint);
+        font-family: -apple-system, system-ui, sans-serif;
+        margin-bottom: 16px;
+      }
+
+      .reasoning {
+        background: rgba(210, 145, 47, 0.07);
+        border: 1px solid rgba(210, 145, 47, 0.2);
+        border-radius: 10px;
+        padding: 12px 14px;
+        margin-bottom: 14px;
+      }
+      .reasoning summary {
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 11.5px; letter-spacing: 0.04em;
+        color: var(--amber-deep); cursor: pointer;
+        font-weight: 500;
+        list-style: none;
+      }
+      .reasoning summary::before {
+        content: '▾ '; display: inline-block;
+        transition: transform .15s ease;
+      }
+      .reasoning .reasoning-body {
+        margin-top: 8px; font-size: 12.5px; color: var(--ink-soft);
+        line-height: 1.55;
+      }
+      .reasoning .reasoning-body em { color: var(--ink); font-style: italic; }
+
+      /* DESTINATION CELL — the mini honeycomb */
+      .destination {
+        display: flex; flex-direction: column; align-items: center;
+      }
+      .destination-label {
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+        color: var(--ink-faint); margin-bottom: 14px;
+      }
+      .mini-cell {
+        position: relative;
+        width: 240px;
+        height: 220px;
+      }
+      .mini-hex {
+        position: absolute;
+        clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0% 50%);
+        background: var(--paper);
+        border: 0;
+        cursor: pointer;
+        display: flex; flex-direction: column;
+        align-items: center; justify-content: center;
+        font-family: Georgia, serif;
+        font-style: italic;
+        transition: transform .15s ease, filter .15s ease;
+      }
+      .mini-hex:hover { transform: scale(1.03); filter: brightness(1.03); }
+      .mini-hex.center {
+        width: 110px; height: 122px;
+        top: 50%; left: 50%; transform: translate(-50%, -50%);
+        background: linear-gradient(160deg, var(--amber-soft), var(--amber));
+        color: #2d1c00;
+        z-index: 2;
+        box-shadow: 0 8px 22px -10px rgba(184, 118, 26, 0.55);
+      }
+      .mini-hex.center:hover { transform: translate(-50%, -50%) scale(1.03); }
+      .mini-hex.center.recommended { box-shadow: 0 0 0 3px var(--amber), 0 8px 22px -10px rgba(184, 118, 26, 0.6); }
+      .mini-hex.center .lbl { font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase; font-style: normal; color: rgba(45,28,0,0.7); font-family: -apple-system, system-ui, sans-serif; }
+      .mini-hex.center .count { font-size: 14px; font-style: italic; margin-top: 4px; }
+
+      .mini-hex.sat {
+        width: 76px; height: 86px;
+        background: var(--card);
+        border: 1px solid var(--rule);
+      }
+      .mini-hex.sat.recommended {
+        background: var(--amber-soft);
+        box-shadow: 0 0 0 2px var(--amber);
+      }
+      .mini-hex.sat .lbl {
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase;
+        color: var(--ink-faint); font-style: normal;
+        margin-bottom: 2px;
+      }
+      .mini-hex.sat .pip-pair { display: flex; gap: 3px; }
+      .mini-hex.sat .pip-pair span {
+        width: 6px; height: 6px; border-radius: 50%;
+      }
+
+      .mini-hex.sat.sy { top: 5px; left: 50%; transform: translate(-50%, 0); }
+      .mini-hex.sat.yh { top: auto; bottom: 5px; left: 6%; }
+      .mini-hex.sat.sh { top: auto; bottom: 5px; right: 6%; }
+
+      .dest-actions {
+        margin-top: 16px;
+        display: flex; gap: 8px;
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 11.5px;
+      }
+      .dest-actions button {
+        padding: 6px 12px; border-radius: 999px;
+        border: 1px solid var(--rule);
+        background: transparent;
+        color: var(--ink-soft);
+        cursor: pointer;
+      }
+      .dest-actions button.skip { color: var(--ink-faint); }
+
+      .agent-suggested {
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 10.5px; color: var(--amber-deep);
+        margin-top: 6px;
+        text-align: center;
+        font-style: italic;
+      }
+
+      /* ITEM "ROUTED" STATE */
+      .item.routed {
+        background: rgba(255,255,255,0.5);
+        border: 1px dashed var(--rule);
+        opacity: 0.86;
+      }
+      .item.routed .routed-flag {
+        display: inline-flex; align-items: center; gap: 6px;
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 11.5px; color: var(--amber-deep);
+        margin-bottom: 10px;
+        font-weight: 500;
+      }
+      .item.routed .routed-flag .hex-mini-inline {
+        width: 12px; height: 14px;
+        background: var(--amber);
+        clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0% 50%);
+      }
+
+      /* FOOTER STRIP */
+      .queue-foot {
+        margin-top: 40px;
+        padding: 18px 22px;
+        display: flex; align-items: center; gap: 16px;
+        background: var(--card);
+        border: 1px solid var(--rule);
+        border-radius: 14px;
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 13px; color: var(--ink-soft);
+      }
+      .queue-foot .right { margin-left: auto; display: flex; gap: 8px; }
+
+      @media (max-width: 880px) {
+        .item { grid-template-columns: 1fr; }
+        .destination { align-items: flex-start; }
+      }
+    </style>
+  </head>
+
+  <body>
+    <header class="topbar">
+      <div><span class="wordmark">Honeycomb · Triad blend</span></div>
+      <nav class="tab-nav">
+        <a href="03-mockup-b-triad-hex.html">Blend</a>
+        <a class="active">Vault review</a>
+        <a href="05-mockup-shared-shelf.html">Shared shelf</a>
+        <a href="06-mockup-conversations.html">Conversations</a>
+      </nav>
+      <div class="actions">
+        <button class="btn">Audit log</button>
+        <button class="btn primary">Run scan again</button>
+      </div>
+    </header>
+
+    <main class="page">
+
+      <section class="hero">
+        <div class="hero-kicker">Vault review · 7 items the agent surfaced today</div>
+        <h2>Approve into a zone of the honeycomb.</h2>
+        <p>The agent scanned your vault and flagged seven private items it thinks your blend partners would care about. For each one, tap a <em>hex</em> to approve and place it: the amber center for "all three," or one of the three pairwise satellites for "just two of you."</p>
+      </section>
+
+      <section class="agent-strip">
+        <div class="glyph">A</div>
+        <div class="body">
+          <strong>Today's scan covered 91 notes, 38 highlights, and 12 daily entries.</strong>
+          <p>Items below match themes already shared in the blend, or quote authors that other vaults have engaged with. You can also leave anything private — the skip button hands it back to you.</p>
+        </div>
+      </section>
+
+      <div class="items">
+
+        <!-- ITEM 1 -->
+        <article class="item">
+          <div class="item-body">
+            <div class="item-meta">
+              <span class="av s">S</span>
+              <span>Shawn · Note · "objection-energy"</span>
+              <span class="dot"></span>
+              <span>last Tuesday · ai alignment</span>
+            </div>
+            <blockquote class="item-quote">We keep building agents that can act faster than we can object. The activation energy for objection should be lower than for action.</blockquote>
+            <p class="item-source">From your vault · 3 paragraphs · linked to 5 other notes you've written</p>
+            <details class="reasoning" open>
+              <summary>Why the agent surfaced this</summary>
+              <div class="reasoning-body">
+                Your phrase <em>"activation energy"</em> is the project's own spine, and both Yedu and Humzah have written about <em>friction-cost-per-action</em> (Yedu, May 8) and <em>policy adoption lag</em> (Humzah, May 4) in the past two weeks. Cross-matching all three vaults: this is a 3-way conversation waiting to happen.
+              </div>
+            </details>
+          </div>
+          <div class="destination">
+            <div class="destination-label">Choose a zone</div>
+            <div class="mini-cell">
+              <button class="mini-hex sat sy">
+                <div class="lbl">S · Y</div>
+                <div class="pip-pair"><span style="background: var(--shawn);"></span><span style="background: var(--yedu);"></span></div>
+              </button>
+              <button class="mini-hex sat yh">
+                <div class="lbl">Y · H</div>
+                <div class="pip-pair"><span style="background: var(--yedu);"></span><span style="background: var(--humzah);"></span></div>
+              </button>
+              <button class="mini-hex sat sh">
+                <div class="lbl">S · H</div>
+                <div class="pip-pair"><span style="background: var(--shawn);"></span><span style="background: var(--humzah);"></span></div>
+              </button>
+              <button class="mini-hex center recommended">
+                <div class="lbl">All three</div>
+                <div class="count">3 ✓</div>
+              </button>
+            </div>
+            <div class="agent-suggested">Agent suggests center</div>
+            <div class="dest-actions">
+              <button class="skip">Keep private</button>
+              <button>Audit</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- ITEM 2 -->
+        <article class="item">
+          <div class="item-body">
+            <div class="item-meta">
+              <span class="av s">S</span>
+              <span>Shawn · Highlight · Forte, <em>Building a Second Brain</em></span>
+              <span class="dot"></span>
+              <span>2 weeks ago · personal knowledge systems</span>
+            </div>
+            <blockquote class="item-quote">A second brain is only worth tending if a future version of you — or someone you love — can read it without you in the room.</blockquote>
+            <p class="item-source">Marginalia · Kindle highlight, page 247 · written response: 1 paragraph</p>
+            <details class="reasoning">
+              <summary>Why the agent surfaced this</summary>
+              <div class="reasoning-body">
+                Yedu has a note titled <em>"why I keep starting over"</em> from 5 days ago that uses nearly the same framing. Pair overlap: Shawn × Yedu = 11 notes on this theme. Humzah has not written about it.
+              </div>
+            </details>
+          </div>
+          <div class="destination">
+            <div class="destination-label">Choose a zone</div>
+            <div class="mini-cell">
+              <button class="mini-hex sat sy recommended">
+                <div class="lbl">S · Y</div>
+                <div class="pip-pair"><span style="background: var(--shawn);"></span><span style="background: var(--yedu);"></span></div>
+              </button>
+              <button class="mini-hex sat yh">
+                <div class="lbl">Y · H</div>
+                <div class="pip-pair"><span style="background: var(--yedu);"></span><span style="background: var(--humzah);"></span></div>
+              </button>
+              <button class="mini-hex sat sh">
+                <div class="lbl">S · H</div>
+                <div class="pip-pair"><span style="background: var(--shawn);"></span><span style="background: var(--humzah);"></span></div>
+              </button>
+              <button class="mini-hex center">
+                <div class="lbl">All three</div>
+                <div class="count">—</div>
+              </button>
+            </div>
+            <div class="agent-suggested">Agent suggests S × Y</div>
+            <div class="dest-actions">
+              <button class="skip">Keep private</button>
+              <button>Audit</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- ITEM 3 — already routed -->
+        <article class="item routed">
+          <div class="item-body">
+            <div class="routed-flag">
+              <span class="hex-mini-inline"></span>
+              Routed to <strong>center</strong> · visible to Yedu &amp; Humzah · just now
+            </div>
+            <div class="item-meta">
+              <span class="av s">S</span>
+              <span>Shawn · Daily entry · April 30</span>
+              <span class="dot"></span>
+              <span>agentic workflows</span>
+            </div>
+            <blockquote class="item-quote">Decompose the agent loop: observe, decide, act, log. We keep over-automating the act step and under-automating the log step.</blockquote>
+            <p class="item-source">From your morning pages · 2 paragraphs</p>
+          </div>
+          <div class="destination">
+            <div class="destination-label" style="color: var(--amber-deep);">Sent to center hex</div>
+            <div class="mini-cell">
+              <button class="mini-hex sat sy" style="opacity: 0.35;">
+                <div class="lbl">S · Y</div>
+              </button>
+              <button class="mini-hex sat yh" style="opacity: 0.35;">
+                <div class="lbl">Y · H</div>
+              </button>
+              <button class="mini-hex sat sh" style="opacity: 0.35;">
+                <div class="lbl">S · H</div>
+              </button>
+              <button class="mini-hex center" style="background: var(--amber);">
+                <div class="lbl" style="color: rgba(255,255,255,0.85);">Routed ✓</div>
+                <div class="count" style="color: white;">All three</div>
+              </button>
+            </div>
+            <div class="dest-actions">
+              <button>Undo</button>
+              <button>Add note</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- ITEM 4 -->
+        <article class="item">
+          <div class="item-body">
+            <div class="item-meta">
+              <span class="av s">S</span>
+              <span>Shawn · Note · "Ship of Theseus / agent rewrites"</span>
+              <span class="dot"></span>
+              <span>3 weeks ago · data ethics</span>
+            </div>
+            <blockquote class="item-quote">If the agent rewrote my note word-for-word and I approved it, whose note is it? Authorship is a moving target when the assistive surface gets that good.</blockquote>
+            <p class="item-source">Note · 4 paragraphs · linked to Humzah's "audit-log gap"</p>
+            <details class="reasoning">
+              <summary>Why the agent surfaced this</summary>
+              <div class="reasoning-body">
+                Humzah wrote nearly the same question on May 2 (<em>"the data-ethics version of Ship of Theseus"</em>) — a pair overlap with you (S × H) of 3 notes, the smallest pairwise zone. Yedu has not weighed in but works adjacent to this in their TwinMind transcript-consent notes.
+              </div>
+            </details>
+          </div>
+          <div class="destination">
+            <div class="destination-label">Choose a zone</div>
+            <div class="mini-cell">
+              <button class="mini-hex sat sy">
+                <div class="lbl">S · Y</div>
+                <div class="pip-pair"><span style="background: var(--shawn);"></span><span style="background: var(--yedu);"></span></div>
+              </button>
+              <button class="mini-hex sat yh">
+                <div class="lbl">Y · H</div>
+                <div class="pip-pair"><span style="background: var(--yedu);"></span><span style="background: var(--humzah);"></span></div>
+              </button>
+              <button class="mini-hex sat sh recommended">
+                <div class="lbl">S · H</div>
+                <div class="pip-pair"><span style="background: var(--shawn);"></span><span style="background: var(--humzah);"></span></div>
+              </button>
+              <button class="mini-hex center">
+                <div class="lbl">All three</div>
+                <div class="count">—</div>
+              </button>
+            </div>
+            <div class="agent-suggested">Agent suggests S × H</div>
+            <div class="dest-actions">
+              <button class="skip">Keep private</button>
+              <button>Audit</button>
+            </div>
+          </div>
+        </article>
+
+      </div>
+
+      <div class="queue-foot">
+        <span>3 items still need a zone · 1 routed · 0 skipped</span>
+        <div class="right">
+          <button class="btn">Defer until tomorrow</button>
+          <button class="btn primary">Submit all routings</button>
+        </div>
+      </div>
+
+    </main>
+  </body>
+</html>

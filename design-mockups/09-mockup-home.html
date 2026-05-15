@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Honeycomb · Home — two modes</title>
+
+    <!--
+      HOME SCREEN · two modes as primary entry points
+      Direction B visual language, phone-shaped.
+
+      The test: do two daily modes feel like a meta-choice (friction)
+      or like two intent-shaped doors (clarity)?
+
+      Design choice: surface BOTH modes on one screen.
+      No "pick a mode" menu — just two cards, each with a one-line
+      preview of what the agent has waiting. The Reflect cell sits
+      at the bottom as a weekly anchor, not a daily entry.
+
+      Inspirations:
+        - Apple Fitness home (rings + activity preview)
+        - Readwise daily review entry card
+        - Cal.com day-at-a-glance
+        - Honeycomb's existing hex zone system
+    -->
+
+    <style>
+      :root {
+        --paper: #f6efe2;
+        --paper-deep: #ede3cf;
+        --ink: #1f1b15;
+        --ink-soft: #4b4438;
+        --ink-faint: #8a7f6b;
+        --amber: #d2912f;
+        --amber-deep: #b8761a;
+        --amber-soft: #f1c779;
+        --shawn: #c95a2e;
+        --yedu: #2f6a64;
+        --humzah: #6b3aa0;
+        --rule: rgba(31, 27, 21, 0.12);
+        --card: #fbf6e8;
+      }
+      * { box-sizing: border-box; }
+      html, body {
+        margin: 0;
+        background: var(--paper-deep);
+        color: var(--ink);
+        font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+        font-size: 16px;
+        line-height: 1.55;
+        -webkit-font-smoothing: antialiased;
+        min-height: 100vh;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 30px 16px;
+      }
+
+      .phone {
+        width: 100%;
+        max-width: 420px;
+        min-height: 920px;
+        background: var(--paper);
+        border-radius: 36px;
+        box-shadow: 0 30px 80px -30px rgba(0,0,0,0.25);
+        overflow: hidden;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* TOP NAV */
+      .nav {
+        display: flex; align-items: center; justify-content: space-between;
+        padding: 22px 24px 4px;
+      }
+      .nav .word {
+        font-family: Georgia, serif;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        font-size: 11px;
+        color: var(--ink-soft);
+      }
+      .nav .self-av {
+        width: 30px; height: 30px; border-radius: 50%;
+        background: var(--shawn);
+        color: white;
+        display: flex; align-items: center; justify-content: center;
+        font-family: Georgia, serif; font-style: italic;
+        font-size: 14px;
+        border: 2px solid var(--paper);
+        box-shadow: 0 0 0 1.5px var(--shawn);
+      }
+
+      /* GREETING */
+      .greeting {
+        padding: 16px 28px 24px;
+      }
+      .greeting .date {
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 11.5px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--amber-deep);
+        margin-bottom: 6px;
+      }
+      .greeting h1 {
+        font-family: Georgia, serif;
+        font-style: italic;
+        font-size: 32px;
+        margin: 0 0 8px;
+        font-weight: 500;
+        line-height: 1.15;
+      }
+      .greeting p {
+        font-size: 14.5px;
+        color: var(--ink-faint);
+        margin: 0;
+        max-width: 320px;
+        line-height: 1.5;
+      }
+
+      /* MODE CARDS */
+      .modes {
+        padding: 0 22px;
+        display: flex; flex-direction: column;
+        gap: 14px;
+      }
+      .mode-card {
+        background: var(--card);
+        border: 1px solid var(--rule);
+        border-radius: 22px;
+        padding: 22px 22px;
+        display: flex; flex-direction: column;
+        gap: 14px;
+        cursor: pointer;
+        transition: transform .15s ease, box-shadow .15s ease;
+        position: relative;
+        overflow: hidden;
+      }
+      .mode-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 30px -16px rgba(0,0,0,0.15);
+      }
+
+      .mode-card.read .mode-accent {
+        background: linear-gradient(135deg, var(--amber-soft) 0%, var(--amber) 100%);
+      }
+      .mode-card.connect .mode-accent {
+        background: linear-gradient(135deg, rgba(201,90,46,0.85), rgba(107,58,160,0.85));
+      }
+
+      .mode-head-row {
+        display: flex; align-items: center; gap: 12px;
+      }
+      .mode-icon {
+        width: 44px; height: 50px;
+        clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0% 50%);
+        display: flex; align-items: center; justify-content: center;
+        font-size: 22px;
+        color: white;
+        flex-shrink: 0;
+      }
+      .mode-icon.read { background: linear-gradient(150deg, var(--amber-soft), var(--amber)); color: #2d1c00; }
+      .mode-icon.connect { background: linear-gradient(150deg, var(--shawn), var(--humzah)); }
+
+      .mode-title-block { flex: 1; min-width: 0; }
+      .mode-title {
+        font-family: Georgia, serif;
+        font-style: italic;
+        font-size: 22px;
+        font-weight: 500;
+        line-height: 1.15;
+        margin-bottom: 2px;
+      }
+      .mode-count {
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 11.5px;
+        color: var(--ink-faint);
+        letter-spacing: 0.04em;
+      }
+      .mode-arrow {
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 18px;
+        color: var(--ink-faint);
+      }
+
+      .mode-preview {
+        background: var(--paper);
+        border: 1px solid var(--rule);
+        border-radius: 14px;
+        padding: 12px 14px;
+        font-size: 13.5px;
+        line-height: 1.45;
+        color: var(--ink-soft);
+        font-family: Georgia, serif;
+      }
+      .mode-preview .who {
+        display: inline-flex;
+        gap: 0;
+        margin-right: 6px;
+        vertical-align: -3px;
+      }
+      .mode-preview .who .pip {
+        width: 16px; height: 16px;
+        border-radius: 50%;
+        border: 1.5px solid var(--paper);
+        display: inline-flex; align-items: center; justify-content: center;
+        color: white; font-family: Georgia, serif; font-style: italic;
+        font-size: 8.5px;
+      }
+      .mode-preview .who .pip + .pip { margin-left: -5px; }
+      .pip.s { background: var(--shawn); }
+      .pip.y { background: var(--yedu); }
+      .pip.h { background: var(--humzah); }
+      .mode-preview em { color: var(--ink); font-style: italic; }
+
+      /* mode-card right-side ornament */
+      .mode-card.read::after {
+        content: '';
+        position: absolute;
+        right: -32px; bottom: -32px;
+        width: 130px; height: 145px;
+        clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0% 50%);
+        background: rgba(210, 145, 47, 0.06);
+        pointer-events: none;
+      }
+      .mode-card.connect::after {
+        content: '';
+        position: absolute;
+        right: -32px; bottom: -32px;
+        width: 130px; height: 145px;
+        clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0% 50%);
+        background: rgba(107, 58, 160, 0.05);
+        pointer-events: none;
+      }
+
+      /* DIVIDER */
+      .divider {
+        text-align: center;
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 10.5px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+        margin: 28px 0 14px;
+        position: relative;
+      }
+      .divider::before, .divider::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        height: 1px;
+        background: var(--rule);
+        width: 60px;
+      }
+      .divider::before { left: 50%; transform: translateX(-130px); }
+      .divider::after { right: 50%; transform: translateX(130px); }
+
+      /* REFLECT — the weekly hex anchor */
+      .reflect {
+        margin: 0 22px 14px;
+        background: linear-gradient(135deg, rgba(210, 145, 47, 0.08), rgba(210, 145, 47, 0.02));
+        border: 1px solid rgba(210, 145, 47, 0.2);
+        border-radius: 22px;
+        padding: 18px 22px;
+        display: flex; align-items: center; gap: 14px;
+        cursor: pointer;
+        transition: transform .15s ease;
+      }
+      .reflect:hover { transform: translateY(-2px); }
+      .reflect-cell {
+        position: relative;
+        width: 56px; height: 56px;
+        flex-shrink: 0;
+      }
+      .reflect-cell .h {
+        position: absolute;
+        clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0% 50%);
+      }
+      .reflect-cell .h.center {
+        width: 22px; height: 26px;
+        top: 50%; left: 50%; transform: translate(-50%, -50%);
+        background: var(--amber);
+      }
+      .reflect-cell .h.s1 {
+        width: 14px; height: 16px;
+        top: 0; left: 50%; transform: translateX(-50%);
+        background: var(--shawn);
+      }
+      .reflect-cell .h.s2 {
+        width: 14px; height: 16px;
+        bottom: 0; left: 8%;
+        background: var(--yedu);
+      }
+      .reflect-cell .h.s3 {
+        width: 14px; height: 16px;
+        bottom: 0; right: 8%;
+        background: var(--humzah);
+      }
+      .reflect-body { flex: 1; }
+      .reflect-title {
+        font-family: Georgia, serif;
+        font-style: italic;
+        font-size: 17px;
+        font-weight: 500;
+      }
+      .reflect-sub {
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 11.5px;
+        color: var(--ink-faint);
+        margin-top: 2px;
+      }
+      .reflect-arrow {
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 18px;
+        color: var(--amber-deep);
+      }
+
+      /* BOTTOM TABS — destinations */
+      .bottom-tabs {
+        margin: 8px 22px 24px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+      .tab-link {
+        background: var(--paper);
+        border: 1px solid var(--rule);
+        border-radius: 14px;
+        padding: 12px 14px;
+        text-decoration: none;
+        color: inherit;
+        display: flex; align-items: center; gap: 10px;
+      }
+      .tab-link .icon {
+        width: 20px; height: 20px;
+        font-size: 16px; line-height: 1;
+        display: flex; align-items: center; justify-content: center;
+      }
+      .tab-link .info { flex: 1; min-width: 0; }
+      .tab-link .info .name {
+        font-family: Georgia, serif;
+        font-style: italic;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 1.2;
+      }
+      .tab-link .info .meta {
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 10.5px;
+        color: var(--ink-faint);
+      }
+
+    </style>
+  </head>
+
+  <body>
+    <div class="phone">
+
+      <header class="nav">
+        <span class="word">Honeycomb</span>
+        <div class="self-av">S</div>
+      </header>
+
+      <section class="greeting">
+        <div class="date">Tuesday · May 12</div>
+        <h1>Good morning, Shawn.</h1>
+        <p>The agent picked seven things for you to read and one connection worth making today.</p>
+      </section>
+
+      <section class="modes">
+
+        <article class="mode-card read">
+          <div class="mode-head-row">
+            <div class="mode-icon read">📖</div>
+            <div class="mode-title-block">
+              <div class="mode-title">Read</div>
+              <div class="mode-count">7 cards · 3 minutes</div>
+            </div>
+            <span class="mode-arrow">→</span>
+          </div>
+          <div class="mode-preview">
+            Today's first card: Karpathy's <em>Software 3.0</em> talk —
+            <span class="who"><span class="pip y">Y</span><span class="pip h">H</span></span>
+            both you two also engaged with this in the last week.
+          </div>
+        </article>
+
+        <article class="mode-card connect">
+          <div class="mode-head-row">
+            <div class="mode-icon connect">☎️</div>
+            <div class="mode-title-block">
+              <div class="mode-title">Connect</div>
+              <div class="mode-count">1 proposal · drafted for you</div>
+            </div>
+            <span class="mode-arrow">→</span>
+          </div>
+          <div class="mode-preview">
+            Coffee with <em>Humzah</em>, Thursday 4pm —
+            <span class="who"><span class="pip s">S</span><span class="pip h">H</span></span>
+            you both wrote about agent rewrites in the last three weeks.
+          </div>
+        </article>
+
+      </section>
+
+      <div class="divider">Weekly</div>
+
+      <section class="reflect">
+        <div class="reflect-cell" aria-hidden="true">
+          <span class="h s1"></span>
+          <span class="h s2"></span>
+          <span class="h s3"></span>
+          <span class="h center"></span>
+        </div>
+        <div class="reflect-body">
+          <div class="reflect-title">Reflect on the blend</div>
+          <div class="reflect-sub">Your three-vault overview · updated Sunday</div>
+        </div>
+        <span class="reflect-arrow">→</span>
+      </section>
+
+      <section class="bottom-tabs">
+        <a href="05-mockup-shared-shelf.html" class="tab-link">
+          <span class="icon">📚</span>
+          <span class="info">
+            <span class="name">Shared shelf</span>
+            <span class="meta">14 saves · 2 new</span>
+          </span>
+        </a>
+        <a href="06-mockup-conversations.html" class="tab-link">
+          <span class="icon">💬</span>
+          <span class="info">
+            <span class="name">Past talks</span>
+            <span class="meta">4 conversations logged</span>
+          </span>
+        </a>
+      </section>
+
+    </div>
+  </body>
+</html>

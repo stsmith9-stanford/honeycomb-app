@@ -1,0 +1,623 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Honeycomb — Design Plan · the argument</title>
+    <style>
+      :root {
+        --paper: #f6efe2;
+        --paper-deep: #ede3cf;
+        --ink: #1f1b15;
+        --ink-soft: #4b4438;
+        --ink-faint: #8a7f6b;
+        --amber: #d2912f;
+        --amber-deep: #b8761a;
+        --amber-soft: #f1c779;
+        --shawn: #c95a2e;
+        --yedu: #2f6a64;
+        --humzah: #6b3aa0;
+        --rule: rgba(31, 27, 21, 0.12);
+        --card: #fbf6e8;
+      }
+      * { box-sizing: border-box; }
+      html, body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+        font-size: 17px;
+        line-height: 1.65;
+        -webkit-font-smoothing: antialiased;
+      }
+      .topbar {
+        position: sticky; top: 0; z-index: 20;
+        background: rgba(246, 239, 226, 0.92);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--rule);
+        padding: 14px 36px;
+        display: flex; align-items: center; gap: 24px;
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 13px;
+      }
+      .topbar .wordmark {
+        font-family: Georgia, serif; font-style: italic;
+        font-size: 19px; font-weight: 500;
+      }
+      .topbar nav { margin-left: auto; display: flex; gap: 8px; }
+      .topbar nav a {
+        color: var(--ink-soft);
+        text-decoration: none;
+        padding: 5px 11px;
+        border-radius: 999px;
+        background: var(--card);
+        border: 1px solid var(--rule);
+      }
+      .topbar nav a:hover { background: var(--paper-deep); }
+
+      .container {
+        max-width: 980px;
+        margin: 0 auto;
+        padding: 80px 36px 96px;
+      }
+
+      /* HERO */
+      .hero { margin-bottom: 96px; }
+      .hero-eyebrow {
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase;
+        color: var(--amber);
+        margin-bottom: 22px;
+      }
+      .hero h1 {
+        font-family: Georgia, serif; font-style: italic;
+        font-size: 62px; line-height: 1.05; margin: 0 0 24px;
+        letter-spacing: -0.02em; font-weight: 500;
+      }
+      .hero .lede {
+        font-size: 22px; line-height: 1.55;
+        color: var(--ink-soft);
+        max-width: 720px;
+        margin: 0 0 18px;
+      }
+      .hero .lede em { color: var(--amber); font-style: italic; }
+      .hero .meta {
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 12px;
+        color: var(--ink-faint);
+        letter-spacing: 0.08em;
+        margin-top: 28px;
+      }
+
+      /* THE DECISION CARD */
+      .decision {
+        background: linear-gradient(160deg, var(--amber-soft) 0%, var(--amber) 100%);
+        border-radius: 28px;
+        padding: 44px 48px;
+        margin-bottom: 80px;
+        color: #2d1c00;
+        position: relative;
+        overflow: hidden;
+      }
+      .decision::after {
+        content: '';
+        position: absolute;
+        right: -60px; top: -60px;
+        width: 240px; height: 270px;
+        clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0% 50%);
+        background: rgba(255,255,255,0.18);
+      }
+      .decision-eyebrow {
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 11.5px; letter-spacing: 0.22em; text-transform: uppercase;
+        color: rgba(45, 28, 0, 0.75);
+        margin-bottom: 14px;
+      }
+      .decision h2 {
+        font-family: Georgia, serif; font-style: italic;
+        font-size: 42px; line-height: 1.15;
+        margin: 0 0 16px;
+        color: #2d1c00;
+        font-weight: 500;
+        position: relative; z-index: 1;
+      }
+      .decision .sub {
+        font-size: 17px;
+        line-height: 1.6;
+        color: rgba(45, 28, 0, 0.85);
+        max-width: 640px;
+        margin: 0;
+        position: relative; z-index: 1;
+      }
+
+      /* SECTION HEADS */
+      .section-head {
+        margin-bottom: 36px;
+        padding-bottom: 18px;
+        border-bottom: 1px solid var(--rule);
+      }
+      .section-head .num {
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase;
+        color: var(--amber);
+        margin-bottom: 8px;
+      }
+      .section-head h3 {
+        font-family: Georgia, serif; font-style: italic;
+        font-size: 38px; line-height: 1.15;
+        margin: 0; font-weight: 500;
+      }
+      section { margin-bottom: 80px; }
+
+      /* PROSE */
+      .prose p { margin: 0 0 18px; }
+      .prose p:last-child { margin-bottom: 0; }
+      .prose em { font-style: italic; color: var(--amber-deep); }
+      .prose strong { color: var(--ink); font-weight: 500; }
+      .prose .callout {
+        background: var(--card);
+        border-left: 3px solid var(--amber);
+        border-radius: 0 12px 12px 0;
+        padding: 18px 22px;
+        margin: 22px 0;
+        font-size: 16px;
+        color: var(--ink-soft);
+      }
+      .prose .callout strong { color: var(--ink); }
+
+      /* ARGUMENT GRID */
+      .arguments {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+      .arg {
+        background: var(--card);
+        border: 1px solid var(--rule);
+        border-radius: 18px;
+        padding: 26px 28px;
+      }
+      .arg .arg-num {
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+        color: var(--amber-deep);
+        margin-bottom: 8px;
+      }
+      .arg h4 {
+        font-family: Georgia, serif; font-style: italic;
+        font-size: 22px; line-height: 1.25;
+        margin: 0 0 12px;
+        font-weight: 500;
+      }
+      .arg p {
+        font-size: 15.5px;
+        line-height: 1.55;
+        margin: 0;
+        color: var(--ink-soft);
+      }
+      .arg p + p { margin-top: 12px; }
+      .arg em { color: var(--amber-deep); }
+
+      /* TOUR CARDS — iframes */
+      .tour {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 56px;
+      }
+      .tour-card {
+        position: relative;
+      }
+      .tour-card .tour-head {
+        display: flex; align-items: baseline; justify-content: space-between;
+        margin-bottom: 18px;
+      }
+      .tour-card .tour-step {
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
+        color: var(--amber);
+      }
+      .tour-card h4 {
+        font-family: Georgia, serif; font-style: italic;
+        font-size: 28px; line-height: 1.2;
+        margin: 6px 0 0; font-weight: 500;
+      }
+      .tour-card .open-link {
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 12.5px;
+        color: var(--ink-soft);
+        text-decoration: none;
+        padding: 6px 12px;
+        border: 1px solid var(--rule);
+        border-radius: 999px;
+        background: var(--card);
+      }
+      .tour-card .open-link:hover { background: var(--paper-deep); }
+      .tour-card .takeaway {
+        font-size: 16px;
+        color: var(--ink-soft);
+        margin: 12px 0 18px;
+        max-width: 720px;
+      }
+      .tour-card .takeaway em { color: var(--amber-deep); font-style: italic; }
+      .iframe-wrap {
+        position: relative;
+        border-radius: 20px;
+        overflow: hidden;
+        border: 1px solid var(--rule);
+        box-shadow: 0 24px 60px -30px rgba(0,0,0,0.18);
+        background: var(--paper);
+      }
+      .iframe-wrap iframe {
+        display: block;
+        width: 100%;
+        height: 720px;
+        border: 0;
+        background: var(--paper);
+      }
+
+      /* SCALE STORY TABLE */
+      .scale-table {
+        background: var(--card);
+        border: 1px solid var(--rule);
+        border-radius: 18px;
+        padding: 8px 0;
+        overflow: hidden;
+      }
+      .scale-row {
+        display: grid;
+        grid-template-columns: 180px 1fr 1fr;
+        gap: 28px;
+        padding: 18px 28px;
+        border-bottom: 1px solid var(--rule);
+      }
+      .scale-row:last-child { border-bottom: 0; }
+      .scale-row.head {
+        background: var(--paper-deep);
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+        color: var(--ink-faint);
+      }
+      .scale-row .view {
+        font-family: Georgia, serif; font-style: italic; font-size: 17px;
+      }
+      .scale-row .role {
+        font-size: 14.5px; color: var(--ink-soft); line-height: 1.5;
+      }
+      .scale-row .role em { color: var(--amber-deep); font-style: italic; }
+
+      /* RISKS */
+      .risks {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+      }
+      .risk {
+        background: #f8e4dc;
+        border-left: 3px solid var(--shawn);
+        border-radius: 0 14px 14px 0;
+        padding: 18px 22px;
+      }
+      .risk h5 {
+        font-family: Georgia, serif; font-style: italic;
+        font-size: 17px; margin: 0 0 6px;
+        color: #5a2916; font-weight: 500;
+      }
+      .risk p {
+        font-size: 14px; line-height: 1.55; margin: 0;
+        color: #5a2916;
+      }
+      .risk p + p { margin-top: 8px; }
+      .risk strong { color: #3a1a0d; }
+
+      /* NEXT STEPS */
+      .next {
+        background: var(--ink);
+        color: var(--paper);
+        border-radius: 24px;
+        padding: 40px 44px;
+      }
+      .next h3 {
+        font-family: Georgia, serif; font-style: italic;
+        font-size: 32px; line-height: 1.15;
+        margin: 0 0 18px;
+        color: var(--paper); font-weight: 500;
+      }
+      .next ul {
+        list-style: none; padding: 0; margin: 0;
+      }
+      .next li {
+        padding: 14px 0;
+        border-bottom: 1px solid rgba(244, 237, 224, 0.12);
+        display: grid;
+        grid-template-columns: 80px 1fr auto;
+        gap: 24px; align-items: baseline;
+        font-size: 15.5px;
+      }
+      .next li:last-child { border-bottom: 0; }
+      .next li .when {
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 11.5px; letter-spacing: 0.16em; text-transform: uppercase;
+        color: var(--amber-soft);
+      }
+      .next li .what em { font-style: italic; color: var(--amber-soft); }
+      .next li .owner {
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 11.5px; color: rgba(244, 237, 224, 0.55);
+      }
+
+      .footer {
+        margin-top: 80px;
+        padding-top: 32px;
+        border-top: 1px solid var(--rule);
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 12.5px;
+        color: var(--ink-faint);
+        text-align: center;
+      }
+
+      @media (max-width: 880px) {
+        .hero h1 { font-size: 44px; }
+        .arguments, .risks { grid-template-columns: 1fr; }
+        .scale-row { grid-template-columns: 1fr; gap: 6px; }
+        .iframe-wrap iframe { height: 540px; }
+      }
+    </style>
+  </head>
+
+  <body>
+
+    <header class="topbar">
+      <span class="wordmark">Honeycomb · design plan</span>
+      <nav>
+        <a href="#decision">Decision</a>
+        <a href="#argument">Argument</a>
+        <a href="#tour">The four views</a>
+        <a href="#scale">How it scales</a>
+        <a href="#risks">Risks</a>
+        <a href="#next">Next</a>
+      </nav>
+    </header>
+
+    <main class="container">
+
+      <!-- HERO -->
+      <section class="hero">
+        <div class="hero-eyebrow">Honeycomb · M2 design plan · locked</div>
+        <h1>The product is named for its shape.<br>Now the shape is the product.</h1>
+        <p class="lede">After a 400-screen Mobbin sweep, three Blend mockups in distinct directions, and a side-by-side spec page comparing all four views — the design lands on <em>one direction</em>: a honeycomb cell where the center hex is what all three of you share, and three satellite hexes are what each pair shares without the third.</p>
+        <p class="lede">Same primitive scales across <em>Blend, Vault review, Shared shelf, and Conversations</em>. Every approval, every save, every prompt has a zone in the cell. That structural consistency is the design — not a coat of paint on top of one.</p>
+        <div class="meta">DESIGN PLAN · MAY 12, 2026 · SHAWN · YEDU · HUMZAH</div>
+      </section>
+
+      <!-- THE DECISION -->
+      <section class="decision" id="decision">
+        <div class="decision-eyebrow">The decision · locked</div>
+        <h2>"Direction B — the honeycomb cell + cream editorial body — is the visual system for M2."</h2>
+        <p class="sub">Direction A (cream editorial pair) was the safest but most forgettable. Direction C (dark constellation) was the most ambitious but tilts toward astrology-app energy in copy. Direction B is the only one with a brand-native metaphor, native triadic geometry, and a clear extension story across all four product surfaces.</p>
+      </section>
+
+      <!-- ARGUMENT -->
+      <section id="argument">
+        <div class="section-head">
+          <div class="num">01 · the argument</div>
+          <h3>Four reasons this is the right direction.</h3>
+        </div>
+
+        <div class="arguments">
+
+          <article class="arg">
+            <div class="arg-num">Argument 01</div>
+            <h4>The product is literally named "Honeycomb." The hex cell <em>is</em> the brand.</h4>
+            <p>This is the only direction where the name and the visual are the same idea. We don't have to <em>explain</em> what a honeycomb is — every screen renders it. A new user opening the app for the first time can read the geometry of their relationships without us writing copy that translates the metaphor.</p>
+            <p>The closest reference (NYT Spelling Bee's 6-around-1) proves the cell pattern reads instantly even with no UI training.</p>
+          </article>
+
+          <article class="arg">
+            <div class="arg-num">Argument 02</div>
+            <h4>Triadic geometry encoded as zones, not chart geometry.</h4>
+            <p>Set-theoretically a triadic overlap has exactly four zones: one three-way intersection and three pairwise-only zones. The honeycomb cell of 1 + 3 maps onto those four zones <em>perfectly</em>. The amber center = all three. Each satellite = one pair without the third.</p>
+            <p>Compare to the chart alternatives we considered: How We Feel's translucent Venn (works but reads as math), Feeld's constellation (works but reads as astrology), or any percentage / VS framing (reads as a leaderboard, conflicts with mutual exchange).</p>
+          </article>
+
+          <article class="arg">
+            <div class="arg-num">Argument 03</div>
+            <h4>One primitive, four surfaces — the visual scales.</h4>
+            <p>The cell isn't just the Blend visualization. It's the <em>routing destination</em> in Vault review (approve into a zone). It's the <em>provenance badge</em> on every shared-shelf save (a small zone hex tells you which two/three contributed). It's the <em>anchor</em> in Conversations (the question lives in a center-hex frame; three peer answer cards live below).</p>
+            <p>That structural consistency is what makes Honeycomb feel like a product instead of four views in a folder.</p>
+          </article>
+
+          <article class="arg">
+            <div class="arg-num">Argument 04</div>
+            <h4>Cream editorial body gives the knowledge content its register.</h4>
+            <p>The hex is the brand-defining moment, but most of the actual reading happens in long editorial cards: highlighted quotes, prompt questions, dated journal entries. The hex carries the identity; the Tolan-style cream serif typography carries the content.</p>
+            <p>Direction A had this register without the hex. Direction B keeps the register <em>and</em> adds the visual mnemonic. It's strictly more product per square pixel.</p>
+          </article>
+
+        </div>
+
+        <div class="prose" style="margin-top: 36px;">
+          <div class="callout"><strong>The honest tradeoff.</strong> The cell composition (1 center + 3 satellites) is hex-natural but not the platonic 6-around-1 Spelling Bee shape. It's a "triadic cell" — a sub-cell, three of six satellites. This is geometrically correct (the missing three satellites would be where the user avatars sit at the three outer vertices), but it does mean the product will need a small piece of onboarding the first time a user sees it: "the three of you sit at the corners, and the four zones in the middle are what's shared."</div>
+        </div>
+      </section>
+
+      <!-- TOUR — the four views as iframes -->
+      <section id="tour">
+        <div class="section-head">
+          <div class="num">02 · the four views</div>
+          <h3>The same primitive, four ways.</h3>
+        </div>
+
+        <div class="tour">
+
+          <div class="tour-card">
+            <div class="tour-head">
+              <div>
+                <div class="tour-step">View 01 of 4 · Blend</div>
+                <h4>The hex cell is the Blend.</h4>
+              </div>
+              <a class="open-link" href="03-mockup-b-triad-hex.html" target="_blank">Open full mockup ↗</a>
+            </div>
+            <p class="takeaway">The amber center hex shows the count of themes all three share. Three satellite hexes show the count of themes each pair shares without the third. Avatars sit at the triangle's three outer vertices — equal peers, no host. Below the cell: trifold editorial columns for each member's solo context and an amber band cataloging the all-three themes.</p>
+            <div class="iframe-wrap"><iframe src="03-mockup-b-triad-hex.html" title="Blend mockup"></iframe></div>
+          </div>
+
+          <div class="tour-card">
+            <div class="tour-head">
+              <div>
+                <div class="tour-step">View 02 of 4 · Vault review</div>
+                <h4>Approve <em>into a zone</em>, not just yes/no.</h4>
+              </div>
+              <a class="open-link" href="04-mockup-vault-review.html" target="_blank">Open full mockup ↗</a>
+            </div>
+            <p class="takeaway">The agent surfaces private vault items. Each item shows a mini honeycomb cell on the right — four destination hexes. Tapping a hex approves the item <em>and</em> places it in that zone (center for all three, satellite for a specific pair). The agent suggests a zone; you confirm or override. Each item also reveals its reasoning — what made the agent flag it — so trust is built before approval.</p>
+            <div class="iframe-wrap"><iframe src="04-mockup-vault-review.html" title="Vault review mockup"></iframe></div>
+          </div>
+
+          <div class="tour-card">
+            <div class="tour-head">
+              <div>
+                <div class="tour-step">View 03 of 4 · Shared shelf</div>
+                <h4>Every save carries its zone.</h4>
+              </div>
+              <a class="open-link" href="05-mockup-shared-shelf.html" target="_blank">Open full mockup ↗</a>
+            </div>
+            <p class="takeaway">A co-owned shelf with a three-name lockup at the top (Spotify-Blend-style). The "essential pick" — the item with the strongest all-three resonance — gets a hero amber band with a white hex inside it. Below: a filterable grid where every saved item carries a small hex chip showing which zone it lives in (center / S×Y / Y×H / S×H). Reactions show contributor avatars instead of generic counts.</p>
+            <div class="iframe-wrap"><iframe src="05-mockup-shared-shelf.html" title="Shared shelf mockup"></iframe></div>
+          </div>
+
+          <div class="tour-card">
+            <div class="tour-head">
+              <div>
+                <div class="tour-step">View 04 of 4 · Conversations</div>
+                <h4>One prompt, three peer answers.</h4>
+              </div>
+              <a class="open-link" href="06-mockup-conversations.html" target="_blank">Open full mockup ↗</a>
+            </div>
+            <p class="takeaway">The current prompt sits in a center-hex amber frame. Three answer cards (one per member) sit below, each tagged with the member's accent color. An AI-drafted 1:1 text sits below, with tone-adjust controls (the draft is clearly "not sent yet"). Past prompts use Tiimo-style overlapping avatar pips to show who answered each. The talk log uses Clay-style dotted-divider dated entries — "where the conversations actually happened."</p>
+            <div class="iframe-wrap"><iframe src="06-mockup-conversations.html" title="Conversations mockup"></iframe></div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- SCALE STORY -->
+      <section id="scale">
+        <div class="section-head">
+          <div class="num">03 · how the cell scales</div>
+          <h3>One primitive. Four roles. No paint.</h3>
+        </div>
+
+        <div class="scale-table">
+          <div class="scale-row head">
+            <div>View</div>
+            <div>Role of the hex</div>
+            <div>What it solves</div>
+          </div>
+          <div class="scale-row">
+            <div class="view">Blend</div>
+            <div class="role"><em>The whole canvas.</em> A single cell of 1+3 hexes representing the four zones of triadic overlap.</div>
+            <div class="role">Makes set-theoretic structure (3-way ∩ 3 × pairwise) visible without resorting to a math diagram.</div>
+          </div>
+          <div class="scale-row">
+            <div class="view">Vault review</div>
+            <div class="role"><em>The routing destination.</em> A miniature cell shown on each agent-surfaced item; tap a hex = approve + place.</div>
+            <div class="role">Collapses two decisions (approve? where?) into one gesture. Encodes per-recipient privacy structurally, not as a separate setting.</div>
+          </div>
+          <div class="scale-row">
+            <div class="view">Shared shelf</div>
+            <div class="role"><em>The provenance chip.</em> A tiny zone-hex sits at the top of every save card, indicating which zone it belongs to.</div>
+            <div class="role">Lets users sort and filter their shelf by relationship structure — "show only what S × Y is reading" — without verbal labels.</div>
+          </div>
+          <div class="scale-row">
+            <div class="view">Conversations</div>
+            <div class="role"><em>The prompt anchor.</em> Each prompt lives in an amber center-hex frame; answers cluster below as peer cards.</div>
+            <div class="role">Makes group prompts feel different from 1:1 prompts <em>structurally</em> (3-card cluster vs. 2-card cluster), not just by typography.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- RISKS -->
+      <section id="risks">
+        <div class="section-head">
+          <div class="num">04 · risks and mitigations</div>
+          <h3>What could go wrong, and the answer.</h3>
+        </div>
+
+        <div class="risks">
+          <article class="risk">
+            <h5>The cell could read as "puzzle" instead of "knowledge."</h5>
+            <p><strong>Risk:</strong> The NYT-Spelling-Bee reference is so strong that users might first read the cell as a game tile.</p>
+            <p><strong>Mitigation:</strong> The editorial serif typography and the cream paper register do most of the lifting against this. The hex hero is amber; everything around it is editorial. First-run onboarding uses one sentence: <em>"the three of you sit at the corners, the four zones in the middle are what you share."</em></p>
+          </article>
+
+          <article class="risk">
+            <h5>"Just two of you" satellite zones could feel like second-class citizens.</h5>
+            <p><strong>Risk:</strong> If the amber center hex dominates the page, the three pairwise hexes might read as afterthoughts. That would silently demote the relationships between subsets of the triad.</p>
+            <p><strong>Mitigation:</strong> Treat the four zones as <em>equal in kind, different in density</em>. Same hex shape, same border treatment; only the amber fill of the center distinguishes the all-three zone. Pairwise zones can be the dominant content for any pair where the third member hasn't engaged a theme yet.</p>
+          </article>
+
+          <article class="risk">
+            <h5>Doesn't scale beyond N=3.</h5>
+            <p><strong>Risk:</strong> The 1+3 cell only works for triads. A four-person blend would need a different geometry (1+3 pairwise becomes 1+6 pairwise plus 1+4 three-ways).</p>
+            <p><strong>Mitigation:</strong> This is by design for M2. Honeycomb's scoped product is pair + triad. N=4+ is a v2 design problem — and the cell does extend cleanly to 4 (1 center + 6 satellites = the platonic Spelling Bee shape, with 4 three-way zones + 6 pairwise) without changing the visual primitive.</p>
+          </article>
+
+          <article class="risk">
+            <h5>The hex shape is harder to lay out at small screen sizes.</h5>
+            <p><strong>Risk:</strong> Hexagons require more vertical space than rectangles for the same content. On mobile, the cell might dominate the screen.</p>
+            <p><strong>Mitigation:</strong> Mobile breakpoint reduces hex size proportionally and tightens the trifold-column body into a stack. The cell stays above the fold on mobile; the editorial body scrolls below. Tested at 760px width in current mockups; smaller breakpoints to follow.</p>
+          </article>
+        </div>
+      </section>
+
+      <!-- NEXT STEPS -->
+      <section id="next">
+        <div class="section-head">
+          <div class="num">05 · next</div>
+          <h3>What's left before M2 demo.</h3>
+        </div>
+
+        <div class="next">
+          <h3>The M2 timeline.</h3>
+          <ul>
+            <li>
+              <span class="when">May 13–17</span>
+              <span class="what">Port Direction B's visual language into the live prototype <em>(app.js / styles.css)</em>. Replace current pair-only Blend with the hex triangle cell; add Vault review's mini-cell routing UI.</span>
+              <span class="owner">Shawn · M2 lead</span>
+            </li>
+            <li>
+              <span class="when">May 13–17</span>
+              <span class="what">Real vault slice from Yedu + Humzah · run through agent scan · produce a real 3-way blend.</span>
+              <span class="owner">Yedu, Humzah</span>
+            </li>
+            <li>
+              <span class="when">May 18–22</span>
+              <span class="what">Atomic-success test: <em>one of us texts another teammate about something on the page, unprompted.</em> If that doesn't happen, the design isn't done.</span>
+              <span class="owner">All</span>
+            </li>
+            <li>
+              <span class="when">May 23–24</span>
+              <span class="what">M2 submission: prototype link + GTM 1-pager + business model 1-pager + privacy/risk 1-pager + this design plan.</span>
+              <span class="owner">All</span>
+            </li>
+            <li>
+              <span class="when">Jun 1–4</span>
+              <span class="what">Final deck + live demo rehearsal x2. Run-through under 6 minutes.</span>
+              <span class="owner">All</span>
+            </li>
+            <li>
+              <span class="when">Jun 5</span>
+              <span class="what">Final presentation · Mackenzie Huang 300, 7–10pm.</span>
+              <span class="owner">All</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <p>Honeycomb · AI Awakening final project · May 2026<br>
+        Background research: <a href="01-mood-board.md">01-mood-board</a> · <a href="02-pattern-extraction.md">02-pattern-extraction</a> · <a href="04-anti-patterns.md">04-anti-patterns</a> · <a href="00-spec-page.html">00-spec-page</a> (choose-against board, kept for the record).</p>
+      </footer>
+    </main>
+  </body>
+</html>

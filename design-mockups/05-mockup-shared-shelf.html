@@ -1,0 +1,489 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Honeycomb · Shared shelf — Direction B</title>
+
+    <!--
+      SHARED SHELF · Direction B (Hex + Editorial)
+      Co-owned shelf of recommendations. Each item shows zone provenance
+      (which honeycomb hex it came from), contributor avatar, reactions as
+      avatar-pip emoji rows, and inline comments.
+
+      Inspirations:
+        - Spotify "Sam + Alexsmith" two-name shelf identity
+        - Spotify Jam per-track contributor avatars
+        - Fable My Shelfie shelf-as-object metaphor
+        - Letterboxd list comments
+        - Beli per-item dual-bookmark counters
+        - Cream editorial register from Tolan
+    -->
+
+    <style>
+      :root {
+        --paper: #f6efe2;
+        --paper-deep: #ede3cf;
+        --ink: #1f1b15;
+        --ink-soft: #4b4438;
+        --ink-faint: #8a7f6b;
+        --amber: #d2912f;
+        --amber-deep: #b8761a;
+        --amber-soft: #f1c779;
+        --shawn: #c95a2e;
+        --yedu: #2f6a64;
+        --humzah: #6b3aa0;
+        --rule: rgba(31, 27, 21, 0.12);
+        --card: #fbf6e8;
+      }
+      * { box-sizing: border-box; }
+      html, body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+        font-size: 16.5px;
+        line-height: 1.55;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .topbar {
+        position: sticky; top: 0; z-index: 10;
+        display: grid; grid-template-columns: 1fr auto 1fr;
+        align-items: center; gap: 32px;
+        padding: 18px 48px;
+        background: rgba(246, 239, 226, 0.92);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--rule);
+      }
+      .wordmark {
+        font-family: Georgia, serif; font-weight: 600;
+        letter-spacing: 0.06em; text-transform: uppercase;
+        font-size: 13px; color: var(--ink-soft);
+      }
+      .tab-nav { display: flex; gap: 4px; justify-self: center; }
+      .tab-nav a {
+        padding: 6px 14px; border-radius: 999px;
+        font-size: 12.5px; color: var(--ink-soft);
+        text-decoration: none;
+        font-family: -apple-system, system-ui, sans-serif;
+      }
+      .tab-nav a.active { background: var(--ink); color: var(--paper); }
+      .actions { display: flex; justify-content: flex-end; gap: 10px; font-family: -apple-system, system-ui, sans-serif; font-size: 13px; }
+      .btn {
+        padding: 8px 14px; border-radius: 999px;
+        background: var(--card); color: var(--ink-soft);
+        border: 1px solid var(--rule); cursor: pointer;
+      }
+      .btn.primary { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+      .page { max-width: 1080px; margin: 0 auto; padding: 48px 48px 96px; }
+
+      /* SHELF IDENTITY HEADER */
+      .shelf-id {
+        text-align: center;
+        padding: 16px 0 36px;
+        border-bottom: 1px solid var(--rule);
+        margin-bottom: 40px;
+      }
+      .shelf-kicker {
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase;
+        color: var(--ink-faint); margin-bottom: 16px;
+      }
+      .three-name {
+        font-family: Georgia, serif; font-style: italic;
+        font-size: 40px; line-height: 1; letter-spacing: -0.01em;
+      }
+      .three-name .nm { display: inline; }
+      .three-name .nm.s { color: var(--shawn); }
+      .three-name .nm.y { color: var(--yedu); }
+      .three-name .nm.h { color: var(--humzah); }
+      .three-name .sep { color: var(--ink-faint); margin: 0 14px; font-size: 24px; }
+      .shelf-meta {
+        margin-top: 14px;
+        font-size: 13.5px; color: var(--ink-faint);
+        font-family: -apple-system, system-ui, sans-serif;
+      }
+
+      /* ESSENTIAL PICK — the center hex hero */
+      .essential {
+        margin: 0 auto 40px;
+        max-width: 760px;
+        position: relative;
+      }
+      .essential-frame {
+        display: grid;
+        grid-template-columns: 220px 1fr;
+        gap: 36px;
+        align-items: center;
+        background: linear-gradient(135deg, var(--amber-soft) 0%, var(--amber) 100%);
+        border-radius: 24px;
+        padding: 32px 36px;
+        color: #2d1c00;
+        position: relative;
+        overflow: hidden;
+      }
+      .essential-frame::after {
+        content: '';
+        position: absolute;
+        right: -40px; top: -40px;
+        width: 200px; height: 200px;
+        clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0% 50%);
+        background: rgba(255, 255, 255, 0.15);
+      }
+      .essential-hex {
+        position: relative;
+        z-index: 1;
+        width: 220px; height: 250px;
+        background: rgba(255, 255, 255, 0.95);
+        clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0% 50%);
+        display: flex; flex-direction: column;
+        align-items: center; justify-content: center;
+        padding: 10px;
+        text-align: center;
+      }
+      .essential-hex .essential-glyph { font-size: 36px; margin-bottom: 6px; }
+      .essential-hex .essential-title {
+        font-family: Georgia, serif; font-style: italic;
+        font-size: 18px; line-height: 1.25;
+        max-width: 160px;
+        color: #2d1c00;
+      }
+      .essential-hex .essential-source {
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 10px; color: rgba(45, 28, 0, 0.7);
+        margin-top: 6px;
+        text-transform: uppercase; letter-spacing: 0.1em;
+      }
+      .essential-text { position: relative; z-index: 1; }
+      .essential-eyebrow {
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+        color: rgba(45, 28, 0, 0.7);
+        margin-bottom: 6px;
+      }
+      .essential-frame h3 {
+        font-family: Georgia, serif; font-style: italic;
+        font-size: 28px; line-height: 1.2; margin: 0 0 10px;
+        color: #2d1c00; font-weight: 500;
+      }
+      .essential-frame p {
+        font-size: 14.5px; line-height: 1.55; color: rgba(45, 28, 0, 0.85);
+        margin: 0 0 18px;
+      }
+      .essential-reactions { display: flex; gap: 8px; }
+      .reaction-pill {
+        display: inline-flex; align-items: center; gap: 5px;
+        padding: 5px 10px;
+        background: rgba(255, 255, 255, 0.6);
+        border-radius: 999px;
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 12px; color: #2d1c00;
+      }
+      .reaction-pill .av {
+        width: 14px; height: 14px; border-radius: 50%;
+        font-size: 8px; color: white;
+        font-family: Georgia, serif; font-style: italic;
+        display: inline-flex; align-items: center; justify-content: center;
+      }
+      .av.s { background: var(--shawn); }
+      .av.y { background: var(--yedu); }
+      .av.h { background: var(--humzah); }
+
+      /* SHELF FILTER STRIP */
+      .filter-strip {
+        display: flex; align-items: center; gap: 10px;
+        margin-bottom: 22px;
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 12.5px;
+      }
+      .filter-chip {
+        display: inline-flex; align-items: center; gap: 6px;
+        padding: 6px 12px; border-radius: 999px;
+        background: var(--card);
+        border: 1px solid var(--rule);
+        color: var(--ink-soft);
+        cursor: pointer;
+      }
+      .filter-chip.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+      .filter-chip .hex-zone {
+        width: 11px; height: 13px;
+        clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0% 50%);
+        display: inline-block;
+      }
+      .hex-zone.center { background: var(--amber); }
+      .hex-zone.sy { background: linear-gradient(180deg, var(--shawn), var(--yedu)); }
+      .hex-zone.yh { background: linear-gradient(180deg, var(--yedu), var(--humzah)); }
+      .hex-zone.sh { background: linear-gradient(180deg, var(--shawn), var(--humzah)); }
+      .sort-link {
+        margin-left: auto;
+        color: var(--ink-faint);
+        text-decoration: underline; text-decoration-thickness: 1px;
+        cursor: pointer;
+      }
+
+      /* SHELF ITEM LIST */
+      .shelf-items {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+      .shelf-card {
+        background: var(--card);
+        border: 1px solid var(--rule);
+        border-radius: 18px;
+        padding: 22px 22px 18px;
+        display: flex; flex-direction: column;
+        gap: 12px;
+      }
+      .shelf-card-head {
+        display: flex; align-items: center; gap: 8px;
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 11px; letter-spacing: 0.08em;
+        color: var(--ink-faint);
+      }
+      .shelf-card-head .zone-hex {
+        width: 14px; height: 16px;
+        clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0% 50%);
+      }
+      .shelf-card h4 {
+        font-family: Georgia, serif;
+        font-weight: 500;
+        font-size: 20px;
+        margin: 0;
+        line-height: 1.25;
+      }
+      .shelf-card .source {
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 11.5px; color: var(--ink-faint);
+      }
+      .shelf-card .note {
+        font-family: Georgia, serif; font-style: italic;
+        font-size: 14px;
+        color: var(--ink-soft);
+        line-height: 1.5;
+        padding-left: 12px;
+        border-left: 2px solid var(--rule);
+      }
+      .shelf-card-foot {
+        display: flex; align-items: center; gap: 8px;
+        flex-wrap: wrap;
+        margin-top: 4px;
+      }
+      .shelf-card-foot .reaction-pill {
+        background: var(--paper);
+        border: 1px solid var(--rule);
+        color: var(--ink-soft);
+      }
+      .shelf-card-foot .comment-link {
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 11.5px;
+        margin-left: auto;
+        color: var(--amber-deep);
+        cursor: pointer;
+      }
+      .added-by {
+        display: inline-flex; align-items: center; gap: 5px;
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 11px; color: var(--ink-faint);
+      }
+      .added-by .av {
+        width: 18px; height: 18px; border-radius: 50%;
+        font-size: 9px; color: white;
+        font-family: Georgia, serif; font-style: italic;
+        display: inline-flex; align-items: center; justify-content: center;
+      }
+
+      .comment-thread {
+        border-top: 1px dashed var(--rule);
+        padding-top: 10px;
+        margin-top: 4px;
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 12px; color: var(--ink-soft);
+      }
+      .comment-thread .comment {
+        margin-bottom: 6px;
+        display: flex; align-items: flex-start; gap: 8px;
+      }
+      .comment-thread .comment:last-child { margin-bottom: 0; }
+      .comment-thread .comment .av {
+        width: 18px; height: 18px; border-radius: 50%;
+        flex-shrink: 0;
+        font-size: 9px; color: white;
+        font-family: Georgia, serif; font-style: italic;
+        display: inline-flex; align-items: center; justify-content: center;
+      }
+      .comment-thread .comment strong { color: var(--ink); font-weight: 500; font-size: 11.5px; }
+
+      @media (max-width: 880px) {
+        .shelf-items { grid-template-columns: 1fr; }
+        .essential-frame { grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
+
+  <body>
+    <header class="topbar">
+      <div><span class="wordmark">Honeycomb · Triad blend</span></div>
+      <nav class="tab-nav">
+        <a href="03-mockup-b-triad-hex.html">Blend</a>
+        <a href="04-mockup-vault-review.html">Vault review</a>
+        <a class="active">Shared shelf</a>
+        <a href="06-mockup-conversations.html">Conversations</a>
+      </nav>
+      <div class="actions">
+        <button class="btn">Filter by zone</button>
+        <button class="btn primary">Add to shelf</button>
+      </div>
+    </header>
+
+    <main class="page">
+
+      <!-- Three-name shelf identity -->
+      <section class="shelf-id">
+        <div class="shelf-kicker">A co-owned shelf · 14 saves · updated yesterday</div>
+        <div class="three-name">
+          <span class="nm s">Shawn</span><span class="sep">·</span><span class="nm y">Yedu</span><span class="sep">·</span><span class="nm h">Humzah</span>
+        </div>
+        <div class="shelf-meta">Things you've decided are worth the other two of you reading. Each save lives in a hex zone — the center if it's for all three, a satellite if it's just two.</div>
+      </section>
+
+      <!-- Essential pick -->
+      <section class="essential">
+        <div class="essential-frame">
+          <div class="essential-hex">
+            <div class="essential-glyph">🛠️</div>
+            <div class="essential-title">Software 3.0</div>
+            <div class="essential-source">Karpathy · 38 min</div>
+          </div>
+          <div class="essential-text">
+            <div class="essential-eyebrow">Center hex · this week's essential</div>
+            <h3>The talk all three of you bookmarked.</h3>
+            <p>Shawn watched it last month and called it "the most important 38 minutes of this semester." Yedu and Humzah both flagged it in the past week. Reactions are unanimous — make this Tuesday's read-together pick.</p>
+            <div class="essential-reactions">
+              <span class="reaction-pill">🔥 <span class="av s">S</span><span class="av y">Y</span><span class="av h">H</span></span>
+              <span class="reaction-pill">💭 <span class="av s">S</span><span class="av y">Y</span></span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Filter strip -->
+      <section class="filter-strip">
+        <span style="color: var(--ink-faint);">Filter</span>
+        <span class="filter-chip active">All zones</span>
+        <span class="filter-chip"><span class="hex-zone center"></span> Center · all three</span>
+        <span class="filter-chip"><span class="hex-zone sy"></span> S × Y</span>
+        <span class="filter-chip"><span class="hex-zone yh"></span> Y × H</span>
+        <span class="filter-chip"><span class="hex-zone sh"></span> S × H</span>
+        <span class="sort-link">Sort: by reactions ▾</span>
+      </section>
+
+      <!-- Shelf items -->
+      <section class="shelf-items">
+
+        <!-- ITEM: center hex -->
+        <article class="shelf-card">
+          <div class="shelf-card-head">
+            <span class="zone-hex" style="background: var(--amber);"></span>
+            CENTER HEX · ALL THREE
+          </div>
+          <h4>Building a Second Brain</h4>
+          <div class="source">Tiago Forte · book · added by <span class="added-by"><span class="av s">S</span> Shawn</span> · 2 days ago</div>
+          <div class="note">"The bit about 'the moment of return' — you both wrote your own version of this idea last month. Worth reading before our next call."</div>
+          <div class="shelf-card-foot">
+            <span class="reaction-pill">📚 <span class="av y">Y</span><span class="av h">H</span></span>
+            <span class="reaction-pill">💭 <span class="av h">H</span></span>
+            <span class="comment-link">2 comments ▸</span>
+          </div>
+        </article>
+
+        <!-- ITEM: S × Y -->
+        <article class="shelf-card">
+          <div class="shelf-card-head">
+            <span class="zone-hex" style="background: linear-gradient(180deg, var(--shawn), var(--yedu));"></span>
+            S × Y · JUST YOU TWO
+          </div>
+          <h4>Christiano on alignment approaches</h4>
+          <div class="source">Essay · added by <span class="added-by"><span class="av y">Y</span> Yedu</span> · 4 days ago</div>
+          <div class="note">"Shawn — this is the essay I mentioned at coffee. The framing of 'alignment as UI' is the part that matters."</div>
+          <div class="shelf-card-foot">
+            <span class="reaction-pill">⚖️ <span class="av s">S</span></span>
+            <span class="comment-link">1 comment ▸</span>
+          </div>
+          <div class="comment-thread">
+            <div class="comment"><span class="av s">S</span><div><strong>Shawn</strong> · yesterday<br>Read it. The section on round-tripping is the one. We should write together about it.</div></div>
+          </div>
+        </article>
+
+        <!-- ITEM: center -->
+        <article class="shelf-card">
+          <div class="shelf-card-head">
+            <span class="zone-hex" style="background: var(--amber);"></span>
+            CENTER HEX · ALL THREE
+          </div>
+          <h4>The audit-log gap</h4>
+          <div class="source">Humzah's note · added by <span class="added-by"><span class="av h">H</span> Humzah</span> · yesterday</div>
+          <div class="note">"Wrote this up after the policy seminar. We've talked around it in different ways — wanted it in one place."</div>
+          <div class="shelf-card-foot">
+            <span class="reaction-pill">🔥 <span class="av s">S</span></span>
+            <span class="reaction-pill">📚 <span class="av y">Y</span></span>
+            <span class="comment-link">Comment</span>
+          </div>
+        </article>
+
+        <!-- ITEM: Y × H -->
+        <article class="shelf-card">
+          <div class="shelf-card-head">
+            <span class="zone-hex" style="background: linear-gradient(180deg, var(--yedu), var(--humzah));"></span>
+            Y × H · JUST YOU TWO
+          </div>
+          <h4>TwinMind group recording mode</h4>
+          <div class="source">Product memo · added by <span class="added-by"><span class="av y">Y</span> Yedu</span> · 6 days ago</div>
+          <div class="note">"Humzah — the consent design you flagged in the seminar matches what we ran into here. Want to read this draft?"</div>
+          <div class="shelf-card-foot">
+            <span class="reaction-pill">⚖️ <span class="av h">H</span></span>
+            <span class="comment-link">Comment</span>
+          </div>
+        </article>
+
+        <!-- ITEM: S × H -->
+        <article class="shelf-card">
+          <div class="shelf-card-head">
+            <span class="zone-hex" style="background: linear-gradient(180deg, var(--shawn), var(--humzah));"></span>
+            S × H · JUST YOU TWO
+          </div>
+          <h4>Shared shelf with my wife</h4>
+          <div class="source">Humzah's project journal · added by <span class="added-by"><span class="av h">H</span> Humzah</span> · last week</div>
+          <div class="note">"Shawn — the vibe-coded thing I told you about. This is exactly where the activation-energy idea hit me."</div>
+          <div class="shelf-card-foot">
+            <span class="reaction-pill">🔥 <span class="av s">S</span></span>
+            <span class="comment-link">2 comments ▸</span>
+          </div>
+          <div class="comment-thread">
+            <div class="comment"><span class="av s">S</span><div><strong>Shawn</strong> · 5 days ago<br>This is the moment. Adding to my own vault now.</div></div>
+            <div class="comment"><span class="av h">H</span><div><strong>Humzah</strong> · 4 days ago<br>Same loop. Different two people. That's the whole product, isn't it.</div></div>
+          </div>
+        </article>
+
+        <!-- ITEM: center -->
+        <article class="shelf-card">
+          <div class="shelf-card-head">
+            <span class="zone-hex" style="background: var(--amber);"></span>
+            CENTER HEX · ALL THREE
+          </div>
+          <h4>"objection-energy" note</h4>
+          <div class="source">Shawn's note · added by <span class="added-by"><span class="av s">S</span> Shawn</span> · just now</div>
+          <div class="note">"Just routed this from vault review. Putting it here for the next conversation."</div>
+          <div class="shelf-card-foot">
+            <span class="reaction-pill" style="border-style: dashed; color: var(--ink-faint);">+ react</span>
+            <span class="comment-link">Comment</span>
+          </div>
+        </article>
+
+      </section>
+
+    </main>
+  </body>
+</html>

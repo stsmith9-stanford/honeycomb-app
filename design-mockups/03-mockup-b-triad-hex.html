@@ -1,0 +1,837 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Honeycomb · Mockup B — Shawn / Yedu / Humzah (Hex Triangle + Editorial)</title>
+
+    <!--
+      MOCKUP B — Triad Blend, Honeycomb-native Hex Triangle Cell + Trifold Editorial
+      Direction bucket: 4 (Hexagonal / Cellular) + 1 (Cream Editorial)
+      Stack of inspirations:
+        - Hex triangle cell hero (central amber 3-way hex + three pairwise satellite hexes + three user avatars at triangle vertices):
+            NYT Spelling Bee 6-around-1 (the platonic honeycomb cell, repurposed for triadic overlap)
+            Elevate hex grid, Runna hex achievement badges, Fitbod hex-grid loading
+        - Three-name lockup with three overlapping circles: Spotify Blend three-name extension
+        - Trifold editorial columns body + central amber band for the 3-way zone:
+            Tolan "The Relay" + Tolan notebook
+            Co-Star crush-report tabular Venn (column-as-zone)
+        - Per-person grouped quote stacks under each pairwise zone: Particle News "7 Quotes — People", Medium "Highlighted by Alex Smith"
+        - Per-recipient privacy strip with per-relationship tier dropdowns: Notion permissions, ClickUp verb tiers, Snapchat "My Story · Friends Only"/"My Story · Public" parallel-stream pattern
+        - Magazine-quality prompt cards at the bottom: stoic. share card, Paired pack covers
+        - Empty pairwise hex with copy "no shared notes yet": Workplace "Flagged 0" trust-building empty-state copy
+    -->
+
+    <style>
+      :root {
+        --paper: #f6efe2;
+        --paper-deep: #ede3cf;
+        --ink: #1f1b15;
+        --ink-soft: #4b4438;
+        --ink-faint: #8a7f6b;
+        --amber: #d2912f;
+        --amber-deep: #b8761a;
+        --amber-soft: #f1c779;
+        --amber-glow: #f9e0a8;
+
+        /* Three peers, equal status, no ordering implied */
+        --shawn: #c95a2e;
+        --yedu: #2f6a64;
+        --humzah: #6b3aa0;
+
+        --rule: rgba(31, 27, 21, 0.12);
+        --card: #fbf6e8;
+      }
+
+      * { box-sizing: border-box; }
+
+      html, body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+        font-size: 16.5px;
+        line-height: 1.55;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      /* TOPBAR */
+      .topbar {
+        position: sticky; top: 0; z-index: 10;
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        align-items: center;
+        gap: 32px;
+        padding: 18px 48px;
+        background: rgba(246, 239, 226, 0.92);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--rule);
+      }
+      .wordmark {
+        font-family: Georgia, serif;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        font-size: 13px;
+        color: var(--ink-soft);
+      }
+
+      .privacy-strip {
+        display: flex; gap: 14px;
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 12px;
+        color: var(--ink-soft);
+      }
+      .privacy-strip .label {
+        align-self: center;
+        color: var(--ink-faint);
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+      .recipient-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 10px 4px 4px;
+        border-radius: 999px;
+        background: var(--paper-deep);
+        border: 1px solid var(--rule);
+      }
+      .recipient-pill .av {
+        width: 18px; height: 18px;
+        border-radius: 50%;
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 9.5px;
+        color: white;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+      }
+      .recipient-pill .av.yedu { background: var(--yedu); }
+      .recipient-pill .av.humzah { background: var(--humzah); }
+      .recipient-pill select {
+        appearance: none; -webkit-appearance: none;
+        border: none; background: transparent;
+        font: inherit; color: inherit;
+        padding-right: 14px;
+        background-image: linear-gradient(45deg, transparent 50%, var(--ink-faint) 50%),
+                          linear-gradient(135deg, var(--ink-faint) 50%, transparent 50%);
+        background-position: calc(100% - 7px) 7px, calc(100% - 3px) 7px;
+        background-size: 4px 4px;
+        background-repeat: no-repeat;
+        cursor: pointer;
+      }
+
+      .actions { display: flex; justify-content: flex-end; gap: 10px; font-family: -apple-system, system-ui, sans-serif; font-size: 13px; }
+      .btn {
+        padding: 8px 14px; border-radius: 999px; border: 1px solid var(--rule);
+        background: var(--card); color: var(--ink-soft); cursor: pointer;
+      }
+      .btn.primary { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+      .page { max-width: 1120px; margin: 0 auto; padding: 56px 48px 120px; }
+
+      /* HERO: three-name lockup */
+      .hero { text-align: center; margin-bottom: 24px; }
+      .hero-kicker {
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 12px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+        margin-bottom: 22px;
+      }
+      .triad-name-lockup {
+        position: relative;
+        display: inline-grid;
+        grid-template-columns: 1fr auto 1fr;
+        align-items: center;
+        gap: 18px;
+        margin-bottom: 18px;
+      }
+      .triad-name-lockup .center-row {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+      .name {
+        font-family: "Iowan Old Style", Georgia, serif;
+        font-style: italic;
+        font-size: 44px;
+        line-height: 1;
+        letter-spacing: -0.01em;
+      }
+      .name.shawn  { color: var(--shawn);  text-align: right; }
+      .name.yedu   { color: var(--yedu); }
+      .name.humzah { color: var(--humzah); text-align: left; }
+      .ampersand { color: var(--ink-faint); font-style: italic; font-size: 26px; }
+
+      /* HEX TRIANGLE CELL */
+      .hex-stage {
+        position: relative;
+        width: 100%;
+        max-width: 820px;
+        height: 620px;
+        margin: 24px auto 12px;
+      }
+
+      .hex {
+        position: absolute;
+        clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0% 50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        cursor: pointer;
+        transition: transform .2s ease, filter .2s ease;
+        font-family: "Iowan Old Style", Georgia, serif;
+      }
+      .hex:hover { transform: scale(1.025); filter: brightness(1.04); }
+
+      /* Center hex: all-three zone, amber */
+      .hex.center {
+        width: 260px; height: 290px;
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        background: linear-gradient(150deg, var(--amber-soft) 0%, var(--amber) 65%, var(--amber-deep) 100%);
+        color: #2d1c00;
+        box-shadow: 0 18px 60px -25px rgba(184, 118, 26, 0.6);
+        z-index: 3;
+      }
+      .hex.center:hover { transform: translate(-50%, -50%) scale(1.025); }
+      .hex.center .hex-count { font-size: 78px; font-style: italic; line-height: 1; margin: 0 0 8px; font-weight: 500; }
+      .hex.center .hex-label { font-size: 14px; font-style: italic; max-width: 160px; line-height: 1.35; }
+      .hex.center .hex-allbadge {
+        margin-top: 12px;
+        display: inline-flex; gap: 4px;
+      }
+      .hex.center .hex-allbadge span {
+        width: 14px; height: 14px; border-radius: 50%;
+        border: 2px solid rgba(255,255,255,0.55);
+      }
+
+      /* Three satellite hexes — pairwise zones */
+      .hex.pair {
+        width: 152px; height: 170px;
+        background: var(--card);
+        border: 1px solid var(--rule);
+        z-index: 2;
+      }
+      .hex.pair .hex-kicker { font-family: -apple-system, system-ui, sans-serif; font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-faint); }
+      .hex.pair .hex-count { font-size: 32px; font-style: italic; line-height: 1; margin: 3px 0; color: var(--ink); }
+      .hex.pair .hex-label { font-size: 10.5px; color: var(--ink-soft); font-style: italic; max-width: 100px; line-height: 1.3; }
+      .hex.pair .hex-dots { display: flex; gap: 5px; margin-top: 8px; }
+      .hex.pair .hex-dots span { width: 8px; height: 8px; border-radius: 50%; }
+
+      .hex.pair.sy { top: 32px; left: 50%; transform: translate(-50%, 0); background: linear-gradient(180deg, color-mix(in srgb, var(--shawn) 18%, var(--card)) 0%, var(--card) 100%); }
+      .hex.pair.yh { top: auto; bottom: 32px; left: 16%; background: linear-gradient(180deg, color-mix(in srgb, var(--yedu) 18%, var(--card)) 0%, var(--card) 100%); }
+      .hex.pair.sh { top: auto; bottom: 32px; right: 16%; background: linear-gradient(180deg, color-mix(in srgb, var(--humzah) 18%, var(--card)) 0%, var(--card) 100%); }
+
+      /* Avatars at triangle vertices */
+      .avatar-vertex {
+        position: absolute;
+        display: flex; flex-direction: column; align-items: center; gap: 6px;
+        z-index: 4;
+      }
+      .avatar-vertex .av {
+        width: 56px; height: 56px;
+        border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        color: white;
+        font-family: "Iowan Old Style", Georgia, serif;
+        font-style: italic;
+        font-size: 24px;
+        box-shadow: 0 8px 24px -8px rgba(0,0,0,0.25);
+        border: 3px solid var(--paper);
+      }
+      .avatar-vertex .name-tag {
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 11px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--ink-soft);
+      }
+      .avatar-vertex.shawn  { top: -32px;    left: 50%; transform: translateX(-50%); }
+      .avatar-vertex.shawn .av  { background: var(--shawn); }
+      .avatar-vertex.yedu   { bottom: -28px; left: 2%; }
+      .avatar-vertex.yedu .av   { background: var(--yedu); }
+      .avatar-vertex.humzah { bottom: -28px; right: 2%; }
+      .avatar-vertex.humzah .av { background: var(--humzah); }
+
+      /* Hint copy under hex */
+      .hex-hint {
+        text-align: center;
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 12px;
+        color: var(--ink-faint);
+        max-width: 540px;
+        margin: 0 auto 60px;
+      }
+
+      /* THEMES STRIP */
+      .themes-band {
+        display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;
+        margin: 0 auto 60px; max-width: 880px;
+      }
+      .theme-pill {
+        display: inline-flex; align-items: center; gap: 8px;
+        padding: 8px 14px;
+        border-radius: 999px;
+        background: var(--card);
+        border: 1px solid var(--rule);
+        font-size: 14px;
+      }
+      .theme-pill .glyph { font-size: 15px; }
+      .theme-pill .pips { display: inline-flex; gap: 3px; margin-left: 4px; }
+      .theme-pill .pips span { width: 7px; height: 7px; border-radius: 50%; opacity: .55; }
+      .theme-pill .pips .shawn  { background: var(--shawn); }
+      .theme-pill .pips .yedu   { background: var(--yedu); }
+      .theme-pill .pips .humzah { background: var(--humzah); }
+      .theme-pill .pips.all span { opacity: 1; }
+      .theme-pill.strong { background: var(--amber-soft); border-color: var(--amber); }
+
+      /* TRIFOLD COLUMNS */
+      .trifold {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 32px;
+        margin-bottom: 56px;
+        border-top: 1px solid var(--rule);
+        padding-top: 36px;
+      }
+      .col {
+        display: flex; flex-direction: column; gap: 20px;
+      }
+      .col-head {
+        display: flex; align-items: center; gap: 10px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid var(--rule);
+      }
+      .col-head .av-sm {
+        width: 26px; height: 26px; border-radius: 50%;
+        color: white;
+        display: flex; align-items: center; justify-content: center;
+        font-family: Georgia, serif;
+        font-style: italic; font-size: 13px;
+      }
+      .col-head .col-name {
+        font-family: Georgia, serif;
+        font-style: italic; font-size: 19px;
+      }
+      .col-head .col-meta {
+        margin-left: auto;
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--ink-faint);
+      }
+      .col.shawn  .col-head .av-sm { background: var(--shawn); }
+      .col.yedu   .col-head .av-sm { background: var(--yedu); }
+      .col.humzah .col-head .av-sm { background: var(--humzah); }
+
+      .solo-note {
+        background: var(--card);
+        border: 1px solid var(--rule);
+        border-radius: 12px;
+        padding: 14px 16px;
+        font-size: 14.5px;
+        line-height: 1.5;
+        font-style: italic;
+      }
+      .solo-note .src {
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 11px;
+        color: var(--ink-faint);
+        margin-top: 8px;
+        font-style: normal;
+      }
+
+      /* 3-WAY ZONE BAND — full-width amber */
+      .triad-zone {
+        background: linear-gradient(160deg, var(--amber-soft) 0%, var(--amber) 100%);
+        border-radius: 22px;
+        padding: 38px 48px;
+        margin: 0 -8px 56px;
+        color: #2d1c00;
+        position: relative;
+        overflow: hidden;
+      }
+      .triad-zone::before {
+        /* subtle hexagonal watermark */
+        content: '';
+        position: absolute;
+        right: -60px; top: -60px;
+        width: 280px; height: 280px;
+        clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0% 50%);
+        background: rgba(255,255,255,0.18);
+      }
+      .triad-zone-head {
+        display: flex; align-items: baseline; justify-content: space-between;
+        margin-bottom: 22px;
+        position: relative;
+      }
+      .triad-zone-title {
+        font-family: Georgia, serif;
+        font-style: italic;
+        font-size: 32px;
+        margin: 0;
+        color: #3b2700;
+      }
+      .triad-zone-eyebrow {
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 11px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: rgba(59, 39, 0, 0.7);
+        margin-bottom: 4px;
+      }
+      .triad-zone-stack {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+        position: relative;
+      }
+      .triad-card {
+        background: rgba(255,255,255,0.55);
+        border-radius: 14px;
+        padding: 18px 20px;
+      }
+      .triad-card-title {
+        font-family: Georgia, serif;
+        font-style: italic;
+        font-size: 19px;
+        margin: 0 0 8px;
+        color: #3b2700;
+      }
+      .triad-card-body {
+        font-size: 14px;
+        line-height: 1.5;
+        color: #4a3000;
+      }
+      .triad-card-attribution {
+        margin-top: 12px;
+        display: flex; align-items: center; gap: 6px;
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 11px;
+        color: rgba(59, 39, 0, 0.7);
+      }
+      .av-mini { width: 16px; height: 16px; border-radius: 50%; display: inline-block; border: 1.5px solid white; }
+      .av-mini.shawn  { background: var(--shawn); }
+      .av-mini.yedu   { background: var(--yedu); }
+      .av-mini.humzah { background: var(--humzah); }
+      .av-mini-stack { display: inline-flex; margin-right: 4px; }
+      .av-mini-stack .av-mini + .av-mini { margin-left: -6px; }
+
+      /* PAIRWISE GUTTERS — each pair's overlap below the trifold */
+      .pairwise {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 18px;
+        margin-bottom: 64px;
+      }
+      .pair-card {
+        background: var(--card);
+        border: 1px solid var(--rule);
+        border-radius: 18px;
+        padding: 22px 22px 20px;
+      }
+      .pair-card .pair-tag {
+        display: inline-flex; align-items: center; gap: 6px;
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--ink-faint);
+        margin-bottom: 12px;
+      }
+      .pair-card .pair-tag .av-mini-stack .av-mini { width: 14px; height: 14px; }
+      .pair-card .pair-title {
+        font-family: Georgia, serif;
+        font-style: italic;
+        font-size: 19px;
+        margin: 0 0 8px;
+      }
+      .pair-card .pair-body {
+        font-size: 13.5px;
+        color: var(--ink-soft);
+        line-height: 1.5;
+      }
+      .pair-card .pair-empty {
+        font-size: 13px;
+        color: var(--ink-faint);
+        font-style: italic;
+      }
+
+      /* CONVERSATION PROMPTS */
+      .prompts { border-top: 1px solid var(--rule); padding-top: 36px; }
+      .prompts-head { text-align: center; margin-bottom: 30px; }
+      .prompts-eyebrow {
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase;
+        color: var(--ink-faint);
+      }
+      .prompts-title {
+        font-family: Georgia, serif; font-style: italic; font-size: 30px; margin: 6px 0 0;
+      }
+      .prompts-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; }
+      .prompt-card {
+        background: var(--card); border: 1px solid var(--rule); border-radius: 18px;
+        padding: 26px 22px; min-height: 230px;
+        display: flex; flex-direction: column; justify-content: space-between;
+      }
+      .prompt-pretag {
+        display: inline-flex; align-items: center; gap: 6px;
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+        color: var(--amber-deep); margin-bottom: 10px;
+      }
+      .prompt-q {
+        font-family: Georgia, serif;
+        font-size: 21px; line-height: 1.35;
+      }
+      .prompt-foot {
+        display: flex; justify-content: space-between; align-items: center;
+        margin-top: 16px;
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 11.5px; color: var(--ink-faint);
+      }
+      .prompt-foot button {
+        background: var(--ink); color: var(--paper);
+        border: none; padding: 6px 12px; border-radius: 999px;
+        font-size: 12px; cursor: pointer;
+      }
+
+      @media (max-width: 880px) {
+        .name { font-size: 28px; }
+        .hex.center { width: 200px; height: 222px; }
+        .hex.center .hex-count { font-size: 48px; }
+        .hex.pair { width: 130px; height: 146px; }
+        .hex.pair .hex-count { font-size: 26px; }
+        .hex-stage { height: 440px; max-width: 520px; }
+        .trifold, .pairwise, .prompts-grid, .triad-zone-stack { grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
+
+  <body>
+    <header class="topbar">
+      <div><span class="wordmark">Honeycomb · Triad blend</span></div>
+
+      <!-- Per-recipient privacy strip: Notion + ClickUp verb-tier pattern, triad variant -->
+      <div class="privacy-strip" role="group" aria-label="Per-recipient privacy settings">
+        <span class="label">Your vault shows</span>
+        <span class="recipient-pill">
+          <span class="av yedu">Y</span>
+          <select aria-label="What Yedu sees">
+            <option>Artifacts</option><option>Themes</option><option>Sources</option>
+          </select>
+        </span>
+        <span class="recipient-pill">
+          <span class="av humzah">H</span>
+          <select aria-label="What Humzah sees">
+            <option>Themes</option><option>Artifacts</option><option>Sources</option>
+          </select>
+        </span>
+      </div>
+
+      <div class="actions">
+        <button class="btn">Run agent scan</button>
+        <button class="btn primary">Send blend ↗</button>
+      </div>
+    </header>
+
+    <main class="page">
+
+      <!-- HERO three-name lockup -->
+      <section class="hero">
+        <div class="hero-kicker">Three vaults, blended · Updated this morning</div>
+        <div class="triad-name-lockup">
+          <div class="name shawn">Shawn</div>
+          <div class="center-row">
+            <span class="ampersand">·</span>
+            <div class="name yedu">Yedu</div>
+            <span class="ampersand">·</span>
+          </div>
+          <div class="name humzah">Humzah</div>
+        </div>
+      </section>
+
+      <!-- HEX TRIANGLE CELL — the brand-defining hero -->
+      <section class="hex-stage" aria-label="Triadic overlap as a honeycomb cell">
+
+        <!-- avatars at triangle vertices (equal status, no host) -->
+        <div class="avatar-vertex shawn"><div class="av">S</div><div class="name-tag">Shawn</div></div>
+        <div class="avatar-vertex yedu"><div class="av">Y</div><div class="name-tag">Yedu</div></div>
+        <div class="avatar-vertex humzah"><div class="av">H</div><div class="name-tag">Humzah</div></div>
+
+        <!-- pairwise satellite hexes -->
+        <div class="hex pair sy" title="Shawn & Yedu, not Humzah">
+          <div class="hex-kicker">S · Y</div>
+          <div class="hex-count">11</div>
+          <div class="hex-label">just you two</div>
+          <div class="hex-dots">
+            <span style="background: var(--shawn);"></span>
+            <span style="background: var(--yedu);"></span>
+          </div>
+        </div>
+
+        <div class="hex pair yh" title="Yedu & Humzah, not Shawn">
+          <div class="hex-kicker">Y · H</div>
+          <div class="hex-count">6</div>
+          <div class="hex-label">just you two</div>
+          <div class="hex-dots">
+            <span style="background: var(--yedu);"></span>
+            <span style="background: var(--humzah);"></span>
+          </div>
+        </div>
+
+        <div class="hex pair sh" title="Shawn & Humzah, not Yedu">
+          <div class="hex-kicker">S · H</div>
+          <div class="hex-count">3</div>
+          <div class="hex-label">just you two</div>
+          <div class="hex-dots">
+            <span style="background: var(--shawn);"></span>
+            <span style="background: var(--humzah);"></span>
+          </div>
+        </div>
+
+        <!-- center hex: where all three meet -->
+        <div class="hex center" title="All three">
+          <div class="hex-count">4</div>
+          <div class="hex-label">themes all three of you share</div>
+          <div class="hex-allbadge">
+            <span style="background: var(--shawn);"></span>
+            <span style="background: var(--yedu);"></span>
+            <span style="background: var(--humzah);"></span>
+          </div>
+        </div>
+      </section>
+
+      <p class="hex-hint">A honeycomb cell of four zones — the amber center is where <em>all three of you meet</em>, the three satellites are zones each pair shares without the third. Tap any hex to read what's inside it.</p>
+
+      <!-- Theme pills — each pip shows which members contributed -->
+      <section class="themes-band" aria-label="Themes across the triad">
+        <span class="theme-pill strong">
+          <span class="glyph">🛠️</span> Agentic workflows
+          <span class="pips all">
+            <span class="shawn"></span><span class="yedu"></span><span class="humzah"></span>
+          </span>
+        </span>
+        <span class="theme-pill strong">
+          <span class="glyph">📚</span> Personal knowledge systems
+          <span class="pips all">
+            <span class="shawn"></span><span class="yedu"></span><span class="humzah"></span>
+          </span>
+        </span>
+        <span class="theme-pill strong">
+          <span class="glyph">⚖️</span> AI alignment
+          <span class="pips all">
+            <span class="shawn"></span><span class="yedu"></span><span class="humzah"></span>
+          </span>
+        </span>
+        <span class="theme-pill strong">
+          <span class="glyph">🪐</span> Data ethics
+          <span class="pips all">
+            <span class="shawn"></span><span class="yedu"></span><span class="humzah"></span>
+          </span>
+        </span>
+        <span class="theme-pill">
+          <span class="glyph">🎨</span> Creative coding
+          <span class="pips">
+            <span class="shawn"></span><span class="yedu"></span>
+          </span>
+        </span>
+      </section>
+
+      <!-- 3-WAY ZONE — full-width amber band (Tolan / Co-Star tabular Venn) -->
+      <section class="triad-zone">
+        <div class="triad-zone-head">
+          <div>
+            <div class="triad-zone-eyebrow">Center hex · All three of you</div>
+            <h3 class="triad-zone-title">Where the three of you keep meeting</h3>
+          </div>
+          <div class="av-mini-stack" aria-label="Shawn, Yedu, and Humzah">
+            <span class="av-mini shawn"></span>
+            <span class="av-mini yedu"></span>
+            <span class="av-mini humzah"></span>
+          </div>
+        </div>
+
+        <div class="triad-zone-stack">
+          <div class="triad-card">
+            <h4 class="triad-card-title">The four-step agent loop</h4>
+            <p class="triad-card-body">All three of you wrote, this past month, about decomposing "agentic workflows" into <em>observe, decide, act, log</em> — and which step you'd hand off first. The disagreement is on <em>log</em>.</p>
+            <div class="triad-card-attribution">
+              <span class="av-mini-stack"><span class="av-mini shawn"></span><span class="av-mini yedu"></span><span class="av-mini humzah"></span></span>
+              7 notes · 3 highlights · across all three vaults
+            </div>
+          </div>
+
+          <div class="triad-card">
+            <h4 class="triad-card-title">The "moment of return" in second brains</h4>
+            <p class="triad-card-body">Each of you, independently, has a note arguing knowledge tools optimize the wrong moment — capture instead of return. Humzah uses the phrase <em>"the shelf you re-walk past."</em></p>
+            <div class="triad-card-attribution">
+              <span class="av-mini-stack"><span class="av-mini shawn"></span><span class="av-mini yedu"></span><span class="av-mini humzah"></span></span>
+              5 notes · across all three vaults
+            </div>
+          </div>
+
+          <div class="triad-card">
+            <h4 class="triad-card-title">Activation energy as the design unit</h4>
+            <p class="triad-card-body">Recurring across the three vaults — the project's own spine. Shawn frames it as objection-energy, Yedu as friction-cost-per-action, Humzah as the policy lens.</p>
+            <div class="triad-card-attribution">
+              <span class="av-mini-stack"><span class="av-mini shawn"></span><span class="av-mini yedu"></span><span class="av-mini humzah"></span></span>
+              6 notes · 2 highlights · across all three vaults
+            </div>
+          </div>
+
+          <div class="triad-card">
+            <h4 class="triad-card-title">Provenance &amp; data ethics in shared knowledge</h4>
+            <p class="triad-card-body">A late entry — each of you flagged something about <em>"whose note is this when an agent rewrote it"</em> in the past two weeks. No conversation yet.</p>
+            <div class="triad-card-attribution">
+              <span class="av-mini-stack"><span class="av-mini shawn"></span><span class="av-mini yedu"></span><span class="av-mini humzah"></span></span>
+              4 notes · across all three vaults
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TRIFOLD COLUMNS — solo context per user (Tolan editorial) -->
+      <section class="trifold" aria-label="Solo context per member">
+        <div class="col shawn">
+          <div class="col-head">
+            <div class="av-sm">S</div>
+            <div class="col-name">Shawn alone</div>
+            <div class="col-meta">28 solo notes</div>
+          </div>
+          <div class="solo-note">"The job is to render the agent's taste legible so we can edit it."
+            <div class="src">Highlight · Karpathy talk transcript · 6 days ago</div>
+          </div>
+          <div class="solo-note">"Creative coding as the lowest-stakes place to learn what an agent can do."
+            <div class="src">Note · p5js notebook · last Tuesday</div>
+          </div>
+          <div class="solo-note">"Honeycomb's spine: lower the activation energy for social connection."
+            <div class="src">Project memo · April 30</div>
+          </div>
+        </div>
+
+        <div class="col yedu">
+          <div class="col-head">
+            <div class="av-sm">Y</div>
+            <div class="col-name">Yedu alone</div>
+            <div class="col-meta">22 solo notes</div>
+          </div>
+          <div class="solo-note">"Observe-decide-act-log. The right unit isn't the workflow, it's the loop."
+            <div class="src">TwinMind research journal · May 8</div>
+          </div>
+          <div class="solo-note">"Most knowledge tools optimize for the moment of capture. The interesting design problem is the moment of return."
+            <div class="src">Note titled "why I keep starting over"</div>
+          </div>
+          <div class="solo-note">"Alignment is a UI problem before it is a capabilities problem."
+            <div class="src">Highlight · Christiano essay</div>
+          </div>
+        </div>
+
+        <div class="col humzah">
+          <div class="col-head">
+            <div class="av-sm">H</div>
+            <div class="col-name">Humzah alone</div>
+            <div class="col-meta">19 solo notes</div>
+          </div>
+          <div class="solo-note">"Policy people will adopt the agent that asks the most boring questions, not the smartest ones."
+            <div class="src">Public Policy seminar notes · May 4</div>
+          </div>
+          <div class="solo-note">"The shared shelf — Areeba and I keep coming back to the same books without telling each other."
+            <div class="src">Project journal · April 27</div>
+          </div>
+          <div class="solo-note">"Whose note is this when an agent rewrote it? The data-ethics version of the Ship of Theseus."
+            <div class="src">Note · May 2</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PAIRWISE GUTTERS — each pair's overlap (Beli filterable list, Particle News per-speaker grouping) -->
+      <section class="pairwise" aria-label="Pairwise overlaps">
+        <div class="pair-card">
+          <div class="pair-tag">
+            <span class="av-mini-stack">
+              <span class="av-mini shawn"></span><span class="av-mini yedu"></span>
+            </span>
+            Shawn × Yedu · just you two
+          </div>
+          <h4 class="pair-title">Software 3.0 as taste-rendering</h4>
+          <p class="pair-body">11 notes, mostly highlights from the Karpathy talk + Yedu's TwinMind journal. The two of you are nearly in lock-step here, but Humzah hasn't touched it.</p>
+        </div>
+
+        <div class="pair-card">
+          <div class="pair-tag">
+            <span class="av-mini-stack">
+              <span class="av-mini yedu"></span><span class="av-mini humzah"></span>
+            </span>
+            Yedu × Humzah · just you two
+          </div>
+          <h4 class="pair-title">Group dynamics &amp; voice journaling</h4>
+          <p class="pair-body">6 notes about TwinMind's group-recording mode and the policy implications of multi-party transcription consent. Shawn hasn't engaged.</p>
+        </div>
+
+        <div class="pair-card">
+          <div class="pair-tag">
+            <span class="av-mini-stack">
+              <span class="av-mini shawn"></span><span class="av-mini humzah"></span>
+            </span>
+            Shawn × Humzah · just you two
+          </div>
+          <h4 class="pair-title">Shared shelves &amp; trust-bounded sharing</h4>
+          <p class="pair-body">3 notes. Smallest pairwise zone — both of you have written about the shared-shelf-with-spouse pattern, but the surface area is thin so far.</p>
+        </div>
+      </section>
+
+      <!-- CONVERSATION PROMPTS — stoic./Paired magazine prompt cards -->
+      <section class="prompts" aria-label="Conversation prompts">
+        <div class="prompts-head">
+          <div class="prompts-eyebrow">Three questions worth the three of you</div>
+          <h2 class="prompts-title">Where to start the conversation</h2>
+        </div>
+
+        <div class="prompts-grid">
+          <div class="prompt-card">
+            <div>
+              <div class="prompt-pretag">
+                <span class="av-mini-stack"><span class="av-mini shawn"></span><span class="av-mini yedu"></span><span class="av-mini humzah"></span></span>
+                All three · agentic workflows
+              </div>
+              <div class="prompt-q">All three of you have written about the four-step loop. Which of the four — observe, decide, act, log — do each of you most want to keep human, and which would you hand to an agent tomorrow?</div>
+            </div>
+            <div class="prompt-foot"><span>4 notes attached · 2 quotes</span><button>Draft group text →</button></div>
+          </div>
+
+          <div class="prompt-card">
+            <div>
+              <div class="prompt-pretag">
+                <span class="av-mini-stack"><span class="av-mini shawn"></span><span class="av-mini yedu"></span></span>
+                Shawn × Yedu · personal knowledge
+              </div>
+              <div class="prompt-q">You two are eleven notes deep on the moment-of-return idea. Humzah hasn't seen it yet — what's the version of this that's actually worth showing him?</div>
+            </div>
+            <div class="prompt-foot"><span>Pair prompt · 11 notes</span><button>Draft text →</button></div>
+          </div>
+
+          <div class="prompt-card">
+            <div>
+              <div class="prompt-pretag">
+                <span class="av-mini-stack"><span class="av-mini shawn"></span><span class="av-mini humzah"></span></span>
+                Shawn × Humzah · data ethics
+              </div>
+              <div class="prompt-q">"Whose note is this when an agent rewrote it?" Humzah asked the question on May 2. Shawn underlined the same idea three weeks earlier. Is the answer different in policy vs. craft?</div>
+            </div>
+            <div class="prompt-foot"><span>Pair prompt · in-person worth it</span><button>Log talk →</button></div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </body>
+</html>

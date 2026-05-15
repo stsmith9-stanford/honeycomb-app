@@ -1,0 +1,2501 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Honeycomb - Agentic social layer mockups</title>
+    <style>
+      :root {
+        --paper: #f7efe1;
+        --paper-deep: #eadfca;
+        --card: #fffaf0;
+        --ink: #211b14;
+        --ink-soft: #5a5042;
+        --ink-faint: #8a7e6a;
+        --rule: rgba(33, 27, 20, 0.13);
+        --amber: #d79a34;
+        --amber-soft: #f1d69a;
+        --teal: #2d756d;
+        --teal-soft: #d7ede7;
+        --plum: #6f4a8e;
+        --plum-soft: #eadff3;
+        --clay: #c85f36;
+        --blue: #446f9f;
+        --green: #55724c;
+        --shadow: 0 26px 70px -36px rgba(21, 16, 10, 0.44);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        min-height: 100%;
+        background:
+          linear-gradient(180deg, rgba(255, 250, 240, 0.75), rgba(234, 223, 202, 0.8)),
+          var(--paper-deep);
+        color: var(--ink);
+        font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      body {
+        padding: 40px 24px 72px;
+      }
+
+      .page {
+        max-width: 1280px;
+        margin: 0 auto;
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
+        gap: 42px;
+        align-items: end;
+        margin-bottom: 42px;
+      }
+
+      .eyebrow {
+        margin: 0 0 10px;
+        color: var(--teal);
+        font: 700 11px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        max-width: 780px;
+        margin: 0;
+        font-size: clamp(40px, 6vw, 82px);
+        line-height: 0.96;
+        font-style: italic;
+        font-weight: 500;
+        letter-spacing: -0.01em;
+      }
+
+      .hero-copy {
+        margin: 0;
+        color: var(--ink-soft);
+        font-size: 18px;
+        line-height: 1.58;
+      }
+
+      .principles {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 12px;
+        margin-bottom: 34px;
+      }
+
+      .principle {
+        min-height: 118px;
+        padding: 18px;
+        border: 1px solid var(--rule);
+        border-radius: 18px;
+        background: rgba(255, 250, 240, 0.74);
+      }
+
+      .principle strong {
+        display: block;
+        margin-bottom: 7px;
+        font: 700 12px/1.25 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .principle span {
+        display: block;
+        color: var(--ink-soft);
+        font-size: 14px;
+        line-height: 1.45;
+      }
+
+      .mockup-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(320px, 1fr));
+        gap: 24px;
+        align-items: start;
+      }
+
+      .mockup {
+        min-width: 0;
+      }
+
+      .phone {
+        width: 100%;
+        max-width: 390px;
+        min-height: 844px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        border: 1px solid rgba(33, 27, 20, 0.16);
+        border-radius: 34px;
+        background: var(--paper);
+        box-shadow: var(--shadow);
+      }
+
+      .status {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 22px 6px;
+        color: var(--ink);
+        font: 700 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      .signal {
+        display: flex;
+        gap: 5px;
+        align-items: center;
+      }
+
+      .signal i {
+        display: block;
+        width: 5px;
+        border-radius: 999px;
+        background: currentColor;
+      }
+
+      .signal i:nth-child(1) {
+        height: 7px;
+      }
+
+      .signal i:nth-child(2) {
+        height: 10px;
+      }
+
+      .signal i:nth-child(3) {
+        height: 13px;
+      }
+
+      .screen {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        padding: 12px 20px 20px;
+      }
+
+      .top-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 20px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        min-width: 0;
+      }
+
+      .brand-mark {
+        position: relative;
+        width: 30px;
+        height: 26px;
+        flex: 0 0 auto;
+      }
+
+      .brand-mark span {
+        position: absolute;
+        width: 12px;
+        height: 14px;
+        clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0% 50%);
+        background: var(--amber);
+      }
+
+      .brand-mark span:nth-child(1) {
+        left: 9px;
+        top: 0;
+      }
+
+      .brand-mark span:nth-child(2) {
+        left: 1px;
+        top: 12px;
+        background: var(--teal);
+      }
+
+      .brand-mark span:nth-child(3) {
+        left: 17px;
+        top: 12px;
+        background: var(--plum);
+      }
+
+      .brand-title {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        font: 700 11px/1.2 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      .avatar,
+      .mini-avatar,
+      .source-thumb {
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        color: #fff;
+        font-family: Georgia, serif;
+        font-style: italic;
+      }
+
+      .avatar {
+        width: 34px;
+        height: 34px;
+        flex: 0 0 auto;
+        background: var(--clay);
+        border: 2px solid var(--paper);
+        box-shadow: 0 0 0 1px rgba(33, 27, 20, 0.14);
+      }
+
+      .mini-stack {
+        display: flex;
+        align-items: center;
+      }
+
+      .mini-avatar {
+        width: 22px;
+        height: 22px;
+        border: 2px solid var(--card);
+        font-size: 11px;
+      }
+
+      .mini-avatar + .mini-avatar {
+        margin-left: -8px;
+      }
+
+      .m-shawn {
+        background: var(--clay);
+      }
+
+      .m-yedu {
+        background: var(--teal);
+      }
+
+      .m-humzah {
+        background: var(--plum);
+      }
+
+      .m-maya {
+        background: var(--blue);
+      }
+
+      .m-lena {
+        background: var(--green);
+      }
+
+      .screen h2 {
+        margin: 0;
+        font-size: 31px;
+        line-height: 1.05;
+        font-style: italic;
+        font-weight: 500;
+      }
+
+      .screen-sub {
+        margin: 8px 0 20px;
+        color: var(--ink-faint);
+        font-size: 14px;
+        line-height: 1.45;
+      }
+
+      .agent-strip {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        margin-bottom: 16px;
+        padding: 10px 12px;
+        border: 1px solid rgba(45, 117, 109, 0.18);
+        border-radius: 999px;
+        background: var(--teal-soft);
+        color: #204f49;
+        font: 600 12px/1.35 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      .agent-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--teal);
+        box-shadow: 0 0 0 4px rgba(45, 117, 109, 0.12);
+      }
+
+      .cards {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .card {
+        border: 1px solid var(--rule);
+        border-radius: 20px;
+        background: var(--card);
+      }
+
+      .signal-card {
+        padding: 16px;
+      }
+
+      .card-head {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 14px;
+        margin-bottom: 12px;
+      }
+
+      .kicker {
+        margin: 0 0 5px;
+        color: var(--ink-faint);
+        font: 700 10px/1.2 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      .signal-card h3,
+      .person-card h3,
+      .source-card h3 {
+        margin: 0;
+        font-size: 18px;
+        line-height: 1.18;
+        font-weight: 600;
+      }
+
+      .signal-card p,
+      .person-card p,
+      .source-card p,
+      .reason-card p {
+        margin: 8px 0 0;
+        color: var(--ink-soft);
+        font-size: 13px;
+        line-height: 1.45;
+      }
+
+      .primary-card {
+        border-color: rgba(215, 154, 52, 0.36);
+        background: linear-gradient(180deg, #fff8e8, #fffaf0);
+      }
+
+      .accent-read {
+        border-color: rgba(45, 117, 109, 0.28);
+        background: linear-gradient(180deg, #f8fbf6, #fffaf0);
+      }
+
+      .accent-connect {
+        border-color: rgba(111, 74, 142, 0.22);
+        background: linear-gradient(180deg, #fbf7fd, #fffaf0);
+      }
+
+      .pill-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 7px;
+        margin-top: 13px;
+      }
+
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        min-height: 28px;
+        padding: 6px 10px;
+        border: 1px solid var(--rule);
+        border-radius: 999px;
+        background: rgba(247, 239, 225, 0.82);
+        color: var(--ink-soft);
+        font: 600 11px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        white-space: nowrap;
+      }
+
+      .pill.teal {
+        border-color: rgba(45, 117, 109, 0.2);
+        background: var(--teal-soft);
+        color: #245b54;
+      }
+
+      .pill.plum {
+        border-color: rgba(111, 74, 142, 0.2);
+        background: var(--plum-soft);
+        color: #5d3b77;
+      }
+
+      .action-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        margin-top: 14px;
+      }
+
+      .action-row.three {
+        grid-template-columns: 0.84fr 0.94fr 1.18fr;
+      }
+
+      .btn {
+        min-height: 40px;
+        border: 1px solid var(--rule);
+        border-radius: 999px;
+        background: #fffdf8;
+        color: var(--ink-soft);
+        font: 700 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      .btn.primary {
+        border-color: rgba(33, 27, 20, 0.9);
+        background: var(--ink);
+        color: var(--paper);
+      }
+
+      .btn.amber {
+        border-color: rgba(215, 154, 52, 0.5);
+        background: var(--amber);
+        color: #251707;
+      }
+
+      .bottom-nav {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 4px;
+        margin-top: auto;
+        padding-top: 14px;
+        border-top: 1px solid var(--rule);
+        color: var(--ink-faint);
+        font: 700 10px/1.2 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        text-align: center;
+      }
+
+      .nav-item {
+        display: grid;
+        gap: 5px;
+        justify-items: center;
+      }
+
+      .nav-dot {
+        width: 19px;
+        height: 19px;
+        border-radius: 8px;
+        border: 1px solid currentColor;
+        background: transparent;
+      }
+
+      .nav-item.active {
+        color: var(--teal);
+      }
+
+      .nav-item.active .nav-dot {
+        background: currentColor;
+      }
+
+      /* Profile screen */
+      .profile-hero {
+        padding: 18px;
+        border: 1px solid rgba(68, 111, 159, 0.2);
+        border-radius: 24px;
+        background: linear-gradient(160deg, #f7fbff, var(--card) 62%);
+      }
+
+      .person-row {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+      }
+
+      .person-row .avatar {
+        width: 54px;
+        height: 54px;
+        font-size: 24px;
+        background: var(--blue);
+      }
+
+      .person-row h3 {
+        margin: 0 0 3px;
+        font-size: 25px;
+        font-weight: 500;
+        font-style: italic;
+      }
+
+      .person-row p {
+        margin: 0;
+        color: var(--ink-faint);
+        font: 600 12px/1.35 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      .overlap-meter {
+        margin-top: 15px;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 10px;
+        align-items: center;
+      }
+
+      .meter {
+        height: 8px;
+        overflow: hidden;
+        border-radius: 999px;
+        background: rgba(68, 111, 159, 0.12);
+      }
+
+      .meter span {
+        display: block;
+        width: 74%;
+        height: 100%;
+        border-radius: inherit;
+        background: linear-gradient(90deg, var(--teal), var(--blue), var(--plum));
+      }
+
+      .meter-label {
+        color: var(--blue);
+        font: 700 11px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      .source-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 16px;
+      }
+
+      .source-card {
+        display: grid;
+        grid-template-columns: 42px 1fr;
+        gap: 12px;
+        padding: 13px;
+      }
+
+      .source-thumb {
+        width: 42px;
+        height: 42px;
+        border-radius: 14px;
+        background: var(--paper-deep);
+        color: var(--ink-soft);
+        font-size: 14px;
+        font-style: normal;
+      }
+
+      .source-thumb.teal {
+        background: var(--teal-soft);
+        color: var(--teal);
+      }
+
+      .source-thumb.amber {
+        background: #f6dfac;
+        color: #865512;
+      }
+
+      .source-thumb.plum {
+        background: var(--plum-soft);
+        color: var(--plum);
+      }
+
+      .reason-card {
+        margin-top: 12px;
+        padding: 14px;
+        border-radius: 18px;
+        background: rgba(33, 27, 20, 0.045);
+      }
+
+      .privacy-line {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 12px;
+        color: var(--ink-faint);
+        font: 600 11px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      .lock {
+        width: 15px;
+        height: 15px;
+        border: 1.8px solid currentColor;
+        border-radius: 4px;
+        position: relative;
+      }
+
+      .lock::before {
+        content: "";
+        position: absolute;
+        left: 3px;
+        top: -8px;
+        width: 7px;
+        height: 7px;
+        border: 1.8px solid currentColor;
+        border-bottom: 0;
+        border-radius: 8px 8px 0 0;
+      }
+
+      /* Reading screen */
+      .read-card {
+        position: relative;
+        padding: 18px;
+        border-radius: 24px;
+        background: linear-gradient(180deg, #fffdf8, #fff7e6);
+      }
+
+      .read-card::after,
+      .read-card::before {
+        content: "";
+        position: absolute;
+        left: 18px;
+        right: 18px;
+        height: 18px;
+        border: 1px solid var(--rule);
+        border-top: 0;
+        border-radius: 0 0 18px 18px;
+        background: rgba(255, 250, 240, 0.64);
+      }
+
+      .read-card::after {
+        bottom: -8px;
+        transform: scaleX(0.95);
+      }
+
+      .read-card::before {
+        bottom: -16px;
+        transform: scaleX(0.88);
+      }
+
+      .reader-meta {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 18px;
+      }
+
+      .reader-title {
+        min-width: 0;
+      }
+
+      .reader-title h3 {
+        margin: 2px 0 0;
+        font-size: 22px;
+        line-height: 1.1;
+        font-weight: 500;
+        font-style: italic;
+      }
+
+      .read-time {
+        flex: 0 0 auto;
+        padding: 8px 10px;
+        border-radius: 999px;
+        background: var(--teal-soft);
+        color: var(--teal);
+        font: 700 11px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      .quote {
+        margin: 0;
+        padding: 16px 0 16px 14px;
+        border-left: 3px solid var(--amber);
+        font-size: 21px;
+        line-height: 1.34;
+        font-style: italic;
+      }
+
+      .highlight-lane {
+        display: flex;
+        flex-direction: column;
+        gap: 9px;
+        margin-top: 16px;
+      }
+
+      .highlight {
+        display: grid;
+        grid-template-columns: 28px 1fr;
+        gap: 9px;
+        align-items: start;
+        padding: 10px;
+        border-radius: 14px;
+        background: rgba(247, 239, 225, 0.82);
+      }
+
+      .highlight .mini-avatar {
+        width: 28px;
+        height: 28px;
+        border-color: var(--paper);
+      }
+
+      .highlight p {
+        margin: 0;
+        color: var(--ink-soft);
+        font-size: 12.5px;
+        line-height: 1.38;
+      }
+
+      .source-tabs {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 7px;
+        margin: 20px 0 14px;
+      }
+
+      .source-tabs span {
+        padding: 8px 4px;
+        border: 1px solid var(--rule);
+        border-radius: 999px;
+        background: rgba(255, 250, 240, 0.76);
+        color: var(--ink-soft);
+        font: 700 11px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        text-align: center;
+      }
+
+      .source-tabs span.active {
+        border-color: rgba(45, 117, 109, 0.35);
+        background: var(--teal-soft);
+        color: var(--teal);
+      }
+
+      .progress-strip {
+        display: flex;
+        justify-content: center;
+        gap: 7px;
+        margin: 28px 0 0;
+      }
+
+      .ring {
+        width: 16px;
+        height: 16px;
+        border: 2px solid rgba(33, 27, 20, 0.18);
+        border-radius: 50%;
+      }
+
+      .ring.done {
+        border-color: var(--teal);
+        background: radial-gradient(circle at center, var(--paper) 40%, var(--teal) 42%);
+      }
+
+      .ring.current {
+        border-color: var(--amber);
+        background: radial-gradient(circle at center, var(--paper) 38%, var(--amber) 40%);
+      }
+
+      /* Intro proposal */
+      .proposal-card {
+        padding: 18px;
+        border-radius: 24px;
+        background: linear-gradient(160deg, #fffaf0 0%, #fbf4ff 100%);
+      }
+
+      .proposal-main {
+        display: grid;
+        place-items: center;
+        gap: 10px;
+        padding: 18px 4px 8px;
+        text-align: center;
+      }
+
+      .proposal-main .avatar {
+        width: 68px;
+        height: 68px;
+        font-size: 29px;
+        background: var(--blue);
+      }
+
+      .proposal-main h3 {
+        max-width: 260px;
+        margin: 0;
+        font-size: 28px;
+        line-height: 1.08;
+        font-style: italic;
+        font-weight: 500;
+      }
+
+      .proposal-main p {
+        max-width: 272px;
+        margin: 0;
+        color: var(--ink-faint);
+        font-size: 13px;
+        line-height: 1.45;
+      }
+
+      .why-grid {
+        display: grid;
+        gap: 8px;
+        margin: 16px 0;
+      }
+
+      .why {
+        display: grid;
+        grid-template-columns: 70px 1fr;
+        gap: 8px;
+        padding: 10px 11px;
+        border-radius: 14px;
+        background: rgba(255, 250, 240, 0.78);
+        color: var(--ink-soft);
+        font-size: 12px;
+        line-height: 1.35;
+      }
+
+      .why strong {
+        color: var(--ink);
+        font: 700 10px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      .draft {
+        padding: 14px;
+        border: 1px dashed rgba(111, 74, 142, 0.34);
+        border-radius: 17px;
+        background: rgba(255, 250, 240, 0.78);
+      }
+
+      .draft p {
+        margin: 0;
+        color: var(--ink-soft);
+        font-size: 13px;
+        line-height: 1.48;
+      }
+
+      .tone-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 7px;
+        margin-top: 11px;
+      }
+
+      .tone {
+        padding: 7px 10px;
+        border-radius: 999px;
+        border: 1px solid var(--rule);
+        color: var(--ink-soft);
+        background: #fffdf8;
+        font: 700 10.5px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      .tone.active {
+        border-color: rgba(111, 74, 142, 0.28);
+        background: var(--plum-soft);
+        color: var(--plum);
+      }
+
+      .caption {
+        max-width: 390px;
+        margin: 14px auto 0;
+        color: var(--ink-soft);
+        font-size: 14px;
+        line-height: 1.45;
+      }
+
+      .caption strong {
+        color: var(--ink);
+      }
+
+      .reference-map {
+        margin-top: 44px;
+        padding: 26px;
+        border: 1px solid var(--rule);
+        border-radius: 24px;
+        background: rgba(255, 250, 240, 0.78);
+      }
+
+      .reference-map h2 {
+        margin: 0 0 16px;
+        font-size: 28px;
+        line-height: 1.1;
+        font-style: italic;
+        font-weight: 500;
+      }
+
+      .reference-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .ref {
+        padding: 14px;
+        border: 1px solid var(--rule);
+        border-radius: 16px;
+        background: var(--card);
+      }
+
+      .ref strong {
+        display: block;
+        margin-bottom: 5px;
+        font: 700 12px/1.25 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      .ref span {
+        display: block;
+        color: var(--ink-soft);
+        font-size: 13px;
+        line-height: 1.4;
+      }
+
+      .prototype-demo {
+        margin: 0 0 48px;
+        padding: 24px;
+        border: 1px solid var(--rule);
+        border-radius: 30px;
+        background: rgba(255, 250, 240, 0.74);
+        box-shadow: 0 22px 70px -52px rgba(21, 16, 10, 0.5);
+      }
+
+      .demo-heading {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 18px;
+        align-items: start;
+        margin-bottom: 22px;
+      }
+
+      .demo-heading h2 {
+        margin: 0;
+        font-size: 32px;
+        line-height: 1.08;
+        font-style: italic;
+        font-weight: 500;
+      }
+
+      .demo-heading p {
+        max-width: 680px;
+        margin: 8px 0 0;
+        color: var(--ink-soft);
+        font-size: 14.5px;
+        line-height: 1.5;
+      }
+
+      .demo-reset {
+        min-height: 38px;
+        padding: 0 14px;
+        border: 1px solid var(--rule);
+        border-radius: 999px;
+        background: var(--paper);
+        color: var(--ink-soft);
+        font: 700 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      .demo-tools {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: flex-end;
+      }
+
+      .demo-layout {
+        display: grid;
+        grid-template-columns: minmax(320px, 390px) minmax(280px, 1fr);
+        gap: 26px;
+        align-items: start;
+      }
+
+      .demo-panel {
+        display: grid;
+        gap: 14px;
+      }
+
+      .demo-card {
+        padding: 18px;
+        border: 1px solid var(--rule);
+        border-radius: 20px;
+        background: var(--card);
+      }
+
+      .demo-card h3 {
+        margin: 0 0 8px;
+        font-family: Georgia, serif;
+        font-size: 20px;
+        font-style: italic;
+        font-weight: 500;
+      }
+
+      .demo-card p,
+      .demo-card li {
+        color: var(--ink-soft);
+        font-size: 13.5px;
+        line-height: 1.48;
+      }
+
+      .demo-card p {
+        margin: 0;
+      }
+
+      .demo-card ul {
+        margin: 0;
+        padding-left: 18px;
+      }
+
+      .demo-stat-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 9px;
+      }
+
+      .demo-stat {
+        padding: 12px;
+        border: 1px solid var(--rule);
+        border-radius: 16px;
+        background: var(--paper);
+      }
+
+      .demo-stat strong {
+        display: block;
+        margin-bottom: 3px;
+        font: 800 20px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      .demo-stat span {
+        color: var(--ink-faint);
+        font: 700 10px/1.2 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .demo-log {
+        display: grid;
+        gap: 8px;
+        margin-top: 10px;
+      }
+
+      .demo-log-item {
+        padding: 9px 10px;
+        border-radius: 12px;
+        background: rgba(247, 239, 225, 0.82);
+        color: var(--ink-soft);
+        font-size: 12.5px;
+        line-height: 1.35;
+      }
+
+      .demo-muted {
+        color: var(--ink-faint);
+        font-size: 12.5px;
+      }
+
+      .mockup-divider {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 38px 0 22px;
+        color: var(--ink-faint);
+        font: 800 11px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+      }
+
+      .mockup-divider::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: var(--rule);
+      }
+
+      .demo-phone-shell {
+        display: grid;
+        justify-items: center;
+      }
+
+      .demo-phone-shell .phone {
+        width: 100%;
+      }
+
+      .demo-phone-shell .phone[data-demo-screen="today"] {
+        min-height: 920px;
+      }
+
+      .demo-phone-shell .phone[data-demo-screen="people"],
+      .demo-phone-shell .phone[data-demo-screen="intro"] {
+        min-height: 930px;
+      }
+
+      .demo-phone-shell .phone[data-demo-screen="read"],
+      .demo-phone-shell .phone[data-demo-screen="shelf"] {
+        min-height: 860px;
+      }
+
+      .demo-phone-shell button {
+        font: inherit;
+      }
+
+      .demo-phone-shell .btn,
+      .demo-reset,
+      .demo-phone-shell .nav-item,
+      .demo-phone-shell .source-tabs button {
+        cursor: pointer;
+      }
+
+      .demo-phone-shell .btn[disabled] {
+        cursor: default;
+        opacity: 0.62;
+      }
+
+      .demo-phone-shell .bottom-nav {
+        gap: 6px;
+      }
+
+      .demo-phone-shell .nav-item {
+        border: 0;
+        background: transparent;
+        color: inherit;
+        font: inherit;
+      }
+
+      .demo-phone-shell .nav-item.active .nav-dot {
+        background: currentColor;
+      }
+
+      .demo-phone-shell .source-tabs button {
+        padding: 8px 4px;
+        border: 1px solid var(--rule);
+        border-radius: 999px;
+        background: rgba(255, 250, 240, 0.76);
+        color: var(--ink-soft);
+        font: 700 11px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        text-align: center;
+      }
+
+      .demo-phone-shell .source-tabs button.active {
+        border-color: rgba(45, 117, 109, 0.35);
+        background: var(--teal-soft);
+        color: var(--teal);
+      }
+
+      .demo-phone-shell .source-tabs button:focus-visible,
+      .demo-phone-shell .nav-item:focus-visible,
+      .demo-phone-shell .btn:focus-visible,
+      .demo-reset:focus-visible,
+      .tone:focus-visible {
+        outline: 2px solid rgba(45, 117, 109, 0.56);
+        outline-offset: 2px;
+      }
+
+      .shelf-list {
+        display: grid;
+        gap: 10px;
+      }
+
+      .shelf-list .source-card {
+        grid-template-columns: 42px 1fr;
+      }
+
+      .draft-input {
+        width: 100%;
+        min-height: 128px;
+        margin: 0;
+        padding: 0;
+        resize: none;
+        border: 0;
+        outline: 0;
+        background: transparent;
+        color: var(--ink-soft);
+        font-family: Georgia, serif;
+        font-size: 13px;
+        line-height: 1.48;
+      }
+
+      .tone {
+        cursor: pointer;
+      }
+
+      .toast-demo {
+        position: fixed;
+        left: 50%;
+        bottom: 22px;
+        z-index: 50;
+        transform: translateX(-50%) translateY(20px);
+        max-width: min(420px, calc(100vw - 28px));
+        padding: 12px 16px;
+        border: 1px solid rgba(33, 27, 20, 0.18);
+        border-radius: 999px;
+        background: rgba(33, 27, 20, 0.94);
+        color: var(--paper);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.18s ease, transform 0.18s ease;
+        font: 700 12px/1.3 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      .toast-demo.visible {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+
+      @media (max-width: 760px) {
+        body {
+          padding: 28px 14px 56px;
+        }
+
+        .hero {
+          grid-template-columns: 1fr;
+          gap: 18px;
+        }
+
+        .principles,
+        .mockup-grid,
+        .reference-grid,
+        .demo-layout,
+        .demo-heading {
+          grid-template-columns: 1fr;
+        }
+
+        .demo-tools {
+          justify-content: flex-start;
+        }
+
+        .phone {
+          min-height: 820px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <main class="page">
+      <section class="hero">
+        <div>
+          <p class="eyebrow">Mobbin-informed concept pass</p>
+          <h1>Second brains get a social surface.</h1>
+        </div>
+        <p class="hero-copy">
+          This pass treats Honeycomb as a warm discovery layer on top of
+          Obsidian, Readwise, LLM wikis, and saved links. Agents do not expose
+          the vault. They find public-slice overlap, explain why it matters,
+          and turn the overlap into one read-together or meet-together move.
+        </p>
+      </section>
+
+      <section class="principles" aria-label="Design principles">
+        <div class="principle">
+          <strong>Warm discovery</strong>
+          <span>People are adjacent through trusted circles, shared sources, or public slices - not cold profile search.</span>
+        </div>
+        <div class="principle">
+          <strong>Sources first</strong>
+          <span>The primitive is a source plus highlights, not an interest tag or compatibility score.</span>
+        </div>
+        <div class="principle">
+          <strong>One move</strong>
+          <span>The agent proposes a single next action: read, save, ask for an intro, or send the opener.</span>
+        </div>
+        <div class="principle">
+          <strong>Visible boundary</strong>
+          <span>Every social suggestion says what was public, what stayed private, and who can see it.</span>
+        </div>
+      </section>
+
+      <section class="prototype-demo" aria-labelledby="prototype-title">
+        <div class="demo-heading">
+          <div>
+            <p class="eyebrow">Functional v1 demo</p>
+            <h2 id="prototype-title">A working agentic social loop.</h2>
+            <p>
+              This phone is interactive: move through the daily cards, inspect source
+              overlap, save a person, edit the intro, and confirm the social move.
+              The demo saves state locally so the system starts to feel like a small product.
+            </p>
+          </div>
+          <div class="demo-tools">
+            <button class="demo-reset" type="button" data-demo-action="copy-summary">Copy state</button>
+            <button class="demo-reset" type="button" data-demo-action="reset">Reset demo</button>
+          </div>
+        </div>
+
+        <div class="demo-layout">
+          <div id="demo-phone" class="demo-phone-shell" aria-live="polite"></div>
+
+          <aside class="demo-panel" aria-label="Prototype state">
+            <div class="demo-card">
+              <h3>Prototype loop</h3>
+              <ul>
+                <li>Agent surfaces a source or person from public-slice overlap.</li>
+                <li>You inspect the evidence before anything social happens.</li>
+                <li>Explicit actions update the shelf, saved people, intro draft, and log.</li>
+              </ul>
+            </div>
+
+            <div class="demo-card">
+              <h3>Demo state</h3>
+              <div id="demo-stats" class="demo-stat-grid"></div>
+            </div>
+
+            <div class="demo-card">
+              <h3>Agent activity</h3>
+              <p class="demo-muted">Newest actions appear first. Refresh the page and they remain.</p>
+              <div id="demo-log" class="demo-log"></div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <div class="mockup-divider">Static reference screens</div>
+
+      <section class="mockup-grid" aria-label="Honeycomb social-layer phone mockups">
+        <article class="mockup">
+          <div class="phone">
+            <div class="status">
+              <span>9:41</span>
+              <span class="signal" aria-hidden="true"><i></i><i></i><i></i></span>
+            </div>
+            <div class="screen">
+              <div class="top-row">
+                <div class="brand">
+                  <div class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></div>
+                  <div class="brand-title">Honeycomb</div>
+                </div>
+                <div class="avatar">S</div>
+              </div>
+
+              <h2>Today in your circle</h2>
+              <p class="screen-sub">Your agent found three live overlaps from public slices and recent highlights.</p>
+
+              <div class="agent-strip">
+                <span class="agent-dot"></span>
+                <span>Public slices only. Private notes stay local.</span>
+              </div>
+
+              <div class="cards">
+                <div class="card signal-card primary-card">
+                  <div class="card-head">
+                    <div>
+                      <p class="kicker">Read together</p>
+                      <h3>Agent loops, but less lonely.</h3>
+                    </div>
+                    <div class="mini-stack" aria-label="Shawn and Yedu">
+                      <span class="mini-avatar m-shawn">S</span>
+                      <span class="mini-avatar m-yedu">Y</span>
+                    </div>
+                  </div>
+                  <p>Yedu highlighted the same paragraph you saved from the Karpathy LLM wiki thread.</p>
+                  <div class="pill-row">
+                    <span class="pill teal">9 min source</span>
+                    <span class="pill">3 shared notes</span>
+                  </div>
+                  <div class="action-row">
+                    <button class="btn">Save shelf</button>
+                    <button class="btn primary">Start reading</button>
+                  </div>
+                </div>
+
+                <div class="card signal-card accent-connect">
+                  <div class="card-head">
+                    <div>
+                      <p class="kicker">Warm intro</p>
+                      <h3>Maya is circling the same question.</h3>
+                    </div>
+                    <div class="mini-stack" aria-label="Shawn, Maya, and Humzah">
+                      <span class="mini-avatar m-shawn">S</span>
+                      <span class="mini-avatar m-maya">M</span>
+                      <span class="mini-avatar m-humzah">H</span>
+                    </div>
+                  </div>
+                  <p>Four overlapping sources on memory, agency, and shared intellectual life.</p>
+                  <div class="action-row">
+                    <button class="btn">Not now</button>
+                    <button class="btn primary">Review intro</button>
+                  </div>
+                </div>
+
+                <div class="card signal-card accent-read">
+                  <div class="card-head">
+                    <div>
+                      <p class="kicker">Shared shelf</p>
+                      <h3>AI Awakening reading room</h3>
+                    </div>
+                    <div class="mini-stack" aria-label="Shawn, Yedu, Humzah">
+                      <span class="mini-avatar m-shawn">S</span>
+                      <span class="mini-avatar m-yedu">Y</span>
+                      <span class="mini-avatar m-humzah">H</span>
+                    </div>
+                  </div>
+                  <p>Two new highlights landed since yesterday. One is ready to turn into a prompt.</p>
+                </div>
+              </div>
+
+              <nav class="bottom-nav" aria-label="Primary">
+                <div class="nav-item active"><span class="nav-dot"></span><span>Today</span></div>
+                <div class="nav-item"><span class="nav-dot"></span><span>Sources</span></div>
+                <div class="nav-item"><span class="nav-dot"></span><span>People</span></div>
+                <div class="nav-item"><span class="nav-dot"></span><span>Shelf</span></div>
+              </nav>
+            </div>
+          </div>
+          <p class="caption"><strong>01 - Today.</strong> Liven/Goodreads-style recommendations, but every card explains the human overlap and has one primary next move.</p>
+        </article>
+
+        <article class="mockup">
+          <div class="phone">
+            <div class="status">
+              <span>9:41</span>
+              <span class="signal" aria-hidden="true"><i></i><i></i><i></i></span>
+            </div>
+            <div class="screen">
+              <div class="top-row">
+                <div class="brand">
+                  <div class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></div>
+                  <div class="brand-title">People</div>
+                </div>
+                <div class="avatar">S</div>
+              </div>
+
+              <h2>Not a cold match.</h2>
+              <p class="screen-sub">This is a public-slice overlap through Humzah's policy circle.</p>
+
+              <div class="profile-hero">
+                <div class="person-row">
+                  <div class="avatar">M</div>
+                  <div>
+                    <h3>Maya Patel</h3>
+                    <p>Mutual: Humzah - 4 shared sources</p>
+                  </div>
+                </div>
+                <div class="overlap-meter">
+                  <div class="meter" aria-hidden="true"><span></span></div>
+                  <div class="meter-label">strong</div>
+                </div>
+                <div class="pill-row">
+                  <span class="pill teal">agentic memory</span>
+                  <span class="pill plum">public-interest tech</span>
+                  <span class="pill">longform</span>
+                </div>
+              </div>
+
+              <div class="source-list">
+                <div class="card source-card">
+                  <div class="source-thumb teal">MD</div>
+                  <div>
+                    <p class="kicker">Both highlighted</p>
+                    <h3>LLM wikis as living context</h3>
+                    <p>You saved it in "agent memory"; Maya filed it under "collective intelligence".</p>
+                  </div>
+                </div>
+                <div class="card source-card">
+                  <div class="source-thumb amber">TX</div>
+                  <div>
+                    <p class="kicker">Shared source</p>
+                    <h3>Bowling Alone, social capital</h3>
+                    <p>Your notes converge on lower-friction friendship maintenance.</p>
+                  </div>
+                </div>
+                <div class="card source-card">
+                  <div class="source-thumb plum">YT</div>
+                  <div>
+                    <p class="kicker">Same theme</p>
+                    <h3>Software 3.0 agent loops</h3>
+                    <p>Different videos, same question: what should agents do on our behalf?</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="reason-card">
+                <p><strong>Agent read:</strong> you are both asking how private knowledge can become social without becoming a feed.</p>
+              </div>
+
+              <div class="privacy-line">
+                <span class="lock" aria-hidden="true"></span>
+                <span>Only Maya's public slice is visible. Full vault hidden.</span>
+              </div>
+
+              <div class="action-row">
+                <button class="btn">Save person</button>
+                <button class="btn primary">Ask for intro</button>
+              </div>
+            </div>
+          </div>
+          <p class="caption"><strong>02 - Overlap profile.</strong> Bump's "friends you should add" pattern, rebuilt around shared sources instead of generic mutuals.</p>
+        </article>
+
+        <article class="mockup">
+          <div class="phone">
+            <div class="status">
+              <span>9:41</span>
+              <span class="signal" aria-hidden="true"><i></i><i></i><i></i></span>
+            </div>
+            <div class="screen">
+              <div class="top-row">
+                <div class="brand">
+                  <div class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></div>
+                  <div class="brand-title">Read</div>
+                </div>
+                <div class="pill teal">3 of 7</div>
+              </div>
+
+              <h2>Read this together</h2>
+              <p class="screen-sub">A bounded daily deck from the sources your circle is already marking up.</p>
+
+              <div class="card read-card">
+                <div class="reader-meta">
+                  <div class="reader-title">
+                    <p class="kicker">Source - essay</p>
+                    <h3>LLM wikis are social if agents can negotiate the edge.</h3>
+                  </div>
+                  <span class="read-time">9 min</span>
+                </div>
+
+                <blockquote class="quote">The useful social layer is not a public graph. It is a negotiated membrane between private memory and shared curiosity.</blockquote>
+
+                <div class="source-tabs">
+                  <span class="active">You</span>
+                  <span>Yedu</span>
+                  <span>Maya</span>
+                </div>
+
+                <div class="highlight-lane">
+                  <div class="highlight">
+                    <span class="mini-avatar m-yedu">Y</span>
+                    <p>Yedu tagged this as a possible "GSB hive mind" primitive.</p>
+                  </div>
+                  <div class="highlight">
+                    <span class="mini-avatar m-maya">M</span>
+                    <p>Maya marked the same passage while writing about community knowledge.</p>
+                  </div>
+                </div>
+
+                <div class="pill-row">
+                  <span class="pill teal">2 matching highlights</span>
+                  <span class="pill">1 prompt ready</span>
+                </div>
+              </div>
+
+              <div class="progress-strip" aria-label="Daily reading progress">
+                <span class="ring done"></span>
+                <span class="ring done"></span>
+                <span class="ring current"></span>
+                <span class="ring"></span>
+                <span class="ring"></span>
+                <span class="ring"></span>
+                <span class="ring"></span>
+              </div>
+
+              <div class="action-row three">
+                <button class="btn">Pass</button>
+                <button class="btn">Shelf</button>
+                <button class="btn primary">Send note</button>
+              </div>
+            </div>
+          </div>
+          <p class="caption"><strong>03 - Co-reading.</strong> Daily review and Goodreads review patterns, with margin highlights becoming the bridge to a real person.</p>
+        </article>
+
+        <article class="mockup">
+          <div class="phone">
+            <div class="status">
+              <span>9:41</span>
+              <span class="signal" aria-hidden="true"><i></i><i></i><i></i></span>
+            </div>
+            <div class="screen">
+              <div class="top-row">
+                <div class="brand">
+                  <div class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></div>
+                  <div class="brand-title">Intro</div>
+                </div>
+                <div class="pill plum">draft</div>
+              </div>
+
+              <h2>Review the opener</h2>
+              <p class="screen-sub">The agent can prepare the social move. You decide whether it leaves the app.</p>
+
+              <div class="card proposal-card">
+                <div class="proposal-main">
+                  <div class="avatar">M</div>
+                  <h3>Coffee with Maya about agent memory?</h3>
+                  <p>Suggested for Thursday afternoon. No message is sent until you confirm.</p>
+                </div>
+
+                <div class="why-grid">
+                  <div class="why">
+                    <strong>Why her</strong>
+                    <span>4 shared sources and one mutual circle through Humzah.</span>
+                  </div>
+                  <div class="why">
+                    <strong>Why now</strong>
+                    <span>You both saved new notes on public/private memory this week.</span>
+                  </div>
+                  <div class="why">
+                    <strong>Boundary</strong>
+                    <span>Intro references only public source titles, not private annotations.</span>
+                  </div>
+                </div>
+
+                <div class="draft">
+                  <p>Hey Maya - Humzah mentioned your public-interest tech work. Honeycomb noticed we both marked up a few pieces on LLM wikis and social memory. Want to compare notes for 20 minutes this week?</p>
+                  <div class="tone-row" aria-label="Tone">
+                    <span class="tone active">plain</span>
+                    <span class="tone">warmer</span>
+                    <span class="tone">shorter</span>
+                  </div>
+                </div>
+
+                <div class="action-row three">
+                  <button class="btn">Pass</button>
+                  <button class="btn">Edit</button>
+                  <button class="btn amber">Send</button>
+                </div>
+              </div>
+
+              <div class="privacy-line">
+                <span class="lock" aria-hidden="true"></span>
+                <span>Agent action requires explicit confirmation.</span>
+              </div>
+            </div>
+          </div>
+          <p class="caption"><strong>04 - Intro proposal.</strong> Coffee Meets Bagel/Tinder intro mechanics, but slowed down with source evidence and explicit consent.</p>
+        </article>
+      </section>
+
+      <section class="reference-map" aria-label="Mobbin reference map">
+        <p class="eyebrow">Mobbin reference map</p>
+        <h2>What got borrowed at the pattern level.</h2>
+        <div class="reference-grid">
+          <div class="ref">
+            <strong>Liven / Goodreads</strong>
+            <span>Article recommendation cards with finite daily rhythm. Honeycomb swaps "because you read" for "because two people marked this".</span>
+          </div>
+          <div class="ref">
+            <strong>Bump / Pinterest</strong>
+            <span>People-you-should-add and conversation starter flows. Honeycomb makes the proof source-based and warm.</span>
+          </div>
+          <div class="ref">
+            <strong>Coffee Meets Bagel / Tinder</strong>
+            <span>Drafted opener and chat entry mechanics. Honeycomb slows them down with consent and evidence.</span>
+          </div>
+          <div class="ref">
+            <strong>Base44 / Fireflies / WRITER / Manus</strong>
+            <span>AI workspace patterns: source panels, memory files, agent progress, and generated artifacts with citations.</span>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      (() => {
+        const storageKey = "honeycomb-agentic-social-demo-v1";
+        const demoPhone = document.getElementById("demo-phone");
+        const demoStats = document.getElementById("demo-stats");
+        const demoLog = document.getElementById("demo-log");
+
+        const drafts = {
+          plain:
+            "Hey Maya - Humzah mentioned your public-interest tech work. Honeycomb noticed we both marked up a few pieces on LLM wikis and social memory. Want to compare notes for 20 minutes this week?",
+          warmer:
+            "Hey Maya - Humzah mentioned your work around public-interest tech, and I liked seeing that we both marked up the same questions on LLM wikis and social memory. Would you be open to comparing notes for 20 minutes this week?",
+          shorter:
+            "Hey Maya - Humzah mentioned your public-interest tech work. We both marked up a few pieces on LLM wikis and social memory. Want to compare notes this week?",
+        };
+
+        const source = {
+          id: "llm-wikis",
+          thumb: "MD",
+          title: "LLM wikis are social if agents can negotiate the edge.",
+          quote:
+            "The useful social layer is not a public graph. It is a negotiated membrane between private memory and shared curiosity.",
+          time: "9 min",
+          deck: "3 of 7",
+        };
+
+        const highlights = {
+          you: {
+            label: "You",
+            avatar: "S",
+            cls: "m-shawn",
+            text: "You saved this under agent memory after the AI Awakening discussion.",
+          },
+          yedu: {
+            label: "Yedu",
+            avatar: "Y",
+            cls: "m-yedu",
+            text: 'Yedu tagged this as a possible "GSB hive mind" primitive.',
+          },
+          maya: {
+            label: "Maya",
+            avatar: "M",
+            cls: "m-maya",
+            text: "Maya marked the same passage while writing about community knowledge.",
+          },
+        };
+
+        const personSources = [
+          {
+            thumb: "MD",
+            cls: "teal",
+            kicker: "Both highlighted",
+            title: "LLM wikis as living context",
+            text: 'You saved it in "agent memory"; Maya filed it under "collective intelligence".',
+          },
+          {
+            thumb: "TX",
+            cls: "amber",
+            kicker: "Shared source",
+            title: "Bowling Alone, social capital",
+            text: "Your notes converge on lower-friction friendship maintenance.",
+          },
+          {
+            thumb: "YT",
+            cls: "plum",
+            kicker: "Same theme",
+            title: "Software 3.0 agent loops",
+            text: "Different videos, same question: what should agents do on our behalf?",
+          },
+        ];
+
+        const seedState = () => ({
+          screen: "today",
+          perspective: "you",
+          tone: "plain",
+          draft: drafts.plain,
+          shelf: [],
+          savedPeople: [],
+          passed: [],
+          sentIntros: [],
+          log: ["Agent prepared 3 overlaps from public slices."],
+        });
+
+        let state = loadState();
+        render();
+
+        document.addEventListener("click", (event) => {
+          const control = event.target.closest(
+            "[data-demo-screen], [data-demo-action], [data-perspective], [data-tone]",
+          );
+          if (!control) {
+            const staticButton = event.target.closest(".mockup-grid button");
+            if (staticButton) handleStaticMockupButton(staticButton);
+            return;
+          }
+          if (control.disabled) return;
+
+          if (control.dataset.perspective) {
+            state.perspective = control.dataset.perspective;
+            pushLog(`Opened ${highlights[state.perspective].label}'s highlight context.`);
+            saveState();
+            render();
+            return;
+          }
+
+          if (control.dataset.tone) {
+            state.tone = control.dataset.tone;
+            state.draft = drafts[state.tone];
+            pushLog(`Rewrote opener in a ${state.tone} tone.`);
+            saveState();
+            render();
+            return;
+          }
+
+          if (control.dataset.demoScreen) {
+            state.screen = control.dataset.demoScreen;
+            saveState();
+            render();
+            return;
+          }
+
+          handleAction(control.dataset.demoAction);
+        });
+
+        document.addEventListener("input", (event) => {
+          if (!event.target.matches(".draft-input")) return;
+          state.draft = event.target.value;
+          saveState();
+        });
+
+        function loadState() {
+          try {
+            const parsed = JSON.parse(localStorage.getItem(storageKey));
+            return normalizeState(parsed);
+          } catch {
+            return seedState();
+          }
+        }
+
+        function normalizeState(parsed) {
+          const seed = seedState();
+          const merged = { ...seed, ...(parsed || {}) };
+          merged.shelf = Array.isArray(merged.shelf) ? merged.shelf : [];
+          merged.savedPeople = Array.isArray(merged.savedPeople) ? merged.savedPeople : [];
+          merged.passed = Array.isArray(merged.passed) ? merged.passed : [];
+          merged.sentIntros = Array.isArray(merged.sentIntros) ? merged.sentIntros : [];
+          merged.log = Array.isArray(merged.log) && merged.log.length ? merged.log : seed.log;
+          if (!["today", "read", "people", "intro", "shelf"].includes(merged.screen)) {
+            merged.screen = "today";
+          }
+          if (!highlights[merged.perspective]) merged.perspective = "you";
+          if (!drafts[merged.tone]) merged.tone = "plain";
+          if (typeof merged.draft !== "string") merged.draft = drafts[merged.tone];
+          return merged;
+        }
+
+        function saveState() {
+          try {
+            localStorage.setItem(storageKey, JSON.stringify(state));
+          } catch {
+            // Some embedded browsers block localStorage on file://. The demo still works in memory.
+          }
+        }
+
+        function handleStaticMockupButton(button) {
+          const label = button.textContent.trim().toLowerCase();
+          const staticScreen = button.closest(".mockup")?.querySelector(".caption strong")?.textContent || "";
+          let message = "Opened that action in the live prototype above.";
+
+          switch (label) {
+            case "save shelf":
+            case "shelf":
+              addUnique(state.shelf, source.id);
+              state.screen = "shelf";
+              message = "Saved the source and opened the live shelf.";
+              pushLog("Reference mockup action saved the LLM wiki source.");
+              break;
+            case "start reading":
+              state.screen = "read";
+              message = "Opened the live co-reading screen.";
+              pushLog("Reference mockup action opened the co-reading card.");
+              break;
+            case "review intro":
+            case "ask for intro":
+              state.screen = "intro";
+              message = "Opened the live intro proposal.";
+              pushLog("Reference mockup action opened the Maya intro proposal.");
+              break;
+            case "not now":
+              addUnique(state.passed, "maya-agent-memory");
+              state.screen = "today";
+              message = "Skipped the Maya proposal in the live demo.";
+              pushLog("Reference mockup action skipped the Maya intro proposal.");
+              break;
+            case "save person":
+              addUnique(state.savedPeople, "maya");
+              state.screen = "people";
+              message = "Saved Maya in the live prototype.";
+              pushLog("Reference mockup action saved Maya as a source-overlap person.");
+              break;
+            case "pass":
+              if (staticScreen.includes("Intro")) {
+                addUnique(state.passed, "maya-agent-memory");
+                pushLog("Reference mockup action skipped the Maya intro proposal.");
+              } else {
+                addUnique(state.passed, source.id);
+                pushLog("Reference mockup action passed on the reading card.");
+              }
+              state.screen = "today";
+              message = "Marked that card as passed in the live prototype.";
+              break;
+            case "send note":
+              state.screen = "intro";
+              message = "Turned the shared highlight into the live intro draft.";
+              pushLog("Reference mockup action turned the highlight into an intro draft.");
+              break;
+            case "edit":
+              state.screen = "intro";
+              message = "Opened the editable live intro draft.";
+              pushLog("Reference mockup action opened the editable Maya intro.");
+              break;
+            case "send":
+              addUnique(state.sentIntros, "maya-agent-memory");
+              state.screen = "shelf";
+              message = "Confirmed the intro and opened the live shelf.";
+              pushLog("Reference mockup action confirmed the Maya intro.");
+              break;
+            default:
+              state.screen = "today";
+              pushLog("Reference mockup action opened the live demo.");
+          }
+
+          saveState();
+          render();
+          scrollPrototypeIntoView();
+          showToast(message);
+        }
+
+        function handleAction(action) {
+          switch (action) {
+            case "reset":
+              state = seedState();
+              saveState();
+              render();
+              showToast("Demo reset.");
+              break;
+            case "copy-summary":
+              copySummary();
+              break;
+            case "shelf-read":
+              addUnique(state.shelf, source.id);
+              state.screen = "shelf";
+              pushLog("Shelved the LLM wiki source for later.");
+              saveState();
+              render();
+              showToast("Source saved to shelf.");
+              break;
+            case "pass-read":
+              addUnique(state.passed, source.id);
+              state.screen = "today";
+              pushLog("Passed on today's reading card.");
+              saveState();
+              render();
+              break;
+            case "send-note":
+              state.screen = "intro";
+              pushLog("Agent turned the shared highlight into an intro draft.");
+              saveState();
+              render();
+              break;
+            case "save-person":
+              addUnique(state.savedPeople, "maya");
+              pushLog("Saved Maya as a source-overlap person.");
+              saveState();
+              render();
+              showToast("Maya saved.");
+              break;
+            case "ask-intro":
+              state.screen = "intro";
+              pushLog("Agent prepared a consent-gated intro proposal.");
+              saveState();
+              render();
+              break;
+            case "save-draft":
+              addUnique(state.shelf, "intro-draft");
+              pushLog("Saved the Maya intro draft to the shelf.");
+              saveState();
+              render();
+              showToast("Draft saved.");
+              break;
+            case "send-intro":
+              addUnique(state.sentIntros, "maya-agent-memory");
+              pushLog("Confirmed intro to Maya. Nothing else was shared.");
+              saveState();
+              render();
+              showToast("Intro marked sent.");
+              break;
+            case "pass-intro":
+              addUnique(state.passed, "maya-agent-memory");
+              state.screen = "today";
+              pushLog("Skipped the Maya intro proposal.");
+              saveState();
+              render();
+              break;
+          }
+        }
+
+        function render() {
+          demoPhone.innerHTML = renderPhone();
+          renderStats();
+          renderLog();
+        }
+
+        function renderPhone() {
+          const titles = {
+            today: "Honeycomb",
+            read: "Read",
+            people: "People",
+            intro: "Intro",
+            shelf: "Shelf",
+          };
+          const screens = {
+            today: renderToday,
+            read: renderRead,
+            people: renderPeople,
+            intro: renderIntro,
+            shelf: renderShelf,
+          };
+
+          return `
+            <div class="phone" data-demo-screen="${state.screen}">
+              ${renderStatus()}
+              <div class="screen">
+                ${renderTopRow(titles[state.screen])}
+                ${screens[state.screen]()}
+                ${renderNav()}
+              </div>
+            </div>
+          `;
+        }
+
+        function renderStatus() {
+          return `
+            <div class="status">
+              <span>9:41</span>
+              <span class="signal" aria-hidden="true"><i></i><i></i><i></i></span>
+            </div>
+          `;
+        }
+
+        function renderTopRow(title) {
+          let right = '<div class="avatar">S</div>';
+          if (state.screen === "read") right = `<div class="pill teal">${source.deck}</div>`;
+          if (state.screen === "intro") {
+            right = state.sentIntros.includes("maya-agent-memory")
+              ? '<div class="pill teal">sent</div>'
+              : '<div class="pill plum">draft</div>';
+          }
+          if (state.screen === "people" && state.savedPeople.includes("maya")) {
+            right = '<div class="pill teal">saved</div>';
+          }
+          return `
+            <div class="top-row">
+              <div class="brand">
+                <div class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></div>
+                <div class="brand-title">${escapeHtml(title)}</div>
+              </div>
+              ${right}
+            </div>
+          `;
+        }
+
+        function renderToday() {
+          const shelved = state.shelf.includes(source.id);
+          const sent = state.sentIntros.includes("maya-agent-memory");
+          return `
+            <h2>Today in your circle</h2>
+            <p class="screen-sub">Your agent found three live overlaps from public slices and recent highlights.</p>
+
+            <div class="agent-strip">
+              <span class="agent-dot"></span>
+              <span>Public slices only. Private notes stay local.</span>
+            </div>
+
+            <div class="cards">
+              <div class="card signal-card primary-card">
+                <div class="card-head">
+                  <div>
+                    <p class="kicker">Read together</p>
+                    <h3>Agent loops, but less lonely.</h3>
+                  </div>
+                  <div class="mini-stack" aria-label="Shawn and Yedu">
+                    <span class="mini-avatar m-shawn">S</span>
+                    <span class="mini-avatar m-yedu">Y</span>
+                  </div>
+                </div>
+                <p>Yedu highlighted the same paragraph you saved from the Karpathy LLM wiki thread.</p>
+                <div class="pill-row">
+                  <span class="pill teal">${source.time} source</span>
+                  <span class="pill">3 shared notes</span>
+                </div>
+                <div class="action-row">
+                  <button class="btn" type="button" data-demo-action="shelf-read" ${shelved ? "disabled" : ""}>${shelved ? "Shelved" : "Save shelf"}</button>
+                  <button class="btn primary" type="button" data-demo-screen="read">Start reading</button>
+                </div>
+              </div>
+
+              <div class="card signal-card accent-connect">
+                <div class="card-head">
+                  <div>
+                    <p class="kicker">Warm intro</p>
+                    <h3>Maya is circling the same question.</h3>
+                  </div>
+                  <div class="mini-stack" aria-label="Shawn, Maya, and Humzah">
+                    <span class="mini-avatar m-shawn">S</span>
+                    <span class="mini-avatar m-maya">M</span>
+                    <span class="mini-avatar m-humzah">H</span>
+                  </div>
+                </div>
+                <p>Four overlapping sources on memory, agency, and shared intellectual life.</p>
+                <div class="action-row">
+                  <button class="btn" type="button" data-demo-action="pass-intro">${sent ? "Hide" : "Not now"}</button>
+                  <button class="btn primary" type="button" data-demo-screen="${sent ? "shelf" : "people"}">${sent ? "View sent" : "Review intro"}</button>
+                </div>
+              </div>
+
+              <div class="card signal-card accent-read">
+                <div class="card-head">
+                  <div>
+                    <p class="kicker">Shared shelf</p>
+                    <h3>AI Awakening reading room</h3>
+                  </div>
+                  <div class="mini-stack" aria-label="Shawn, Yedu, Humzah">
+                    <span class="mini-avatar m-shawn">S</span>
+                    <span class="mini-avatar m-yedu">Y</span>
+                    <span class="mini-avatar m-humzah">H</span>
+                  </div>
+                </div>
+                <p>Two new highlights landed since yesterday. One is ready to turn into a prompt.</p>
+                <div class="action-row">
+                  <button class="btn" type="button" data-demo-screen="people">People</button>
+                  <button class="btn primary" type="button" data-demo-screen="shelf">Open shelf</button>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+
+        function renderPeople() {
+          const saved = state.savedPeople.includes("maya");
+          return `
+            <h2>Not a cold match.</h2>
+            <p class="screen-sub">This is a public-slice overlap through Humzah's policy circle.</p>
+
+            <div class="profile-hero">
+              <div class="person-row">
+                <div class="avatar">M</div>
+                <div>
+                  <h3>Maya Patel</h3>
+                  <p>Mutual: Humzah - 4 shared sources</p>
+                </div>
+              </div>
+              <div class="overlap-meter">
+                <div class="meter" aria-hidden="true"><span></span></div>
+                <div class="meter-label">strong</div>
+              </div>
+              <div class="pill-row">
+                <span class="pill teal">agentic memory</span>
+                <span class="pill plum">public-interest tech</span>
+                <span class="pill">longform</span>
+              </div>
+            </div>
+
+            <div class="source-list">
+              ${personSources.map(renderPersonSource).join("")}
+            </div>
+
+            <div class="reason-card">
+              <p><strong>Agent read:</strong> you are both asking how private knowledge can become social without becoming a feed.</p>
+            </div>
+
+            <div class="privacy-line">
+              <span class="lock" aria-hidden="true"></span>
+              <span>Only Maya's public slice is visible. Full vault hidden.</span>
+            </div>
+
+            <div class="action-row">
+              <button class="btn" type="button" data-demo-action="save-person" ${saved ? "disabled" : ""}>${saved ? "Saved" : "Save person"}</button>
+              <button class="btn primary" type="button" data-demo-action="ask-intro">Ask for intro</button>
+            </div>
+          `;
+        }
+
+        function renderPersonSource(item) {
+          return `
+            <div class="card source-card">
+              <div class="source-thumb ${item.cls}">${escapeHtml(item.thumb)}</div>
+              <div>
+                <p class="kicker">${escapeHtml(item.kicker)}</p>
+                <h3>${escapeHtml(item.title)}</h3>
+                <p>${escapeHtml(item.text)}</p>
+              </div>
+            </div>
+          `;
+        }
+
+        function renderRead() {
+          const orderedHighlights = [
+            state.perspective,
+            ...Object.keys(highlights).filter((key) => key !== state.perspective),
+          ];
+          const shelved = state.shelf.includes(source.id);
+          return `
+            <h2>Read this together</h2>
+            <p class="screen-sub">A bounded daily deck from the sources your circle is already marking up.</p>
+
+            <div class="card read-card">
+              <div class="reader-meta">
+                <div class="reader-title">
+                  <p class="kicker">Source - essay</p>
+                  <h3>${escapeHtml(source.title)}</h3>
+                </div>
+                <span class="read-time">${source.time}</span>
+              </div>
+
+              <blockquote class="quote">${escapeHtml(source.quote)}</blockquote>
+
+              <div class="source-tabs" role="tablist" aria-label="Highlight perspective">
+                ${Object.entries(highlights)
+                  .map(([key, item]) => {
+                    const active = key === state.perspective;
+                    return `<button type="button" role="tab" aria-selected="${active}" class="${active ? "active" : ""}" data-perspective="${key}">${escapeHtml(item.label)}</button>`;
+                  })
+                  .join("")}
+              </div>
+
+              <div class="highlight-lane">
+                ${orderedHighlights
+                  .map((key) => {
+                    const item = highlights[key];
+                    return `
+                      <div class="highlight">
+                        <span class="mini-avatar ${item.cls}">${escapeHtml(item.avatar)}</span>
+                        <p>${escapeHtml(item.text)}</p>
+                      </div>
+                    `;
+                  })
+                  .join("")}
+              </div>
+
+              <div class="pill-row">
+                <span class="pill teal">2 matching highlights</span>
+                <span class="pill">1 prompt ready</span>
+              </div>
+            </div>
+
+            <div class="progress-strip" aria-label="Daily reading progress">
+              <span class="ring done"></span>
+              <span class="ring done"></span>
+              <span class="ring current"></span>
+              <span class="ring"></span>
+              <span class="ring"></span>
+              <span class="ring"></span>
+              <span class="ring"></span>
+            </div>
+
+            <div class="action-row three">
+              <button class="btn" type="button" data-demo-action="pass-read">Pass</button>
+              <button class="btn" type="button" data-demo-action="shelf-read" ${shelved ? "disabled" : ""}>${shelved ? "Shelved" : "Shelf"}</button>
+              <button class="btn primary" type="button" data-demo-action="send-note">Send note</button>
+            </div>
+          `;
+        }
+
+        function renderIntro() {
+          const sent = state.sentIntros.includes("maya-agent-memory");
+          return `
+            <h2>Review the opener</h2>
+            <p class="screen-sub">The agent can prepare the social move. You decide whether it leaves the app.</p>
+
+            <div class="card proposal-card">
+              <div class="proposal-main">
+                <div class="avatar">M</div>
+                <h3>Coffee with Maya about agent memory?</h3>
+                <p>Suggested for Thursday afternoon. No message is sent until you confirm.</p>
+              </div>
+
+              <div class="why-grid">
+                <div class="why">
+                  <strong>Why her</strong>
+                  <span>4 shared sources and one mutual circle through Humzah.</span>
+                </div>
+                <div class="why">
+                  <strong>Why now</strong>
+                  <span>You both saved new notes on public/private memory this week.</span>
+                </div>
+                <div class="why">
+                  <strong>Boundary</strong>
+                  <span>Intro references only public source titles, not private annotations.</span>
+                </div>
+              </div>
+
+              <div class="draft">
+                <textarea class="draft-input" aria-label="Intro draft">${escapeHtml(state.draft)}</textarea>
+                <div class="tone-row" aria-label="Tone">
+                  ${Object.keys(drafts)
+                    .map((tone) => `<button type="button" class="tone ${tone === state.tone ? "active" : ""}" data-tone="${tone}">${tone}</button>`)
+                    .join("")}
+                </div>
+              </div>
+
+              <div class="action-row three">
+                <button class="btn" type="button" data-demo-action="pass-intro">Pass</button>
+                <button class="btn" type="button" data-demo-action="save-draft">Save draft</button>
+                <button class="btn amber" type="button" data-demo-action="send-intro" ${sent ? "disabled" : ""}>${sent ? "Sent" : "Send"}</button>
+              </div>
+            </div>
+
+            <div class="privacy-line">
+              <span class="lock" aria-hidden="true"></span>
+              <span>Agent action requires explicit confirmation.</span>
+            </div>
+          `;
+        }
+
+        function renderShelf() {
+          const items = [];
+          if (state.shelf.includes(source.id)) {
+            items.push(`
+              <div class="card source-card">
+                <div class="source-thumb teal">${source.thumb}</div>
+                <div>
+                  <p class="kicker">Shelved source</p>
+                  <h3>${escapeHtml(source.title)}</h3>
+                  <p>Saved from the co-reading deck with Yedu and Maya's public highlights attached.</p>
+                </div>
+              </div>
+            `);
+          }
+          if (state.savedPeople.includes("maya")) {
+            items.push(`
+              <div class="card source-card">
+                <div class="source-thumb plum">M</div>
+                <div>
+                  <p class="kicker">Saved person</p>
+                  <h3>Maya Patel</h3>
+                  <p>Public-interest tech, collective intelligence, and agentic memory overlap.</p>
+                </div>
+              </div>
+            `);
+          }
+          if (state.shelf.includes("intro-draft")) {
+            items.push(`
+              <div class="card source-card">
+                <div class="source-thumb amber">IN</div>
+                <div>
+                  <p class="kicker">Draft</p>
+                  <h3>Maya intro opener</h3>
+                  <p>${escapeHtml(state.draft)}</p>
+                </div>
+              </div>
+            `);
+          }
+          if (state.sentIntros.includes("maya-agent-memory")) {
+            items.push(`
+              <div class="card source-card">
+                <div class="source-thumb teal">OK</div>
+                <div>
+                  <p class="kicker">Confirmed</p>
+                  <h3>Intro to Maya sent</h3>
+                  <p>The message referenced public source titles only. Private annotations stayed local.</p>
+                </div>
+              </div>
+            `);
+          }
+
+          return `
+            <h2>Your social shelf</h2>
+            <p class="screen-sub">A low-pressure place for sources, people, drafts, and confirmed agent moves.</p>
+            <div class="agent-strip">
+              <span class="agent-dot"></span>
+              <span>${items.length || "No"} saved item${items.length === 1 ? "" : "s"} from this session.</span>
+            </div>
+            <div class="shelf-list">
+              ${
+                items.length
+                  ? items.join("")
+                  : `<div class="card signal-card">
+                      <p class="kicker">Empty shelf</p>
+                      <h3>Nothing saved yet.</h3>
+                      <p>Start with a source or person from Today. The agent will keep the evidence attached.</p>
+                    </div>`
+              }
+            </div>
+            <div class="action-row">
+              <button class="btn" type="button" data-demo-screen="today">Back today</button>
+              <button class="btn primary" type="button" data-demo-screen="read">Read next</button>
+            </div>
+          `;
+        }
+
+        function renderNav() {
+          const nav = [
+            ["today", "Today"],
+            ["read", "Sources"],
+            ["people", "People"],
+            ["shelf", "Shelf"],
+          ];
+          return `
+            <nav class="bottom-nav" aria-label="Primary">
+              ${nav
+                .map(([screen, label]) => {
+                  const active = state.screen === screen;
+                  return `
+                    <button class="nav-item ${active ? "active" : ""}" type="button" data-demo-screen="${screen}" aria-current="${active ? "page" : "false"}">
+                      <span class="nav-dot"></span>
+                      <span>${label}</span>
+                    </button>
+                  `;
+                })
+                .join("")}
+            </nav>
+          `;
+        }
+
+        function renderStats() {
+          const stats = [
+            [state.shelf.filter((item) => item !== "intro-draft").length, "Sources"],
+            [state.savedPeople.length, "People"],
+            [state.sentIntros.length, "Intros"],
+          ];
+          demoStats.innerHTML = stats
+            .map(
+              ([value, label]) => `
+                <div class="demo-stat">
+                  <strong>${value}</strong>
+                  <span>${label}</span>
+                </div>
+              `,
+            )
+            .join("");
+        }
+
+        function renderLog() {
+          demoLog.innerHTML = state.log
+            .slice(0, 7)
+            .map((item) => `<div class="demo-log-item">${escapeHtml(item)}</div>`)
+            .join("");
+        }
+
+        function pushLog(message) {
+          state.log = [message, ...state.log.filter((item) => item !== message)].slice(0, 8);
+        }
+
+        function addUnique(list, item) {
+          if (!list.includes(item)) list.push(item);
+        }
+
+        function copySummary() {
+          const summary = JSON.stringify(
+            {
+              screen: state.screen,
+              shelf: state.shelf,
+              savedPeople: state.savedPeople,
+              sentIntros: state.sentIntros,
+              currentDraft: state.draft,
+              recentAgentLog: state.log.slice(0, 5),
+            },
+            null,
+            2,
+          );
+
+          if (navigator.clipboard) {
+            navigator.clipboard
+              .writeText(summary)
+              .then(() => showToast("Demo state copied."))
+              .catch(() => fallbackCopy(summary));
+          } else {
+            fallbackCopy(summary);
+          }
+        }
+
+        function fallbackCopy(text) {
+          const textarea = document.createElement("textarea");
+          textarea.value = text;
+          textarea.setAttribute("readonly", "");
+          textarea.style.position = "fixed";
+          textarea.style.top = "-240px";
+          document.body.append(textarea);
+          textarea.select();
+          let copied = false;
+          try {
+            copied = document.execCommand("copy");
+          } catch {
+            copied = false;
+          }
+          textarea.remove();
+          showToast(copied ? "Demo state copied." : "Copy unavailable in this browser.");
+        }
+
+        let toastTimer;
+        function showToast(message) {
+          let toast = document.querySelector(".toast-demo");
+          if (!toast) {
+            toast = document.createElement("div");
+            toast.className = "toast-demo";
+            document.body.append(toast);
+          }
+          toast.textContent = message;
+          toast.classList.add("visible");
+          clearTimeout(toastTimer);
+          toastTimer = setTimeout(() => toast.classList.remove("visible"), 1700);
+        }
+
+        function scrollPrototypeIntoView() {
+          document.querySelector(".prototype-demo")?.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+        }
+
+        function escapeHtml(value) {
+          return String(value).replace(/[&<>"']/g, (char) => {
+            const entities = {
+              "&": "&amp;",
+              "<": "&lt;",
+              ">": "&gt;",
+              '"': "&quot;",
+              "'": "&#39;",
+            };
+            return entities[char];
+          });
+        }
+      })();
+    </script>
+  </body>
+</html>

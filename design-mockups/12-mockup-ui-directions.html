@@ -1,0 +1,1302 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Honeycomb - UI direction studies</title>
+    <style>
+      :root {
+        --page: #f1eadf;
+        --ink: #15120f;
+        --muted: #70695f;
+        --line: rgba(21, 18, 15, 0.13);
+        --cream: #fff9ee;
+        --teal: #187a73;
+        --green: #075c37;
+        --amber: #e2a12f;
+        --purple: #7d55c7;
+        --rose: #d66f72;
+        --blue: #366eae;
+        --shadow: 0 30px 90px -42px rgba(23, 18, 12, 0.5);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        min-height: 100%;
+        background:
+          radial-gradient(circle at 20% 0%, rgba(255, 255, 255, 0.7), transparent 36rem),
+          linear-gradient(180deg, #f8f2e7, var(--page));
+        color: var(--ink);
+        font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      body {
+        padding: 42px 24px 76px;
+      }
+
+      .page {
+        max-width: 1220px;
+        margin: 0 auto;
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(300px, 0.76fr);
+        gap: 42px;
+        align-items: end;
+        margin-bottom: 32px;
+      }
+
+      .eyebrow {
+        margin: 0 0 10px;
+        color: var(--teal);
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        max-width: 760px;
+        margin: 0;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(42px, 7vw, 82px);
+        font-style: italic;
+        font-weight: 500;
+        line-height: 0.96;
+        letter-spacing: -0.02em;
+      }
+
+      .hero p {
+        margin: 0;
+        color: var(--muted);
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 18px;
+        line-height: 1.58;
+      }
+
+      .note {
+        margin: 0 0 34px;
+        padding: 18px 20px;
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        background: rgba(255, 249, 238, 0.72);
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.5;
+      }
+
+      .note strong {
+        color: var(--ink);
+      }
+
+      .directions {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(320px, 1fr));
+        gap: 28px;
+        align-items: start;
+      }
+
+      .study {
+        min-width: 0;
+      }
+
+      .phone {
+        width: 100%;
+        max-width: 390px;
+        min-height: 840px;
+        margin: 0 auto;
+        overflow: hidden;
+        border: 1px solid rgba(20, 17, 13, 0.15);
+        border-radius: 36px;
+        box-shadow: var(--shadow);
+      }
+
+      .status {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 21px 8px;
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .bars {
+        display: flex;
+        align-items: end;
+        gap: 4px;
+        height: 14px;
+      }
+
+      .bars i {
+        width: 5px;
+        border-radius: 999px;
+        background: currentColor;
+      }
+
+      .bars i:nth-child(1) {
+        height: 6px;
+      }
+
+      .bars i:nth-child(2) {
+        height: 10px;
+      }
+
+      .bars i:nth-child(3) {
+        height: 13px;
+      }
+
+      .cap {
+        max-width: 390px;
+        margin: 13px auto 0;
+        color: var(--muted);
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 14px;
+        line-height: 1.45;
+      }
+
+      .cap strong {
+        color: var(--ink);
+      }
+
+      .chip-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 7px;
+      }
+
+      .chip {
+        display: inline-flex;
+        align-items: center;
+        min-height: 28px;
+        padding: 6px 10px;
+        border-radius: 999px;
+        border: 1px solid rgba(15, 15, 15, 0.12);
+        background: rgba(255, 255, 255, 0.68);
+        color: inherit;
+        font-size: 11px;
+        font-weight: 800;
+        white-space: nowrap;
+      }
+
+      .avatar-stack {
+        display: flex;
+        align-items: center;
+      }
+
+      .avatar {
+        display: grid;
+        place-items: center;
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        border: 2px solid #fff;
+        color: #fff;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 12px;
+        font-style: italic;
+      }
+
+      .avatar + .avatar {
+        margin-left: -8px;
+      }
+
+      .shawn {
+        background: #cc6138;
+      }
+
+      .yedu {
+        background: #14736d;
+      }
+
+      .maya {
+        background: #376fa8;
+      }
+
+      .humzah {
+        background: #724ba7;
+      }
+
+      .btn {
+        min-height: 42px;
+        border: 1px solid rgba(15, 15, 15, 0.14);
+        border-radius: 999px;
+        background: #fff;
+        color: inherit;
+        font-size: 12px;
+        font-weight: 850;
+      }
+
+      .btn.primary {
+        border-color: #16120e;
+        background: #16120e;
+        color: #fff;
+      }
+
+      .action-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 9px;
+      }
+
+      /* Direction 1: Pi / TIDE inspired */
+      .direction-warm {
+        background: #f8ead8;
+        font-family: Georgia, "Times New Roman", serif;
+      }
+
+      .direction-warm .screen {
+        padding: 10px 22px 22px;
+      }
+
+      .warm-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 18px;
+      }
+
+      .warm-brand {
+        color: #0d5e3b;
+        font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        font-size: 11px;
+        font-weight: 900;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+
+      .warm-close {
+        display: grid;
+        place-items: center;
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.62);
+        color: #0d5e3b;
+        font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        font-weight: 900;
+      }
+
+      .warm-hero {
+        position: relative;
+        min-height: 244px;
+        overflow: hidden;
+        border-radius: 28px;
+        background: #064d2f;
+        color: #fff8ed;
+      }
+
+      .warm-hero::before,
+      .warm-hero::after {
+        content: "";
+        position: absolute;
+        left: -38px;
+        right: -38px;
+        height: 142px;
+        border-radius: 50% 50% 0 0;
+      }
+
+      .warm-hero::before {
+        top: -28px;
+        background: #f7d983;
+      }
+
+      .warm-hero::after {
+        top: 56px;
+        background:
+          radial-gradient(circle at 52% 0%, #ff7a1a 0 28px, transparent 29px),
+          linear-gradient(150deg, #5ccd7b 0 48%, #0c7448 49% 100%);
+      }
+
+      .warm-hero-content {
+        position: relative;
+        z-index: 1;
+        padding: 132px 24px 22px;
+      }
+
+      .warm-hero h2 {
+        max-width: 260px;
+        margin: 0 0 8px;
+        font-size: 30px;
+        font-weight: 500;
+        line-height: 1.02;
+      }
+
+      .warm-hero p {
+        max-width: 282px;
+        margin: 0;
+        font-size: 15px;
+        line-height: 1.4;
+      }
+
+      .warm-tile {
+        display: grid;
+        grid-template-columns: 1fr 100px;
+        gap: 13px;
+        align-items: center;
+        margin-top: 14px;
+        padding: 14px;
+        border-radius: 22px;
+        background: rgba(255, 249, 238, 0.9);
+        box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
+      }
+
+      .warm-tile h3 {
+        margin: 0 0 8px;
+        font-size: 22px;
+        line-height: 1.06;
+        font-weight: 500;
+      }
+
+      .warm-tile p {
+        margin: 0;
+        color: #6d5a45;
+        font-size: 13px;
+        line-height: 1.35;
+      }
+
+      .warm-art {
+        height: 102px;
+        border-radius: 20px;
+        background:
+          radial-gradient(circle at 26% 24%, #fff1ae 0 14px, transparent 15px),
+          radial-gradient(circle at 78% 30%, #ff7c5c 0 22px, transparent 23px),
+          linear-gradient(135deg, #2e8d71, #ecd28c 58%, #e55f39);
+      }
+
+      .warm-big {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        margin-top: 14px;
+        padding: 18px;
+        border-radius: 28px;
+        background:
+          linear-gradient(180deg, rgba(10, 66, 45, 0), rgba(10, 66, 45, 0.7)),
+          radial-gradient(circle at 78% 24%, #f7d077 0 52px, transparent 53px),
+          linear-gradient(135deg, #d96e42, #0a5838);
+        color: #fffaf0;
+      }
+
+      .warm-big h3 {
+        margin: 76px 0 0;
+        font-size: 30px;
+        line-height: 1.02;
+        font-weight: 500;
+      }
+
+      .warm-big .chip {
+        border-color: rgba(255, 255, 255, 0.24);
+        background: rgba(255, 255, 255, 0.18);
+      }
+
+      .warm-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 9px;
+        margin-top: 14px;
+      }
+
+      /* Direction 2: Liven / Alan / Nibble inspired */
+      .direction-clean {
+        background: #fbfcff;
+        color: #101828;
+      }
+
+      .clean-screen {
+        padding: 14px 21px 18px;
+      }
+
+      .clean-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 18px;
+      }
+
+      .clean-header h2 {
+        margin: 0;
+        font-size: 34px;
+        line-height: 1;
+        letter-spacing: -0.03em;
+      }
+
+      .clean-profile {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #dff7f4, #f2e3ff);
+        border: 1px solid rgba(16, 24, 40, 0.08);
+      }
+
+      .weekday {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 6px;
+        margin-bottom: 18px;
+      }
+
+      .weekday span {
+        display: grid;
+        place-items: center;
+        height: 34px;
+        border-radius: 50%;
+        color: #8790a1;
+        background: #f1f3f8;
+        font-size: 11px;
+        font-weight: 800;
+      }
+
+      .weekday .active {
+        background: #e7d7ff;
+        color: var(--purple);
+        box-shadow: inset 0 0 0 2px #c7a7ff;
+      }
+
+      .clean-agent {
+        display: grid;
+        grid-template-columns: 1fr 72px;
+        gap: 14px;
+        align-items: center;
+        margin-bottom: 14px;
+        padding: 15px;
+        border-radius: 24px;
+        background: linear-gradient(120deg, #d8fbf1, #fbf0c4);
+      }
+
+      .clean-agent h3,
+      .clean-card h3 {
+        margin: 0 0 5px;
+        font-size: 19px;
+        line-height: 1.16;
+        letter-spacing: -0.02em;
+      }
+
+      .clean-agent p,
+      .clean-card p {
+        margin: 0;
+        color: #667085;
+        font-size: 12.5px;
+        line-height: 1.42;
+      }
+
+      .clean-orb {
+        width: 70px;
+        height: 70px;
+        border-radius: 22px;
+        background:
+          radial-gradient(circle at 68% 30%, #fff 0 12px, transparent 13px),
+          linear-gradient(135deg, #54d6c9, #7a5cff);
+      }
+
+      .clean-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .clean-card {
+        display: grid;
+        grid-template-columns: 1fr 76px;
+        gap: 12px;
+        align-items: center;
+        padding: 14px;
+        border: 1px solid #e6e8ef;
+        border-radius: 22px;
+        background: #fff;
+      }
+
+      .clean-icon {
+        width: 74px;
+        height: 74px;
+        border-radius: 20px;
+      }
+
+      .clean-icon.one {
+        background:
+          radial-gradient(circle at 28% 28%, #ffda55 0 15px, transparent 16px),
+          linear-gradient(135deg, #b8efff, #f6d4ff);
+      }
+
+      .clean-icon.two {
+        background:
+          radial-gradient(circle at 72% 34%, #ff7272 0 17px, transparent 18px),
+          linear-gradient(135deg, #e7fff5, #ffe2b4);
+      }
+
+      .clean-icon.three {
+        background:
+          radial-gradient(circle at 42% 30%, #7a5cff 0 15px, transparent 16px),
+          linear-gradient(135deg, #ffedcf, #dcf8ff);
+      }
+
+      .clean-bottom {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 6px;
+        margin-top: 24px;
+        padding: 12px;
+        border-radius: 28px;
+        background: rgba(255, 255, 255, 0.86);
+        box-shadow: 0 10px 26px -20px rgba(16, 24, 40, 0.4);
+      }
+
+      .clean-bottom span {
+        display: grid;
+        place-items: center;
+        gap: 5px;
+        color: #98a2b3;
+        font-size: 10px;
+        font-weight: 800;
+      }
+
+      .clean-bottom i {
+        width: 18px;
+        height: 18px;
+        border-radius: 8px;
+        background: currentColor;
+        opacity: 0.6;
+      }
+
+      .clean-bottom .active {
+        color: var(--teal);
+      }
+
+      /* Direction 3: Pinterest / Speak / Weverse inspired */
+      .direction-board {
+        background: #fff;
+        color: #111;
+      }
+
+      .board-screen {
+        padding: 13px 18px 18px;
+      }
+
+      .board-title {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        margin: 4px 0 16px;
+      }
+
+      .board-title h2 {
+        margin: 0;
+        font-size: 31px;
+        line-height: 1;
+        letter-spacing: -0.04em;
+      }
+
+      .board-title span {
+        color: #b3b3b3;
+      }
+
+      .board-actions {
+        display: flex;
+        gap: 8px;
+      }
+
+      .circle-btn {
+        display: grid;
+        place-items: center;
+        width: 38px;
+        height: 38px;
+        border: 0;
+        border-radius: 50%;
+        background: #f3f4f7;
+        font-size: 18px;
+        font-weight: 900;
+      }
+
+      .filter-row {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 14px;
+      }
+
+      .filter-row span {
+        padding: 9px 13px;
+        border-radius: 999px;
+        background: #f3f4f7;
+        font-size: 13px;
+        font-weight: 850;
+      }
+
+      .filter-row .active {
+        background: #111;
+        color: #fff;
+      }
+
+      .masonry {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .tile {
+        position: relative;
+        min-height: 176px;
+        overflow: hidden;
+        border-radius: 24px;
+        background: #ddd;
+        color: #fff;
+      }
+
+      .tile.tall {
+        min-height: 242px;
+      }
+
+      .tile::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, transparent 34%, rgba(0, 0, 0, 0.62));
+      }
+
+      .tile.one {
+        background:
+          radial-gradient(circle at 28% 24%, #ffd676 0 36px, transparent 37px),
+          linear-gradient(145deg, #1c745f, #c85d42);
+      }
+
+      .tile.two {
+        background:
+          radial-gradient(circle at 74% 28%, #94d8ff 0 32px, transparent 33px),
+          linear-gradient(145deg, #6d54c7, #202332);
+      }
+
+      .tile.three {
+        background:
+          radial-gradient(circle at 35% 18%, #ffbfd1 0 40px, transparent 41px),
+          linear-gradient(145deg, #084a36, #d89a30);
+      }
+
+      .tile.four {
+        background:
+          radial-gradient(circle at 76% 20%, #f3e36f 0 34px, transparent 35px),
+          linear-gradient(145deg, #2a5d92, #6f3f7d);
+      }
+
+      .tile-content {
+        position: absolute;
+        left: 14px;
+        right: 14px;
+        bottom: 14px;
+      }
+
+      .tile-kicker {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 6px;
+        font-size: 11px;
+        font-weight: 800;
+      }
+
+      .tile h3 {
+        margin: 0;
+        font-size: 20px;
+        line-height: 1.05;
+        letter-spacing: -0.03em;
+      }
+
+      .tile p {
+        margin: 5px 0 0;
+        color: rgba(255, 255, 255, 0.82);
+        font-size: 12px;
+        line-height: 1.25;
+      }
+
+      .float-cta {
+        position: relative;
+        z-index: 2;
+        width: 225px;
+        margin: -24px auto 0;
+        min-height: 50px;
+        border: 0;
+        border-radius: 999px;
+        background: #2370ff;
+        color: #fff;
+        box-shadow: 0 16px 40px -20px rgba(35, 112, 255, 0.9);
+        font-size: 16px;
+        font-weight: 850;
+      }
+
+      .board-tabs {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        margin: 22px -18px -18px;
+        padding: 13px 18px 16px;
+        background: rgba(255, 255, 255, 0.88);
+        border-top: 1px solid #e8e8e8;
+        text-align: center;
+        color: #9b9b9b;
+        font-size: 10px;
+        font-weight: 800;
+      }
+
+      .board-tabs .active {
+        color: #2370ff;
+      }
+
+      /* Direction 4: IMDb / yope inspired */
+      .direction-dark {
+        background: #050506;
+        color: #f8f8f5;
+      }
+
+      .dark-screen {
+        padding: 14px 20px 20px;
+      }
+
+      .dark-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 22px;
+      }
+
+      .dark-icon {
+        display: grid;
+        place-items: center;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: #19191d;
+        color: #fff;
+        font-size: 22px;
+      }
+
+      .dark-logo {
+        padding: 7px 15px;
+        border-radius: 999px;
+        background: #fff;
+        color: #050506;
+        font-size: 18px;
+        font-weight: 950;
+        letter-spacing: -0.05em;
+      }
+
+      .dark-segment {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 4px;
+        margin-bottom: 18px;
+        padding: 4px;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 999px;
+        background: #141418;
+      }
+
+      .dark-segment span {
+        padding: 9px 4px;
+        border-radius: 999px;
+        color: #aaa;
+        font-size: 12px;
+        font-weight: 850;
+        text-align: center;
+      }
+
+      .dark-segment .active {
+        background: #36363d;
+        color: #fff;
+      }
+
+      .dark-card {
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 25px;
+        background: linear-gradient(180deg, #151519, #0c0c0f);
+      }
+
+      .dark-card + .dark-card {
+        margin-top: 13px;
+      }
+
+      .dark-main {
+        overflow: hidden;
+      }
+
+      .dark-visual {
+        height: 156px;
+        background:
+          radial-gradient(circle at 70% 30%, #46d9ff 0 38px, transparent 39px),
+          radial-gradient(circle at 26% 24%, #e7a32e 0 28px, transparent 29px),
+          linear-gradient(135deg, #106f61, #181829 65%, #4a1e63);
+      }
+
+      .dark-body {
+        padding: 16px;
+      }
+
+      .dark-body h2 {
+        margin: 0 0 8px;
+        font-size: 29px;
+        line-height: 1;
+        letter-spacing: -0.06em;
+      }
+
+      .dark-body p {
+        margin: 0;
+        color: #b9b9bd;
+        font-size: 13px;
+        line-height: 1.42;
+      }
+
+      .dark-source {
+        display: grid;
+        grid-template-columns: 54px 1fr auto;
+        gap: 12px;
+        align-items: center;
+        padding: 13px;
+      }
+
+      .dark-thumb {
+        width: 54px;
+        height: 54px;
+        border-radius: 14px;
+        background: #222;
+      }
+
+      .dark-thumb.green {
+        background: linear-gradient(135deg, #0a8761, #e6a52d);
+      }
+
+      .dark-thumb.purple {
+        background: linear-gradient(135deg, #7047b8, #2e91b8);
+      }
+
+      .dark-source h3 {
+        margin: 0 0 4px;
+        font-size: 15px;
+        line-height: 1.2;
+      }
+
+      .dark-source p {
+        margin: 0;
+        color: #94949a;
+        font-size: 12px;
+      }
+
+      .dark-check {
+        display: grid;
+        place-items: center;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: #f3c742;
+        color: #050506;
+        font-size: 14px;
+        font-weight: 950;
+      }
+
+      .dark-send {
+        margin-top: 15px;
+        padding: 15px;
+        border-radius: 24px;
+        background: #19191d;
+      }
+
+      .dark-send p {
+        margin: 0 0 13px;
+        color: #d8d8dc;
+        font-size: 13px;
+        line-height: 1.43;
+      }
+
+      .dark-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 9px;
+      }
+
+      .dark-actions .btn {
+        border-color: rgba(255, 255, 255, 0.12);
+        background: #28282e;
+        color: #fff;
+      }
+
+      .dark-actions .btn.primary {
+        border-color: #f3c742;
+        background: #f3c742;
+        color: #050506;
+      }
+
+      .reference {
+        margin-top: 46px;
+        padding: 26px;
+        border: 1px solid var(--line);
+        border-radius: 26px;
+        background: rgba(255, 249, 238, 0.74);
+      }
+
+      .reference h2 {
+        margin: 0 0 16px;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 30px;
+        font-style: italic;
+        font-weight: 500;
+      }
+
+      .ref-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .ref {
+        padding: 15px;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: #fffaf1;
+      }
+
+      .ref strong {
+        display: block;
+        margin-bottom: 7px;
+        font-size: 12px;
+        line-height: 1.25;
+      }
+
+      .ref span {
+        display: block;
+        color: var(--muted);
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 13px;
+        line-height: 1.38;
+      }
+
+      @media (max-width: 860px) {
+        .hero,
+        .directions,
+        .ref-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 480px) {
+        body {
+          padding: 28px 14px 56px;
+        }
+
+        .phone {
+          min-height: 820px;
+        }
+
+        .reference {
+          padding: 20px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <main class="page">
+      <section class="hero">
+        <div>
+          <p class="eyebrow">UI studies grounded in Mobbin</p>
+          <h1>Same Honeycomb system, different surface languages.</h1>
+        </div>
+        <p>
+          The last mockup proved the UX pattern: agents find source overlap and
+          convert it into one social move. This page keeps that system and
+          tests four UI directions from current mobile patterns.
+        </p>
+      </section>
+
+      <p class="note">
+        <strong>Read these as visual studies, not final IA.</strong> Each phone uses
+        the same product promise: shared sources, visible boundary, and one next
+        action. The question is which interface register feels most like
+        Honeycomb.
+      </p>
+
+      <section class="directions" aria-label="Honeycomb UI direction studies">
+        <article class="study">
+          <div class="phone direction-warm">
+            <div class="status">
+              <span>9:41</span>
+              <span class="bars" aria-hidden="true"><i></i><i></i><i></i></span>
+            </div>
+            <div class="screen">
+              <div class="warm-top">
+                <span class="warm-brand">Honeycomb</span>
+                <span class="warm-close">x</span>
+              </div>
+
+              <section class="warm-hero">
+                <div class="warm-hero-content">
+                  <h2>A shared question is rising.</h2>
+                  <p>Your agent found one source that three people in your circle are circling.</p>
+                </div>
+              </section>
+
+              <section class="warm-tile">
+                <div>
+                  <h3>Read with Yedu</h3>
+                  <p>Both of you marked the same LLM wiki passage this week.</p>
+                  <div class="chip-row" style="margin-top: 10px;">
+                    <span class="chip">9 min</span>
+                    <span class="chip">2 highlights</span>
+                  </div>
+                </div>
+                <div class="warm-art"></div>
+              </section>
+
+              <section class="warm-big">
+                <div class="avatar-stack">
+                  <span class="avatar shawn">S</span>
+                  <span class="avatar maya">M</span>
+                  <span class="avatar humzah">H</span>
+                </div>
+                <h3>Ask Maya about social memory?</h3>
+                <div class="chip-row">
+                  <span class="chip">public slice only</span>
+                  <span class="chip">warm intro</span>
+                </div>
+              </section>
+
+              <div class="warm-actions">
+                <button class="btn">Save for later</button>
+                <button class="btn primary">Review opener</button>
+              </div>
+            </div>
+          </div>
+          <p class="cap"><strong>A - Illustrated editorial.</strong> Borrowed from Pi and TIDE: immersive cards, warmth, and one large daily moment. Best if Honeycomb should feel reflective and emotionally intelligent.</p>
+        </article>
+
+        <article class="study">
+          <div class="phone direction-clean">
+            <div class="status">
+              <span>9:41</span>
+              <span class="bars" aria-hidden="true"><i></i><i></i><i></i></span>
+            </div>
+            <div class="clean-screen">
+              <div class="clean-header">
+                <h2>For you</h2>
+                <div class="clean-profile"></div>
+              </div>
+
+              <div class="weekday" aria-label="Week">
+                <span>SUN</span>
+                <span>MON</span>
+                <span>TUE</span>
+                <span class="active">WED</span>
+                <span>THU</span>
+                <span>FRI</span>
+                <span>SAT</span>
+              </div>
+
+              <section class="clean-agent">
+                <div>
+                  <h3>3 overlaps ready today</h3>
+                  <p>One read, one person, one shelf update. All from approved public slices.</p>
+                </div>
+                <div class="clean-orb"></div>
+              </section>
+
+              <div class="clean-list">
+                <section class="clean-card">
+                  <div>
+                    <div class="chip-row" style="margin-bottom: 9px;">
+                      <span class="chip">Read</span>
+                      <span class="chip">Yedu</span>
+                    </div>
+                    <h3>LLM wikis as living context</h3>
+                    <p>9 min article. 2 matching highlights.</p>
+                  </div>
+                  <div class="clean-icon one"></div>
+                </section>
+
+                <section class="clean-card">
+                  <div>
+                    <div class="chip-row" style="margin-bottom: 9px;">
+                      <span class="chip">Intro</span>
+                      <span class="chip">Maya</span>
+                    </div>
+                    <h3>Public memory, private boundary</h3>
+                    <p>Draft a 20-minute coffee opener.</p>
+                  </div>
+                  <div class="clean-icon two"></div>
+                </section>
+
+                <section class="clean-card">
+                  <div>
+                    <div class="chip-row" style="margin-bottom: 9px;">
+                      <span class="chip">Shelf</span>
+                      <span class="chip">3 people</span>
+                    </div>
+                    <h3>AI Awakening reading room</h3>
+                    <p>Two new notes from Humzah and Shawn.</p>
+                  </div>
+                  <div class="clean-icon three"></div>
+                </section>
+              </div>
+
+              <nav class="clean-bottom" aria-label="Primary">
+                <span class="active"><i></i>Today</span>
+                <span><i></i>Read</span>
+                <span><i></i>People</span>
+                <span><i></i>Shelf</span>
+              </nav>
+            </div>
+          </div>
+          <p class="cap"><strong>B - Clean native utility.</strong> Borrowed from Liven, Alan, and Nibble: soft gradients, obvious cards, fast scanning. Best if Honeycomb should feel mainstream and easy.</p>
+        </article>
+
+        <article class="study">
+          <div class="phone direction-board">
+            <div class="status">
+              <span>9:41</span>
+              <span class="bars" aria-hidden="true"><i></i><i></i><i></i></span>
+            </div>
+            <div class="board-screen">
+              <div class="board-title">
+                <h2>Community <span>Sources</span></h2>
+                <div class="board-actions">
+                  <button class="circle-btn">↻</button>
+                  <button class="circle-btn">♡</button>
+                </div>
+              </div>
+
+              <div class="filter-row">
+                <span class="active">Agent picks</span>
+                <span>New</span>
+                <span>Friends</span>
+              </div>
+
+              <section class="masonry" aria-label="Source board">
+                <div class="tile one tall">
+                  <div class="tile-content">
+                    <div class="tile-kicker"><span>@yedu</span><span>3</span></div>
+                    <h3>Agent loops without loneliness</h3>
+                    <p>Marked by Shawn and Yedu.</p>
+                  </div>
+                </div>
+                <div class="tile two">
+                  <div class="tile-content">
+                    <div class="tile-kicker"><span>@maya</span><span>2</span></div>
+                    <h3>Social memory</h3>
+                    <p>Ask for intro?</p>
+                  </div>
+                </div>
+                <div class="tile three">
+                  <div class="tile-content">
+                    <div class="tile-kicker"><span>@humzah</span><span>4</span></div>
+                    <h3>Shared shelf</h3>
+                    <p>New longform pick.</p>
+                  </div>
+                </div>
+                <div class="tile four tall">
+                  <div class="tile-content">
+                    <div class="tile-kicker"><span>@circle</span><span>7</span></div>
+                    <h3>Public slices</h3>
+                    <p>Only approved titles are visible.</p>
+                  </div>
+                </div>
+              </section>
+
+              <button class="float-cta">Review intro</button>
+
+              <nav class="board-tabs" aria-label="Primary">
+                <span class="active">Home</span>
+                <span>Search</span>
+                <span>People</span>
+                <span>Shelf</span>
+              </nav>
+            </div>
+          </div>
+          <p class="cap"><strong>C - Social source board.</strong> Borrowed from Pinterest, Speak, and Weverse: visual browsing, filters, and community energy. Best if Honeycomb should feel like a watering hole.</p>
+        </article>
+
+        <article class="study">
+          <div class="phone direction-dark">
+            <div class="status">
+              <span>9:41</span>
+              <span class="bars" aria-hidden="true"><i></i><i></i><i></i></span>
+            </div>
+            <div class="dark-screen">
+              <div class="dark-head">
+                <div class="dark-icon">⌕</div>
+                <div class="dark-logo">honeycomb</div>
+                <div class="dark-icon">+</div>
+              </div>
+
+              <div class="dark-segment">
+                <span class="active">Today</span>
+                <span>Sources</span>
+                <span>People</span>
+              </div>
+
+              <section class="dark-card dark-main">
+                <div class="dark-visual"></div>
+                <div class="dark-body">
+                  <h2>You and Maya are reading around the same edge.</h2>
+                  <p>Four public source overlaps on agent memory, social capital, and private knowledge boundaries.</p>
+                  <div class="chip-row" style="margin-top: 13px;">
+                    <span class="chip">public slice</span>
+                    <span class="chip">warm intro</span>
+                  </div>
+                </div>
+              </section>
+
+              <section class="dark-card dark-source">
+                <div class="dark-thumb green"></div>
+                <div>
+                  <h3>LLM wikis as living context</h3>
+                  <p>2 matching highlights</p>
+                </div>
+                <span class="dark-check">✓</span>
+              </section>
+
+              <section class="dark-card dark-source">
+                <div class="dark-thumb purple"></div>
+                <div>
+                  <h3>Bowling Alone, social capital</h3>
+                  <p>Shared by Humzah</p>
+                </div>
+                <span class="dark-check">✓</span>
+              </section>
+
+              <section class="dark-send">
+                <p>Draft opener: "Humzah mentioned your work. We both marked up a few pieces on LLM wikis and social memory. Want to compare notes?"</p>
+                <div class="dark-actions">
+                  <button class="btn">Edit</button>
+                  <button class="btn primary">Send</button>
+                </div>
+              </section>
+            </div>
+          </div>
+          <p class="cap"><strong>D - Dark signal layer.</strong> Borrowed from IMDb and yope: high contrast, floating controls, and compressed cards. Best if Honeycomb should feel more agentic, nocturnal, and power-user.</p>
+        </article>
+      </section>
+
+      <section class="reference" aria-label="Mobbin grounding">
+        <p class="eyebrow">Reference map</p>
+        <h2>Mobbin patterns used for these directions.</h2>
+        <div class="ref-grid">
+          <div class="ref">
+            <strong>Pi / TIDE</strong>
+            <span>Warm illustrated modules, immersive daily moment cards, softer emotional register.</span>
+          </div>
+          <div class="ref">
+            <strong>Liven / Alan / Nibble</strong>
+            <span>Native-feeling recommendation rows, pastel utility cards, clear daily progress.</span>
+          </div>
+          <div class="ref">
+            <strong>Pinterest / Speak / Weverse</strong>
+            <span>Visual community browsing, filter chips, floating creation/review affordances.</span>
+          </div>
+          <div class="ref">
+            <strong>IMDb / yope</strong>
+            <span>Dark chrome, segmented controls, compact stacked modules, strong action contrast.</span>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

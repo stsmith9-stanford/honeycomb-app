@@ -1,0 +1,707 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Honeycomb · Mockup C — Shawn / Yedu / Humzah (Constellation)</title>
+
+    <!--
+      MOCKUP C — Triad Blend, fundamentally different layout: Dark Constellation
+      Direction bucket: 3 (Dark Cosmic / Constellation Premium)
+
+      This is not a restyled Mockup B. The geometry is different:
+        - Mockup B encodes overlap as cell-and-satellite hexagonal geometry (set-theoretic).
+        - Mockup C encodes overlap as gravitational position in a continuous field —
+          each shared theme is a "star" positioned closer or further from each
+          user's "orb" depending on who contributed. The triad zones aren't
+          discrete hex compartments; they're regions in a soft 2-D field.
+
+      Stack of inspirations:
+        - Constellation of glowing nodes: Feeld "My Constellation", Tolan planet-orbit
+        - Three peer orbs at triangle vertices: Lapse three Memoji overlap, Apple Sports F1 leaderboard, Polywork Shuffle
+        - Translucent overlapping gradient bubbles: How We Feel 3-bubble weekly breakdown, Pillowtalk loader
+        - Co-Star birth chart wheel for the typographic register and dashed lines
+        - Right-side index list grouped by zone: Beli filterable overlap list, Particle News per-speaker grouping
+        - Side-sheet detail panel on tap: How We Feel color-filter dimming, Bear backlinks bottom-sheet
+        - "Field of stars" instead of compartments: Polywork orbital interests, Spotify Wrapped diverse-day card
+        - Per-recipient privacy tier dropdowns on a dark surface: Notion permissions (re-skinned)
+    -->
+
+    <style>
+      :root {
+        --bg-0: #0a0c14;
+        --bg-1: #11141f;
+        --bg-2: #1a1e2d;
+        --ink-0: #f4ede0;
+        --ink-1: #c5bfb1;
+        --ink-2: #8a8378;
+        --ink-3: #58524a;
+        --amber: #f0b95d;
+        --amber-glow: rgba(240, 185, 93, 0.4);
+
+        --shawn: #ff8a5b;
+        --shawn-glow: rgba(255, 138, 91, 0.55);
+        --yedu: #5ee0c5;
+        --yedu-glow: rgba(94, 224, 197, 0.55);
+        --humzah: #c87cff;
+        --humzah-glow: rgba(200, 124, 255, 0.55);
+
+        --rule: rgba(244, 237, 224, 0.08);
+      }
+
+      * { box-sizing: border-box; }
+
+      html, body {
+        margin: 0;
+        background: var(--bg-0);
+        color: var(--ink-0);
+        font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+        font-size: 16px;
+        line-height: 1.55;
+        -webkit-font-smoothing: antialiased;
+        overflow-x: hidden;
+      }
+
+      /* subtle starfield background */
+      body::before {
+        content: '';
+        position: fixed; inset: 0;
+        background-image:
+          radial-gradient(1px 1px at 12% 18%, rgba(255,255,255,0.5), transparent 40%),
+          radial-gradient(1px 1px at 78% 33%, rgba(255,255,255,0.4), transparent 40%),
+          radial-gradient(1px 1px at 41% 71%, rgba(255,255,255,0.35), transparent 40%),
+          radial-gradient(1px 1px at 89% 84%, rgba(255,255,255,0.45), transparent 40%),
+          radial-gradient(1px 1px at 23% 59%, rgba(255,255,255,0.4), transparent 40%),
+          radial-gradient(1px 1px at 65% 12%, rgba(255,255,255,0.5), transparent 40%),
+          radial-gradient(1px 1px at 8% 88%, rgba(255,255,255,0.4), transparent 40%),
+          radial-gradient(1px 1px at 51% 47%, rgba(255,255,255,0.3), transparent 40%);
+        background-size: 600px 600px, 700px 700px, 900px 900px, 800px 800px, 650px 650px, 750px 750px, 600px 600px, 800px 800px;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      .topbar {
+        position: sticky; top: 0; z-index: 10;
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        align-items: center;
+        gap: 32px;
+        padding: 18px 40px;
+        background: rgba(10, 12, 20, 0.78);
+        backdrop-filter: blur(14px);
+        border-bottom: 1px solid var(--rule);
+      }
+      .wordmark {
+        font-family: Georgia, serif;
+        font-weight: 500;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        font-size: 11.5px;
+        color: var(--ink-2);
+      }
+      .wordmark .dot { color: var(--amber); }
+
+      /* per-recipient privacy — dark version */
+      .privacy-strip {
+        display: flex; gap: 12px;
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 12px;
+        color: var(--ink-1);
+      }
+      .privacy-strip .label {
+        align-self: center;
+        color: var(--ink-3);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        font-size: 10.5px;
+      }
+      .recipient-pill {
+        display: inline-flex; align-items: center; gap: 6px;
+        padding: 4px 10px 4px 4px;
+        border-radius: 999px;
+        background: var(--bg-2);
+        border: 1px solid var(--rule);
+      }
+      .recipient-pill .av {
+        width: 18px; height: 18px; border-radius: 50%;
+        display: inline-flex; align-items: center; justify-content: center;
+        font-size: 9.5px; font-weight: 600; color: white;
+        font-family: -apple-system, system-ui, sans-serif;
+      }
+      .recipient-pill .av.yedu { background: var(--yedu); color: #043b30; }
+      .recipient-pill .av.humzah { background: var(--humzah); color: #2c0a4c; }
+      .recipient-pill select {
+        appearance: none; -webkit-appearance: none;
+        border: none; background: transparent;
+        font: inherit; color: var(--ink-1);
+        padding-right: 14px;
+        cursor: pointer;
+      }
+
+      .actions { display: flex; justify-content: flex-end; gap: 10px; font-family: -apple-system, system-ui, sans-serif; font-size: 13px; }
+      .btn {
+        padding: 8px 14px; border-radius: 999px;
+        background: transparent; color: var(--ink-1); border: 1px solid var(--rule); cursor: pointer;
+      }
+      .btn.primary { background: var(--amber); color: #2a1c00; border-color: var(--amber); font-weight: 500; }
+
+      .page {
+        position: relative; z-index: 1;
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 48px 40px 96px;
+      }
+
+      /* HERO */
+      .hero { text-align: center; margin-bottom: 28px; }
+      .hero-kicker {
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
+        color: var(--ink-3);
+        margin-bottom: 22px;
+      }
+      .triad-name-lockup {
+        font-family: Georgia, serif;
+        font-style: italic;
+        font-size: 38px;
+        letter-spacing: -0.01em;
+        display: inline-flex; gap: 22px; align-items: baseline;
+      }
+      .triad-name-lockup .nm.shawn  { color: var(--shawn); }
+      .triad-name-lockup .nm.yedu   { color: var(--yedu); }
+      .triad-name-lockup .nm.humzah { color: var(--humzah); }
+      .triad-name-lockup .sep { color: var(--ink-3); font-size: 22px; }
+      .hero-sub {
+        margin-top: 18px;
+        font-size: 18px;
+        color: var(--ink-1);
+        max-width: 700px;
+        margin-left: auto; margin-right: auto;
+      }
+      .hero-sub em { color: var(--amber); font-style: italic; }
+
+      /* MAIN LAYOUT — constellation field + side index */
+      .constellation-wrap {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 340px;
+        gap: 36px;
+        margin: 40px 0 60px;
+      }
+
+      /* FIELD — the constellation canvas */
+      .field {
+        position: relative;
+        height: 620px;
+        border-radius: 24px;
+        background:
+          radial-gradient(circle at 50% 8%, var(--shawn-glow), transparent 26%),
+          radial-gradient(circle at 12% 88%, var(--yedu-glow), transparent 26%),
+          radial-gradient(circle at 88% 88%, var(--humzah-glow), transparent 26%),
+          radial-gradient(circle at 50% 60%, rgba(240, 185, 93, 0.13), transparent 35%),
+          linear-gradient(180deg, var(--bg-1) 0%, #0c0f1a 100%);
+        border: 1px solid var(--rule);
+        overflow: hidden;
+      }
+
+      /* user orbs — peers at triangle vertices */
+      .orb {
+        position: absolute;
+        display: flex; flex-direction: column; align-items: center; gap: 8px;
+        cursor: pointer;
+        z-index: 4;
+      }
+      .orb .orb-body {
+        width: 76px; height: 76px;
+        border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        font-family: Georgia, serif; font-style: italic; font-size: 30px; color: white;
+        position: relative;
+      }
+      .orb .orb-body::after {
+        content: '';
+        position: absolute; inset: -14px;
+        border-radius: 50%;
+        opacity: 0.5;
+        z-index: -1;
+      }
+      .orb .orb-name {
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 11px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--ink-1);
+      }
+      .orb .orb-meta {
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 10px;
+        color: var(--ink-3);
+      }
+      .orb.shawn  { top: 28px;     left: 50%; transform: translateX(-50%); }
+      .orb.shawn .orb-body  { background: var(--shawn); color: #4a1f08; }
+      .orb.shawn .orb-body::after { background: radial-gradient(circle, var(--shawn-glow), transparent 70%); }
+      .orb.yedu   { bottom: 38px;  left: 9%; }
+      .orb.yedu .orb-body   { background: var(--yedu); color: #043b30; }
+      .orb.yedu .orb-body::after  { background: radial-gradient(circle, var(--yedu-glow), transparent 70%); }
+      .orb.humzah { bottom: 38px;  right: 9%; }
+      .orb.humzah .orb-body { background: var(--humzah); color: #2c0a4c; }
+      .orb.humzah .orb-body::after{ background: radial-gradient(circle, var(--humzah-glow), transparent 70%); }
+
+      /* connecting threads */
+      .threads { position: absolute; inset: 0; pointer-events: none; }
+
+      /* central gravitational well — where all three meet */
+      .core {
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        width: 200px; height: 200px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(240, 185, 93, 0.18) 0%, transparent 70%);
+        z-index: 1;
+      }
+
+      /* THEMES AS STARS — positioned in gravitational zones */
+      .theme-star {
+        position: absolute;
+        z-index: 3;
+        cursor: pointer;
+        transition: transform .15s ease;
+      }
+      .theme-star:hover { transform: translate(-50%, -50%) scale(1.08); z-index: 5; }
+      .theme-star .star-dot {
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        width: 10px; height: 10px;
+        border-radius: 50%;
+        background: var(--ink-0);
+        box-shadow: 0 0 18px 4px rgba(255,255,255,0.35);
+      }
+      .theme-star .star-label {
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translate(-50%, calc(-50% + 20px));
+        font-family: Georgia, serif; font-style: italic;
+        font-size: 14px;
+        color: var(--ink-0);
+        white-space: nowrap;
+        padding: 4px 9px;
+        background: rgba(10, 12, 20, 0.75);
+        border-radius: 999px;
+        border: 1px solid var(--rule);
+        backdrop-filter: blur(4px);
+      }
+      .theme-star .star-glyph {
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translate(-50%, calc(-50% - 16px));
+        font-size: 14px;
+      }
+      .theme-star .star-pips {
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translate(-50%, calc(-50% + 48px));
+        display: inline-flex; gap: 3px;
+      }
+      .theme-star .star-pips span {
+        width: 6px; height: 6px; border-radius: 50%;
+      }
+      .theme-star.center .star-dot {
+        background: var(--amber);
+        box-shadow: 0 0 22px 6px var(--amber-glow);
+        width: 14px; height: 14px;
+      }
+      .theme-star.center .star-label {
+        background: rgba(240, 185, 93, 0.12);
+        border-color: rgba(240, 185, 93, 0.4);
+        color: var(--amber);
+      }
+
+      /* INDEX panel on the right */
+      .index {
+        display: flex; flex-direction: column; gap: 18px;
+      }
+      .index-card {
+        background: var(--bg-1);
+        border: 1px solid var(--rule);
+        border-radius: 18px;
+        padding: 18px 18px 14px;
+      }
+      .index-card-head {
+        display: flex; align-items: center; gap: 8px;
+        margin-bottom: 10px;
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 10.5px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--ink-2);
+      }
+      .index-card.center .index-card-head { color: var(--amber); }
+      .index-card-count {
+        font-family: Georgia, serif;
+        font-style: italic;
+        font-size: 38px;
+        line-height: 1;
+        margin: 6px 0 12px;
+        color: var(--ink-0);
+      }
+      .index-card.center .index-card-count { color: var(--amber); }
+      .index-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+      .index-list li {
+        font-size: 13.5px; color: var(--ink-1);
+        display: flex; justify-content: space-between; gap: 8px;
+      }
+      .index-list .em { color: var(--ink-3); font-size: 11px; }
+
+      .pip-row { display: inline-flex; gap: 3px; margin-left: 6px; vertical-align: middle; }
+      .pip-row span { width: 7px; height: 7px; border-radius: 50%; }
+      .pip-row .shawn  { background: var(--shawn); }
+      .pip-row .yedu   { background: var(--yedu); }
+      .pip-row .humzah { background: var(--humzah); }
+
+      /* THEME DETAIL — full-width panel below field for the selected theme */
+      .detail {
+        margin-top: 8px;
+        background: var(--bg-1);
+        border: 1px solid var(--rule);
+        border-radius: 22px;
+        padding: 32px 36px;
+      }
+      .detail-head {
+        display: flex; align-items: baseline; justify-content: space-between; gap: 24px;
+        margin-bottom: 22px; padding-bottom: 22px;
+        border-bottom: 1px solid var(--rule);
+      }
+      .detail-eyebrow {
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 10.5px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--amber);
+      }
+      .detail-title {
+        font-family: Georgia, serif;
+        font-style: italic;
+        font-size: 36px;
+        margin: 6px 0 0;
+        color: var(--ink-0);
+      }
+      .detail-pips {
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 12px;
+        color: var(--ink-2);
+        display: inline-flex; align-items: center; gap: 8px;
+      }
+
+      .detail-quotes {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 22px;
+      }
+      .q-block {
+        padding: 18px 20px;
+        background: var(--bg-2);
+        border-radius: 14px;
+        border-top: 2px solid transparent;
+      }
+      .q-block.shawn  { border-top-color: var(--shawn); }
+      .q-block.yedu   { border-top-color: var(--yedu); }
+      .q-block.humzah { border-top-color: var(--humzah); }
+      .q-byline {
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase;
+        color: var(--ink-2);
+        display: flex; align-items: center; gap: 6px;
+        margin-bottom: 10px;
+      }
+      .q-byline .dot { width: 8px; height: 8px; border-radius: 50%; }
+      .q-block.shawn  .q-byline .dot { background: var(--shawn); }
+      .q-block.yedu   .q-byline .dot { background: var(--yedu); }
+      .q-block.humzah .q-byline .dot { background: var(--humzah); }
+      .q-body {
+        font-family: Georgia, serif;
+        font-style: italic;
+        font-size: 16px;
+        line-height: 1.5;
+        color: var(--ink-0);
+      }
+      .q-source {
+        margin-top: 12px;
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 11px;
+        color: var(--ink-3);
+      }
+
+      .detail-prompt {
+        margin-top: 28px;
+        padding: 22px 26px;
+        background: rgba(240, 185, 93, 0.08);
+        border: 1px solid rgba(240, 185, 93, 0.25);
+        border-radius: 14px;
+        display: flex; align-items: center; gap: 20px;
+      }
+      .detail-prompt .p-q {
+        font-family: Georgia, serif;
+        font-style: italic;
+        font-size: 19px;
+        line-height: 1.45;
+        flex: 1;
+        color: var(--ink-0);
+      }
+      .detail-prompt .p-q strong {
+        font-weight: 400;
+        color: var(--amber);
+      }
+
+      /* LEGEND under the field */
+      .legend {
+        display: flex; gap: 22px; justify-content: center;
+        margin: 20px 0 0;
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 11.5px;
+        color: var(--ink-2);
+      }
+      .legend .pill {
+        display: inline-flex; align-items: center; gap: 6px;
+      }
+      .legend .swatch { width: 10px; height: 10px; border-radius: 50%; }
+      .legend .core-swatch { background: var(--amber); box-shadow: 0 0 8px 2px var(--amber-glow); }
+
+      @media (max-width: 980px) {
+        .constellation-wrap { grid-template-columns: 1fr; }
+        .detail-quotes { grid-template-columns: 1fr; }
+        .field { height: 480px; }
+        .orb .orb-body { width: 60px; height: 60px; font-size: 22px; }
+      }
+    </style>
+  </head>
+
+  <body>
+    <header class="topbar">
+      <div><span class="wordmark">Honeycomb <span class="dot">·</span> Triad blend</span></div>
+
+      <div class="privacy-strip" role="group" aria-label="Per-recipient privacy">
+        <span class="label">Your vault shows</span>
+        <span class="recipient-pill">
+          <span class="av yedu">Y</span>
+          <select aria-label="What Yedu sees"><option>Artifacts</option><option>Themes</option><option>Sources</option></select>
+        </span>
+        <span class="recipient-pill">
+          <span class="av humzah">H</span>
+          <select aria-label="What Humzah sees"><option>Themes</option><option>Artifacts</option><option>Sources</option></select>
+        </span>
+      </div>
+
+      <div class="actions">
+        <button class="btn">Run agent scan</button>
+        <button class="btn primary">Send blend ↗</button>
+      </div>
+    </header>
+
+    <main class="page">
+
+      <!-- HERO -->
+      <section class="hero">
+        <div class="hero-kicker">Three vaults · One field · Updated this morning</div>
+        <div class="triad-name-lockup">
+          <span class="nm shawn">Shawn</span>
+          <span class="sep">·</span>
+          <span class="nm yedu">Yedu</span>
+          <span class="sep">·</span>
+          <span class="nm humzah">Humzah</span>
+        </div>
+        <p class="hero-sub">Each theme is a star, positioned by who has been thinking about it. The closer to the <em>center</em>, the more all three of you have returned to it.</p>
+      </section>
+
+      <!-- CONSTELLATION FIELD -->
+      <section class="constellation-wrap" aria-label="Triadic overlap as a constellation field">
+
+        <!-- left: field -->
+        <div class="field">
+          <!-- three orbs at triangle vertices, peers, no center/host -->
+          <div class="orb shawn">
+            <div class="orb-body">S</div>
+            <div class="orb-name">Shawn</div>
+            <div class="orb-meta">48 notes · 19 highlights</div>
+          </div>
+          <div class="orb yedu">
+            <div class="orb-body">Y</div>
+            <div class="orb-name">Yedu</div>
+            <div class="orb-meta">39 notes · 22 highlights</div>
+          </div>
+          <div class="orb humzah">
+            <div class="orb-body">H</div>
+            <div class="orb-name">Humzah</div>
+            <div class="orb-meta">31 notes · 11 highlights</div>
+          </div>
+
+          <!-- thin connecting threads (SVG triangle) -->
+          <svg class="threads" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <line x1="50" y1="11" x2="13" y2="89" stroke="rgba(244,237,224,0.06)" stroke-width="0.18" stroke-dasharray="0.5 0.6"/>
+            <line x1="50" y1="11" x2="87" y2="89" stroke="rgba(244,237,224,0.06)" stroke-width="0.18" stroke-dasharray="0.5 0.6"/>
+            <line x1="13" y1="89" x2="87" y2="89" stroke="rgba(244,237,224,0.06)" stroke-width="0.18" stroke-dasharray="0.5 0.6"/>
+          </svg>
+
+          <!-- gravitational core glow -->
+          <div class="core"></div>
+
+          <!-- THEMES AS STARS -->
+          <!-- Center stars: all three contributed -->
+          <div class="theme-star center" style="top: 50%; left: 50%;">
+            <span class="star-glyph">🛠️</span>
+            <span class="star-dot"></span>
+            <span class="star-label">Agentic workflows</span>
+            <span class="star-pips"><span style="background: var(--shawn)"></span><span style="background: var(--yedu)"></span><span style="background: var(--humzah)"></span></span>
+          </div>
+          <div class="theme-star center" style="top: 44%; left: 38%;">
+            <span class="star-glyph">📚</span>
+            <span class="star-dot"></span>
+            <span class="star-label">Personal knowledge</span>
+            <span class="star-pips"><span style="background: var(--shawn)"></span><span style="background: var(--yedu)"></span><span style="background: var(--humzah)"></span></span>
+          </div>
+          <div class="theme-star center" style="top: 58%; left: 62%;">
+            <span class="star-glyph">⚖️</span>
+            <span class="star-dot"></span>
+            <span class="star-label">AI alignment</span>
+            <span class="star-pips"><span style="background: var(--shawn)"></span><span style="background: var(--yedu)"></span><span style="background: var(--humzah)"></span></span>
+          </div>
+          <div class="theme-star center" style="top: 62%; left: 42%;">
+            <span class="star-glyph">🪐</span>
+            <span class="star-dot"></span>
+            <span class="star-label">Data ethics</span>
+            <span class="star-pips"><span style="background: var(--shawn)"></span><span style="background: var(--yedu)"></span><span style="background: var(--humzah)"></span></span>
+          </div>
+
+          <!-- Edge stars: pairwise (along the line between two orbs) -->
+          <!-- Shawn × Yedu (top to bottom-left) -->
+          <div class="theme-star" style="top: 32%; left: 33%;">
+            <span class="star-glyph">🎨</span>
+            <span class="star-dot"></span>
+            <span class="star-label">Creative coding</span>
+            <span class="star-pips"><span style="background: var(--shawn)"></span><span style="background: var(--yedu)"></span></span>
+          </div>
+          <div class="theme-star" style="top: 65%; left: 28%;">
+            <span class="star-dot"></span>
+            <span class="star-label">Software 3.0</span>
+            <span class="star-pips"><span style="background: var(--shawn)"></span><span style="background: var(--yedu)"></span></span>
+          </div>
+
+          <!-- Yedu × Humzah (bottom edge) -->
+          <div class="theme-star" style="top: 84%; left: 50%;">
+            <span class="star-dot"></span>
+            <span class="star-label">Voice journaling</span>
+            <span class="star-pips"><span style="background: var(--yedu)"></span><span style="background: var(--humzah)"></span></span>
+          </div>
+
+          <!-- Shawn × Humzah (top to bottom-right) -->
+          <div class="theme-star" style="top: 35%; left: 67%;">
+            <span class="star-dot"></span>
+            <span class="star-label">Shared shelves</span>
+            <span class="star-pips"><span style="background: var(--shawn)"></span><span style="background: var(--humzah)"></span></span>
+          </div>
+
+          <!-- Solo stars: dimmer, closer to each orb -->
+          <div class="theme-star" style="top: 18%; left: 56%; opacity: 0.55;">
+            <span class="star-dot" style="width: 6px; height: 6px;"></span>
+            <span class="star-label" style="font-size: 12px;">p5js sketches</span>
+            <span class="star-pips"><span style="background: var(--shawn)"></span></span>
+          </div>
+          <div class="theme-star" style="top: 78%; left: 16%; opacity: 0.55;">
+            <span class="star-dot" style="width: 6px; height: 6px;"></span>
+            <span class="star-label" style="font-size: 12px;">TwinMind eng</span>
+            <span class="star-pips"><span style="background: var(--yedu)"></span></span>
+          </div>
+          <div class="theme-star" style="top: 75%; left: 84%; opacity: 0.55;">
+            <span class="star-dot" style="width: 6px; height: 6px;"></span>
+            <span class="star-label" style="font-size: 12px;">Policy memos</span>
+            <span class="star-pips"><span style="background: var(--humzah)"></span></span>
+          </div>
+        </div>
+
+        <!-- right: zone index -->
+        <aside class="index" aria-label="Themes grouped by zone">
+          <div class="index-card center">
+            <div class="index-card-head">All three of you · brightest core</div>
+            <div class="index-card-count">4</div>
+            <ul class="index-list">
+              <li>🛠️ Agentic workflows <span class="em">7 notes</span></li>
+              <li>📚 Personal knowledge <span class="em">5 notes</span></li>
+              <li>⚖️ AI alignment <span class="em">6 notes</span></li>
+              <li>🪐 Data ethics <span class="em">4 notes</span></li>
+            </ul>
+          </div>
+
+          <div class="index-card">
+            <div class="index-card-head">
+              Along the edges · pairwise only
+              <span class="pip-row"><span class="shawn"></span><span class="yedu"></span></span>
+              <span class="pip-row"><span class="yedu"></span><span class="humzah"></span></span>
+              <span class="pip-row"><span class="shawn"></span><span class="humzah"></span></span>
+            </div>
+            <div class="index-card-count">4</div>
+            <ul class="index-list">
+              <li>🎨 Creative coding <span class="em">S × Y · 5</span></li>
+              <li>Software 3.0 <span class="em">S × Y · 6</span></li>
+              <li>Voice journaling <span class="em">Y × H · 6</span></li>
+              <li>Shared shelves <span class="em">S × H · 3</span></li>
+            </ul>
+          </div>
+
+          <div class="index-card">
+            <div class="index-card-head">Near each orb · solo for now</div>
+            <div class="index-card-count">3</div>
+            <ul class="index-list">
+              <li>p5js sketches <span class="em">Shawn · 8</span></li>
+              <li>TwinMind eng <span class="em">Yedu · 12</span></li>
+              <li>Policy memos <span class="em">Humzah · 9</span></li>
+            </ul>
+          </div>
+        </aside>
+      </section>
+
+      <div class="legend">
+        <span class="pill"><span class="swatch core-swatch"></span> shared by all three</span>
+        <span class="pill"><span class="swatch" style="background: rgba(244,237,224,0.5);"></span> shared by two</span>
+        <span class="pill"><span class="swatch" style="background: rgba(244,237,224,0.25);"></span> solo · drifting toward an orbit</span>
+      </div>
+
+      <!-- DETAIL panel for the "selected" star (in a real app this swaps on tap) -->
+      <section class="detail" aria-label="Selected theme detail">
+        <div class="detail-head">
+          <div>
+            <div class="detail-eyebrow">Currently looking at · brightest core star</div>
+            <h2 class="detail-title">🛠️ Agentic workflows</h2>
+          </div>
+          <div class="detail-pips">
+            <span>7 notes · 3 highlights</span>
+            <span class="pip-row"><span class="shawn"></span><span class="yedu"></span><span class="humzah"></span></span>
+          </div>
+        </div>
+
+        <div class="detail-quotes">
+          <div class="q-block shawn">
+            <div class="q-byline"><span class="dot"></span> Shawn highlighted · 6 days ago</div>
+            <div class="q-body">"The agent isn't a tool — it's a co-author with its own taste. The job is to render that taste legible so we can edit it."</div>
+            <div class="q-source">Karpathy, <em>Software 3.0</em> talk transcript</div>
+          </div>
+          <div class="q-block yedu">
+            <div class="q-byline"><span class="dot"></span> Yedu highlighted · 3 days ago</div>
+            <div class="q-body">"Workflows are the wrong unit. The right unit is the loop: observe, decide, act, log — and an agent that can hand any one of those four to a human."</div>
+            <div class="q-source">TwinMind research journal · May 8</div>
+          </div>
+          <div class="q-block humzah">
+            <div class="q-byline"><span class="dot"></span> Humzah highlighted · yesterday</div>
+            <div class="q-body">"The four steps map onto every policy adoption pattern I've seen. The one we never automate well is logging — which is what regulators care about most."</div>
+            <div class="q-source">Note · "the audit-log gap"</div>
+          </div>
+        </div>
+
+        <div class="detail-prompt">
+          <div class="p-q"><strong>One prompt worth asking the three of you:</strong> Of <em>observe, decide, act, log</em>, which step do each of you most want to keep human, and which would you hand to an agent tomorrow?</div>
+          <button class="btn primary">Draft group text →</button>
+        </div>
+      </section>
+
+    </main>
+  </body>
+</html>

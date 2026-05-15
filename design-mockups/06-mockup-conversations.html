@@ -1,0 +1,642 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Honeycomb · Conversations — Direction B</title>
+
+    <!--
+      CONVERSATIONS · Direction B (Hex + Editorial)
+      Group prompts rendered as a centered amber hex with the question;
+      three answer hexes/cards below (one per member). Past prompts list
+      uses Tiimo-style overlapping-avatar pips. In-person talk log uses
+      Clay-style dotted dividers. AI-drafted text for 1:1 sending.
+
+      Inspirations:
+        - Tiimo Question of the day with member-answer feed + Previous questions list
+        - Stoic share card + Co-Star Matching haircuts (magazine prompt aesthetic)
+        - Clay Chris Hayes notes (dotted-divider relationship log)
+        - Notion AI draft preview (suggested message UI)
+        - Tolan editorial register
+    -->
+
+    <style>
+      :root {
+        --paper: #f6efe2;
+        --paper-deep: #ede3cf;
+        --ink: #1f1b15;
+        --ink-soft: #4b4438;
+        --ink-faint: #8a7f6b;
+        --amber: #d2912f;
+        --amber-deep: #b8761a;
+        --amber-soft: #f1c779;
+        --shawn: #c95a2e;
+        --yedu: #2f6a64;
+        --humzah: #6b3aa0;
+        --rule: rgba(31, 27, 21, 0.12);
+        --card: #fbf6e8;
+      }
+      * { box-sizing: border-box; }
+      html, body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+        font-size: 16.5px;
+        line-height: 1.55;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .topbar {
+        position: sticky; top: 0; z-index: 10;
+        display: grid; grid-template-columns: 1fr auto 1fr;
+        align-items: center; gap: 32px;
+        padding: 18px 48px;
+        background: rgba(246, 239, 226, 0.92);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--rule);
+      }
+      .wordmark {
+        font-family: Georgia, serif; font-weight: 600;
+        letter-spacing: 0.06em; text-transform: uppercase;
+        font-size: 13px; color: var(--ink-soft);
+      }
+      .tab-nav { display: flex; gap: 4px; justify-self: center; }
+      .tab-nav a {
+        padding: 6px 14px; border-radius: 999px;
+        font-size: 12.5px; color: var(--ink-soft);
+        text-decoration: none;
+        font-family: -apple-system, system-ui, sans-serif;
+      }
+      .tab-nav a.active { background: var(--ink); color: var(--paper); }
+      .actions { display: flex; justify-content: flex-end; gap: 10px; font-family: -apple-system, system-ui, sans-serif; font-size: 13px; }
+      .btn {
+        padding: 8px 14px; border-radius: 999px;
+        background: var(--card); color: var(--ink-soft);
+        border: 1px solid var(--rule); cursor: pointer;
+      }
+      .btn.primary { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+      .page { max-width: 1040px; margin: 0 auto; padding: 48px 48px 96px; }
+
+      /* HERO PROMPT (the current question, all-three) */
+      .current-prompt {
+        text-align: center;
+        margin-bottom: 36px;
+      }
+      .current-prompt-kicker {
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 11.5px; letter-spacing: 0.18em; text-transform: uppercase;
+        color: var(--amber-deep); margin-bottom: 18px;
+        display: inline-flex; align-items: center; gap: 8px;
+      }
+      .current-prompt-kicker .hex-glyph {
+        width: 14px; height: 16px;
+        clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0% 50%);
+        background: var(--amber);
+      }
+      .prompt-hex-frame {
+        max-width: 740px;
+        margin: 0 auto;
+        background: linear-gradient(135deg, var(--amber-soft) 0%, var(--amber) 100%);
+        border-radius: 26px;
+        padding: 40px 56px 36px;
+        position: relative;
+        overflow: hidden;
+        color: #2d1c00;
+      }
+      .prompt-hex-frame::before, .prompt-hex-frame::after {
+        content: '';
+        position: absolute;
+        clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0% 50%);
+        background: rgba(255, 255, 255, 0.16);
+      }
+      .prompt-hex-frame::before { left: -50px; top: -50px; width: 180px; height: 200px; }
+      .prompt-hex-frame::after { right: -40px; bottom: -60px; width: 220px; height: 240px; }
+
+      .prompt-question {
+        font-family: Georgia, serif; font-style: italic;
+        font-size: 32px; line-height: 1.25;
+        margin: 0 0 18px;
+        color: #2d1c00;
+        font-weight: 500;
+        position: relative;
+        z-index: 1;
+      }
+      .prompt-context {
+        font-size: 14px;
+        color: rgba(45, 28, 0, 0.75);
+        line-height: 1.5;
+        max-width: 520px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+      }
+      .prompt-from {
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 11px;
+        color: rgba(45, 28, 0, 0.7);
+        margin-top: 14px;
+        text-transform: uppercase; letter-spacing: 0.12em;
+        position: relative; z-index: 1;
+      }
+
+      /* ANSWER HEXES — one per member */
+      .answers {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 16px;
+        margin-bottom: 56px;
+      }
+      .answer-card {
+        background: var(--card);
+        border: 1px solid var(--rule);
+        border-radius: 18px;
+        padding: 22px 22px 20px;
+        display: flex; flex-direction: column;
+        gap: 12px;
+        min-height: 200px;
+        position: relative;
+      }
+      .answer-card .top-bar {
+        height: 4px;
+        border-radius: 2px;
+        margin: -22px -22px 0;
+        border-top-left-radius: 18px; border-top-right-radius: 18px;
+      }
+      .answer-card.s .top-bar { background: var(--shawn); }
+      .answer-card.y .top-bar { background: var(--yedu); }
+      .answer-card.h .top-bar { background: var(--humzah); }
+
+      .answer-head {
+        display: flex; align-items: center; gap: 8px;
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 11.5px; color: var(--ink-faint);
+        margin-top: 4px;
+      }
+      .answer-head .av {
+        width: 24px; height: 24px; border-radius: 50%;
+        color: white; font-family: Georgia, serif; font-style: italic;
+        display: inline-flex; align-items: center; justify-content: center;
+        font-size: 12px;
+      }
+      .answer-head .name {
+        font-family: Georgia, serif; font-style: italic;
+        font-size: 15px; color: var(--ink); font-weight: 500;
+      }
+      .answer-head .name strong { font-weight: 500; }
+      .av.s { background: var(--shawn); }
+      .av.y { background: var(--yedu); }
+      .av.h { background: var(--humzah); }
+
+      .answer-body {
+        font-family: Georgia, serif;
+        font-size: 15px; line-height: 1.55;
+        color: var(--ink); flex: 1;
+      }
+      .answer-body.italic { font-style: italic; }
+      .answer-body.placeholder {
+        color: var(--ink-faint);
+        font-style: italic;
+        display: flex; align-items: center; gap: 8px;
+      }
+      .answer-foot {
+        display: flex; align-items: center; gap: 6px;
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 11px; color: var(--ink-faint);
+      }
+      .answer-foot .react {
+        display: inline-flex; align-items: center; gap: 4px;
+        padding: 3px 8px; border-radius: 999px;
+        background: var(--paper);
+        border: 1px solid var(--rule);
+        font-size: 11px;
+      }
+
+      /* AI DRAFT SECTION */
+      .draft-section {
+        margin-bottom: 56px;
+      }
+      .draft-head {
+        display: flex; align-items: baseline; justify-content: space-between;
+        margin-bottom: 18px;
+        padding-bottom: 14px;
+        border-bottom: 1px solid var(--rule);
+      }
+      .draft-eyebrow {
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+        color: var(--ink-faint);
+      }
+      .draft-head h3 {
+        font-family: Georgia, serif; font-style: italic;
+        font-size: 26px; margin: 4px 0 0; font-weight: 500;
+      }
+
+      .draft-card {
+        background: var(--card);
+        border: 1px dashed rgba(210, 145, 47, 0.6);
+        border-radius: 16px;
+        padding: 22px 24px;
+        position: relative;
+      }
+      .draft-meta {
+        display: flex; align-items: center; gap: 8px;
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 11.5px; color: var(--ink-faint);
+        margin-bottom: 14px;
+      }
+      .draft-meta .to-pill {
+        display: inline-flex; align-items: center; gap: 6px;
+        padding: 4px 10px;
+        background: var(--paper);
+        border-radius: 999px;
+        font-size: 12px; color: var(--ink-soft);
+      }
+      .draft-meta .av {
+        width: 18px; height: 18px; border-radius: 50%;
+        color: white; font-family: Georgia, serif; font-style: italic;
+        font-size: 10px;
+        display: inline-flex; align-items: center; justify-content: center;
+      }
+      .draft-body {
+        font-family: Georgia, serif;
+        font-size: 17px; line-height: 1.6;
+        color: var(--ink);
+      }
+      .draft-body p { margin: 0 0 12px; }
+      .draft-body p:last-child { margin-bottom: 0; }
+      .draft-tone-row {
+        display: flex; align-items: center; gap: 8px;
+        margin-top: 18px;
+        padding-top: 14px;
+        border-top: 1px solid var(--rule);
+        font-family: -apple-system, system-ui, sans-serif;
+      }
+      .draft-tone {
+        padding: 5px 11px; border-radius: 999px;
+        font-size: 11.5px; color: var(--ink-soft);
+        background: var(--paper);
+        border: 1px solid var(--rule);
+        cursor: pointer;
+      }
+      .draft-tone:hover { background: var(--paper-deep); }
+      .draft-actions { margin-left: auto; display: flex; gap: 8px; }
+      .draft-actions button {
+        padding: 7px 13px;
+        border-radius: 999px;
+        font-size: 12.5px;
+        font-family: -apple-system, system-ui, sans-serif;
+        border: 1px solid var(--rule);
+        background: transparent;
+        color: var(--ink-soft);
+        cursor: pointer;
+      }
+      .draft-actions button.send {
+        background: var(--ink); color: var(--paper); border-color: var(--ink);
+      }
+      .draft-actions button.send-text { background: var(--amber); color: white; border-color: var(--amber); }
+
+      /* PAST PROMPTS */
+      .past-section { margin-bottom: 56px; }
+      .past-head {
+        display: flex; align-items: baseline; justify-content: space-between;
+        margin-bottom: 18px;
+        padding-bottom: 14px;
+        border-bottom: 1px solid var(--rule);
+      }
+      .past-head h3 {
+        font-family: Georgia, serif; font-style: italic;
+        font-size: 26px; margin: 4px 0 0; font-weight: 500;
+      }
+
+      .past-list { display: flex; flex-direction: column; }
+      .past-item {
+        display: grid;
+        grid-template-columns: 80px 1fr auto;
+        gap: 18px; align-items: center;
+        padding: 16px 0;
+        border-bottom: 1px solid var(--rule);
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 13.5px;
+      }
+      .past-item:last-child { border-bottom: 0; }
+
+      .past-pips {
+        position: relative;
+        height: 24px;
+        display: flex; align-items: center;
+      }
+      .past-pips .pip {
+        width: 22px; height: 22px;
+        border-radius: 50%;
+        border: 2px solid var(--paper);
+        margin-left: -8px;
+        display: inline-flex; align-items: center; justify-content: center;
+        font-family: Georgia, serif; font-style: italic;
+        font-size: 11px;
+        color: white;
+      }
+      .past-pips .pip:first-child { margin-left: 0; }
+      .past-pips .pip.s { background: var(--shawn); }
+      .past-pips .pip.y { background: var(--yedu); }
+      .past-pips .pip.h { background: var(--humzah); }
+
+      .past-question {
+        font-family: Georgia, serif;
+        font-size: 15.5px;
+        color: var(--ink);
+        font-weight: 500;
+      }
+      .past-question em {
+        font-style: italic;
+        font-weight: 400;
+      }
+      .past-date {
+        font-size: 12px;
+        color: var(--ink-faint);
+        margin-top: 2px;
+      }
+      .past-meta {
+        text-align: right;
+        color: var(--ink-faint);
+        font-size: 12px;
+      }
+
+      /* TALK LOG */
+      .talk-section { }
+      .talk-head {
+        display: flex; align-items: baseline; justify-content: space-between;
+        margin-bottom: 18px;
+        padding-bottom: 14px;
+        border-bottom: 1px solid var(--rule);
+      }
+      .talk-head h3 {
+        font-family: Georgia, serif; font-style: italic;
+        font-size: 26px; margin: 4px 0 0; font-weight: 500;
+      }
+      .talk-head button {
+        font-family: -apple-system, system-ui, sans-serif;
+        padding: 6px 12px; font-size: 12px;
+      }
+
+      .talk-list {
+        display: flex; flex-direction: column;
+        gap: 6px;
+      }
+      .talk-entry {
+        display: grid;
+        grid-template-columns: 110px 1fr auto;
+        gap: 24px;
+        padding: 14px 0;
+        border-bottom: 1px dotted var(--rule);
+        font-family: -apple-system, system-ui, sans-serif;
+        font-size: 13.5px;
+      }
+      .talk-entry:last-child { border-bottom: 0; }
+      .talk-when {
+        color: var(--ink-faint);
+        text-transform: uppercase; letter-spacing: 0.1em;
+        font-size: 11.5px;
+      }
+      .talk-detail {
+        font-family: Georgia, serif;
+        font-size: 15px;
+        color: var(--ink);
+        line-height: 1.5;
+      }
+      .talk-detail em { color: var(--ink-soft); font-style: italic; }
+      .talk-people {
+        display: flex; gap: 4px; align-items: center;
+      }
+      .talk-people .av {
+        width: 22px; height: 22px; border-radius: 50%;
+        color: white; font-family: Georgia, serif; font-style: italic;
+        font-size: 11px;
+        display: inline-flex; align-items: center; justify-content: center;
+      }
+
+      @media (max-width: 880px) {
+        .answers { grid-template-columns: 1fr; }
+        .prompt-question { font-size: 24px; }
+      }
+    </style>
+  </head>
+
+  <body>
+    <header class="topbar">
+      <div><span class="wordmark">Honeycomb · Triad blend</span></div>
+      <nav class="tab-nav">
+        <a href="03-mockup-b-triad-hex.html">Blend</a>
+        <a href="04-mockup-vault-review.html">Vault review</a>
+        <a href="05-mockup-shared-shelf.html">Shared shelf</a>
+        <a class="active">Conversations</a>
+      </nav>
+      <div class="actions">
+        <button class="btn">Log a past talk</button>
+        <button class="btn primary">New prompt</button>
+      </div>
+    </header>
+
+    <main class="page">
+
+      <!-- CURRENT PROMPT — all three -->
+      <section class="current-prompt">
+        <div class="current-prompt-kicker">
+          <span class="hex-glyph"></span>
+          Center hex prompt · all three of you
+        </div>
+        <div class="prompt-hex-frame">
+          <h2 class="prompt-question">"Of observe, decide, act, log — which would you most want to keep human, and which would you hand to an agent tomorrow?"</h2>
+          <p class="prompt-context">Drafted from the agent loop you all three keep writing about. Yedu's TwinMind journal called it a loop instead of a workflow; Humzah noted the log step is the most regulated; Shawn keeps coming back to the activation-energy framing.</p>
+          <div class="prompt-from">Drafted by the agent · 2 hours ago · 7 source notes</div>
+        </div>
+      </section>
+
+      <!-- ANSWERS — three peer hexes -->
+      <section class="answers">
+
+        <article class="answer-card s">
+          <div class="top-bar"></div>
+          <div class="answer-head">
+            <span class="av">S</span>
+            <span><span class="name">Shawn</span> · 2 days ago</span>
+          </div>
+          <div class="answer-body italic">"Act, easily. <em>Observe</em> is the most precious — the moment you stop noticing is the moment the loop stops being yours."</div>
+          <div class="answer-foot">
+            <span class="react">🔥 <span class="av y" style="margin-left: 2px;">Y</span></span>
+            <span class="react">💭 <span class="av h" style="margin-left: 2px;">H</span></span>
+          </div>
+        </article>
+
+        <article class="answer-card y">
+          <div class="top-bar"></div>
+          <div class="answer-head">
+            <span class="av">Y</span>
+            <span><span class="name">Yedu</span> · yesterday</span>
+          </div>
+          <div class="answer-body italic">"<em>Log</em>. I already half-automated that in TwinMind. The interesting hand-off is the one nobody asks for — handing <em>decide</em> back to a human after the agent has already started acting."</div>
+          <div class="answer-foot">
+            <span class="react">🔥 <span class="av h" style="margin-left: 2px;">H</span></span>
+          </div>
+        </article>
+
+        <article class="answer-card h">
+          <div class="top-bar"></div>
+          <div class="answer-head">
+            <span class="av">H</span>
+            <span><span class="name">Humzah</span> · pending</span>
+          </div>
+          <div class="answer-body placeholder">— awaiting Humzah's answer —</div>
+          <div class="answer-foot">
+            <button style="font-family: -apple-system, system-ui, sans-serif; font-size: 11.5px; padding: 5px 11px; border-radius: 999px; border: 1px solid var(--rule); background: transparent; color: var(--ink-soft); cursor: pointer;">Nudge Humzah</button>
+          </div>
+        </article>
+
+      </section>
+
+      <!-- AI DRAFT for sending -->
+      <section class="draft-section">
+        <div class="draft-head">
+          <div>
+            <div class="draft-eyebrow">AI draft · for sending to one person</div>
+            <h3>A text to send Humzah right now.</h3>
+          </div>
+        </div>
+
+        <div class="draft-card">
+          <div class="draft-meta">
+            <span>Drafted from your S × H zone · 3 shared notes · agent-suggested 6m ago</span>
+            <span class="to-pill">To: <span class="av h">H</span> Humzah</span>
+          </div>
+          <div class="draft-body">
+            <p>Hey — Yedu and I both answered the prompt today (observe / decide / act / log). I keep thinking about your "audit-log gap" note while reading them.</p>
+            <p>You don't have to answer tonight, but if you're free Thursday, I'd love a 20-min coffee about it. The policy lens is the part neither of us has, and I think it's the load-bearing one.</p>
+          </div>
+          <div class="draft-tone-row">
+            <span class="draft-tone">↺ Regenerate</span>
+            <span class="draft-tone">Shorter</span>
+            <span class="draft-tone">Warmer</span>
+            <span class="draft-tone">More direct</span>
+            <div class="draft-actions">
+              <button>Edit</button>
+              <button class="send-text">Send text</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PAST PROMPTS — Tiimo-style with avatar pips -->
+      <section class="past-section">
+        <div class="past-head">
+          <div>
+            <div class="draft-eyebrow">Past prompts · with who answered</div>
+            <h3>Earlier this month.</h3>
+          </div>
+        </div>
+
+        <div class="past-list">
+          <div class="past-item">
+            <div class="past-pips">
+              <span class="pip s">S</span>
+              <span class="pip y">Y</span>
+              <span class="pip h">H</span>
+            </div>
+            <div>
+              <div class="past-question">"What returned you to your own notes this month?" <em>· all three answered</em></div>
+              <div class="past-date">May 5 · center hex · 1 talk logged after</div>
+            </div>
+            <div class="past-meta">8 reactions ▸</div>
+          </div>
+
+          <div class="past-item">
+            <div class="past-pips">
+              <span class="pip s">S</span>
+              <span class="pip y">Y</span>
+            </div>
+            <div>
+              <div class="past-question">"Which of your notes did you stop trusting after re-reading?" <em>· Shawn, Yedu</em></div>
+              <div class="past-date">Apr 28 · S × Y · 2 nudges sent to Humzah, declined</div>
+            </div>
+            <div class="past-meta">4 reactions ▸</div>
+          </div>
+
+          <div class="past-item">
+            <div class="past-pips">
+              <span class="pip s">S</span>
+              <span class="pip h">H</span>
+            </div>
+            <div>
+              <div class="past-question">"What's the policy version of activation-energy?" <em>· Shawn, Humzah</em></div>
+              <div class="past-date">Apr 22 · S × H · 1 in-person talk Apr 25</div>
+            </div>
+            <div class="past-meta">3 reactions ▸</div>
+          </div>
+
+          <div class="past-item">
+            <div class="past-pips">
+              <span class="pip y">Y</span>
+              <span class="pip h">H</span>
+            </div>
+            <div>
+              <div class="past-question">"When you record a meeting, who else gets to read the transcript?" <em>· Yedu, Humzah</em></div>
+              <div class="past-date">Apr 16 · Y × H · 5 notes added to shelf</div>
+            </div>
+            <div class="past-meta">6 reactions ▸</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TALK LOG — Clay-style dotted divider, dated -->
+      <section class="talk-section">
+        <div class="talk-head">
+          <div>
+            <div class="draft-eyebrow">Log · talks you've had in person</div>
+            <h3>Where the conversations actually happened.</h3>
+          </div>
+          <button class="btn">Log a talk</button>
+        </div>
+
+        <div class="talk-list">
+          <div class="talk-entry">
+            <span class="talk-when">May 8 · 22 min</span>
+            <div class="talk-detail">Coffee at Coupa with <em>Yedu</em>. We talked through the four-step loop. Yedu hadn't read the Karpathy talk yet — added it to the shelf afterwards.</div>
+            <div class="talk-people">
+              <span class="av s">S</span>
+              <span class="av y">Y</span>
+            </div>
+          </div>
+
+          <div class="talk-entry">
+            <span class="talk-when">Apr 25 · 35 min</span>
+            <div class="talk-detail">Walk with <em>Humzah</em> after class. The audit-log policy question — kept circling the Ship of Theseus framing. Should write this up jointly.</div>
+            <div class="talk-people">
+              <span class="av s">S</span>
+              <span class="av h">H</span>
+            </div>
+          </div>
+
+          <div class="talk-entry">
+            <span class="talk-when">Apr 18 · 1h 10m</span>
+            <div class="talk-detail">All three of us at dinner. <em>"Honeycomb"</em> as a name landed. Yedu sketched the hex on a napkin — that became the visual.</div>
+            <div class="talk-people">
+              <span class="av s">S</span>
+              <span class="av y">Y</span>
+              <span class="av h">H</span>
+            </div>
+          </div>
+
+          <div class="talk-entry">
+            <span class="talk-when">Apr 12 · 18 min</span>
+            <div class="talk-detail">Text thread with <em>Yedu</em> about Software 3.0 — they hadn't seen it yet. Sent the link. They watched it the next morning.</div>
+            <div class="talk-people">
+              <span class="av s">S</span>
+              <span class="av y">Y</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </body>
+</html>
