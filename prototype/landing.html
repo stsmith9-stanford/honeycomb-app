@@ -1,0 +1,670 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Honeycomb — Your second brain, shared</title>
+<!--
+  LANDING PAGE · "Your second brain, shared."
+
+  The page lets the host do the talking: the hero is the agent speaking
+  into a group chat, and the proof section is three real host lines.
+  The party-host framing is the pitch — not steps, not diagrams.
+
+  Setup is one sentence with two blanks (source, circle) — the two
+  decisions a new person actually makes. No configurator grids.
+
+  Visual language: Direction B cream editorial (per design-mockups),
+  hex reserved for the brand mark.
+-->
+<style>
+  :root {
+    --paper: #f6efe2;
+    --paper-deep: #ede3cf;
+    --card: #fbf6e8;
+    --ink: #1f1b15;
+    --ink-soft: #4b4438;
+    --ink-faint: #8a7f6b;
+    --amber: #d2912f;
+    --amber-deep: #b8761a;
+    --amber-soft: #f1c779;
+    --allen: #c95a2e;
+    --shawn: #2f6a64;
+    --justin: #6b3aa0;
+    --rule: rgba(31, 27, 21, 0.12);
+    --shadow: 0 26px 70px -36px rgba(21, 16, 10, 0.44);
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--serif);
+    font-size: 17px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+
+  .eyebrow {
+    margin: 0 0 14px;
+    color: var(--amber-deep);
+    font: 700 11px/1.4 var(--sans);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  /* ---------- topbar ---------- */
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 22px 0;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+  }
+
+  .brand svg { display: block; }
+
+  .topbar a.quiet {
+    color: var(--ink-soft);
+    font: 500 14px/1 var(--sans);
+    text-decoration: none;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 3px;
+  }
+
+  .topbar a.quiet:hover { color: var(--ink); border-color: var(--ink-faint); }
+
+  /* ---------- hero ---------- */
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(320px, 0.95fr);
+    gap: 52px;
+    align-items: center;
+    padding: 64px 0 76px;
+  }
+
+  h1 {
+    margin: 0 0 20px;
+    font-size: clamp(40px, 5.6vw, 60px);
+    line-height: 1.04;
+    letter-spacing: -0.015em;
+    font-weight: 700;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--amber-deep);
+  }
+
+  .hero .lede {
+    margin: 0 0 30px;
+    max-width: 46ch;
+    color: var(--ink-soft);
+    font-size: 19px;
+  }
+
+  .cta-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-block;
+    border: none;
+    border-radius: 999px;
+    padding: 14px 26px;
+    font: 600 15px/1 var(--sans);
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+  }
+
+  .btn-primary {
+    background: var(--amber);
+    color: #241a09;
+    box-shadow: 0 14px 30px -14px rgba(184, 118, 26, 0.55);
+  }
+
+  .btn-primary:hover { transform: translateY(-1px); background: var(--amber-deep); color: #fff; }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--ink-soft);
+    border: 1px solid var(--rule);
+  }
+
+  .btn-ghost:hover { border-color: var(--ink-faint); color: var(--ink); }
+
+  .hero .fine {
+    margin: 18px 0 0;
+    color: var(--ink-faint);
+    font: 500 13px/1.5 var(--sans);
+  }
+
+  /* ---------- hero chat: the host speaking ---------- */
+  .chat {
+    background: var(--card);
+    border: 1px solid var(--rule);
+    border-radius: 18px;
+    box-shadow: var(--shadow);
+    padding: 22px 24px 24px;
+  }
+
+  .chat .head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font: 700 10px/1.4 var(--sans);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 12px;
+    margin-bottom: 18px;
+  }
+
+  .host-msg {
+    background: #fdf6e3;
+    border: 1px solid rgba(184, 118, 26, 0.35);
+    border-radius: 14px;
+    padding: 16px 18px 14px;
+  }
+
+  .host-msg .who {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font: 700 11px/1 var(--sans);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--amber-deep);
+    margin-bottom: 10px;
+  }
+
+  .host-msg p.say {
+    margin: 0;
+    font-size: 18.5px;
+    line-height: 1.45;
+  }
+
+  .host-msg .why {
+    margin: 12px 0 0;
+    color: var(--ink-faint);
+    font: 500 12px/1.5 var(--sans);
+  }
+
+  .reply {
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+    margin-top: 16px;
+    padding-left: 6px;
+  }
+
+  .reply .dot {
+    flex: none;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    position: relative;
+    top: 1px;
+  }
+
+  .reply .name {
+    flex: none;
+    font: 700 13px/1.4 var(--sans);
+    color: var(--ink-soft);
+  }
+
+  .reply .text {
+    margin: 0;
+    font-size: 15.5px;
+    color: var(--ink-soft);
+    font-style: italic;
+  }
+
+  /* ---------- editorial band: the need ---------- */
+  section { padding: 72px 0; }
+
+  section.deep { background: var(--paper-deep); }
+
+  h2 {
+    margin: 0 0 18px;
+    font-size: clamp(28px, 3.6vw, 40px);
+    line-height: 1.12;
+    letter-spacing: -0.01em;
+    max-width: 26ch;
+  }
+
+  .need-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 34px;
+    margin-top: 40px;
+  }
+
+  .need-grid h3 {
+    margin: 0 0 8px;
+    font-size: 19px;
+  }
+
+  .need-grid p {
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: 15.5px;
+  }
+
+  .pull {
+    margin: 52px auto 0;
+    max-width: 62ch;
+    text-align: center;
+    font-size: 21px;
+    font-style: italic;
+    color: var(--ink-soft);
+  }
+
+  .pull strong { color: var(--ink); font-style: normal; }
+
+  /* ---------- the host ---------- */
+  .host-intro {
+    margin: 0 0 8px;
+    max-width: 58ch;
+    color: var(--ink-soft);
+    font-size: 18px;
+  }
+
+  .hostlines { margin-top: 44px; }
+
+  .hostline {
+    display: grid;
+    grid-template-columns: 200px minmax(0, 1fr);
+    gap: 28px;
+    padding: 30px 0;
+    border-top: 1px solid var(--rule);
+  }
+
+  .hostline:last-of-type { border-bottom: 1px solid var(--rule); }
+
+  .hostline .virtue {
+    font: 700 11px/1.6 var(--sans);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    padding-top: 8px;
+  }
+
+  .hostline .virtue b { color: var(--amber-deep); }
+
+  .hostline blockquote {
+    margin: 0;
+    font-size: clamp(20px, 2.6vw, 25px);
+    line-height: 1.35;
+  }
+
+  .hostline blockquote .accent { border-bottom: 3px solid var(--amber-soft); }
+
+  .hostline .receipt {
+    margin: 12px 0 0;
+    color: var(--ink-faint);
+    font: 500 13px/1.5 var(--sans);
+  }
+
+  .host-quiet {
+    margin: 36px 0 0;
+    max-width: 56ch;
+    font-style: italic;
+    color: var(--ink-soft);
+    font-size: 18px;
+  }
+
+  /* ---------- setup sentence ---------- */
+  .madlib {
+    margin-top: 40px;
+    font-size: clamp(24px, 3.2vw, 34px);
+    line-height: 1.5;
+    max-width: 30ch;
+  }
+
+  .sel {
+    display: inline-block;
+    position: relative;
+  }
+
+  .sel select {
+    appearance: none;
+    -webkit-appearance: none;
+    border: none;
+    background: transparent;
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 600;
+    font-size: inherit;
+    line-height: inherit;
+    color: var(--amber-deep);
+    border-bottom: 3px dashed var(--amber);
+    border-radius: 0;
+    padding: 0 26px 2px 2px;
+    cursor: pointer;
+  }
+
+  .sel::after {
+    content: "▾";
+    position: absolute;
+    right: 6px;
+    bottom: 6px;
+    font-size: 0.55em;
+    color: var(--amber-deep);
+    pointer-events: none;
+  }
+
+  .setup-after {
+    margin: 34px 0 0;
+    max-width: 52ch;
+    color: var(--ink-soft);
+    font-size: 18px;
+  }
+
+  .setup-fine {
+    margin: 16px 0 0;
+    color: var(--ink-faint);
+    font: 500 13.5px/1.6 var(--sans);
+    max-width: 60ch;
+  }
+
+  /* ---------- privacy strip ---------- */
+  .boundary {
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .boundary-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 28px;
+    margin-top: 36px;
+  }
+
+  .boundary-grid p { margin: 0; font-size: 15px; color: var(--ink-soft); }
+  .boundary-grid strong { display: block; color: var(--ink); margin-bottom: 6px; font-size: 16px; }
+
+  /* ---------- closer ---------- */
+  .closer { text-align: center; padding: 84px 0 96px; }
+
+  .closer h2 { margin: 0 auto 14px; max-width: 22ch; }
+
+  .closer p.sub {
+    margin: 0 auto 32px;
+    max-width: 52ch;
+    color: var(--ink-soft);
+    font-size: 18px;
+  }
+
+  footer {
+    border-top: 1px solid var(--rule);
+    padding: 26px 0 40px;
+    color: var(--ink-faint);
+    font: 500 13px/1.6 var(--sans);
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 880px) {
+    .hero { grid-template-columns: 1fr; gap: 36px; padding: 40px 0 56px; }
+    .need-grid { grid-template-columns: 1fr; gap: 26px; }
+    .boundary-grid { grid-template-columns: 1fr 1fr; }
+    .hostline { grid-template-columns: 1fr; gap: 10px; padding: 26px 0; }
+    .hostline .virtue { padding-top: 0; }
+    section { padding: 56px 0; }
+  }
+
+  @media (max-width: 540px) {
+    .boundary-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="topbar">
+    <div class="brand">
+      <svg width="26" height="28" viewBox="0 0 26 28" aria-hidden="true">
+        <polygon points="13,1 24.5,7.5 24.5,20.5 13,27 1.5,20.5 1.5,7.5"
+                 fill="#d2912f" stroke="#b8761a" stroke-width="1.5" />
+      </svg>
+      Honeycomb
+    </div>
+    <a class="quiet" href="index.html">Have an invite? Join your circle →</a>
+  </header>
+
+  <!-- ======================= HERO ======================= -->
+  <section class="hero">
+    <div>
+      <p class="eyebrow">For people who save things</p>
+      <h1>Your second brain, <em>shared.</em></h1>
+      <p class="lede">
+        You already highlight books, save articles, and queue podcasts.
+        Honeycomb reads the trail you're leaving anyway and plays host —
+        noticing what your friends are circling too, and speaking up when
+        there's a conversation in it.
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#setup">Start a circle</a>
+        <a class="btn btn-ghost" href="index.html">See the working demo</a>
+      </div>
+      <p class="fine">You share a reviewed slice, never your vault. More below.</p>
+    </div>
+
+    <aside class="chat" aria-label="The host speaking in a group chat">
+      <div class="head"><span>Sunday · 9:00 am</span><span>The group chat</span></div>
+      <div class="host-msg">
+        <div class="who">
+          <svg width="13" height="14" viewBox="0 0 26 28" aria-hidden="true">
+            <polygon points="13,1 24.5,7.5 24.5,20.5 13,27 1.5,20.5 1.5,7.5"
+                     fill="#d2912f" stroke="#b8761a" stroke-width="2" />
+          </svg>
+          Honeycomb
+        </div>
+        <p class="say">The group chat needs to unpack what's going on with
+          cyclosporiasis.</p>
+        <p class="why">Why this? · Three of you saved outbreak explainers this week</p>
+      </div>
+      <div class="reply">
+        <span class="dot" style="background: var(--allen)"></span>
+        <span class="name">Allen</span>
+        <p class="text">NO WAY. I have four articles saved on this exact thing</p>
+      </div>
+      <div class="reply">
+        <span class="dot" style="background: var(--shawn)"></span>
+        <span class="name">Shawn</span>
+        <p class="text">told you it wasn't just me being paranoid about the basil</p>
+      </div>
+    </aside>
+  </section>
+</div>
+
+<!-- ======================= THE NEED ======================= -->
+<section class="deep">
+  <div class="wrap">
+    <p class="eyebrow">The dusty shelf problem</p>
+    <h2>A note that never becomes a conversation is well-organized forgetting.</h2>
+    <div class="need-grid">
+      <div>
+        <h3>You consume more than ever</h3>
+        <p>Podcasts on the commute, articles saved for later, highlights
+           piling up in Readwise, notes filed in the vault. The archive
+           grows every day.</p>
+      </div>
+      <div>
+        <h3>Almost none of it comes up</h3>
+        <p>A good link dies in the group chat within a day. The rest never
+           leaves your second brain at all. The shelf gets dustier.</p>
+      </div>
+      <div>
+        <h3>Your people are right there</h3>
+        <p>Two close friends can circle the same question for months —
+           same podcasts, same books — and never find out.</p>
+      </div>
+    </div>
+    <p class="pull">
+      Honeycomb exists for the moment you discover your best friend has been
+      listening to the same show all along — and the next chat gets better
+      than <strong>“hey, did you see the game?”</strong>
+    </p>
+  </div>
+</section>
+
+<!-- ======================= THE HOST ======================= -->
+<section>
+  <div class="wrap">
+    <p class="eyebrow">The host</p>
+    <h2>An agent that acts like a good party host.</h2>
+    <p class="host-intro">It doesn't feed you content and it doesn't talk to
+       hear itself talk. It knows what everyone's been into lately, makes the
+       introduction with a reason, and gets out of the way.</p>
+
+    <div class="hostlines">
+      <div class="hostline">
+        <div class="virtue">It <b>reads the room</b></div>
+        <div>
+          <blockquote>“The group chat needs to unpack what's going on with
+            <span class="accent">cyclosporiasis</span>.”</blockquote>
+          <p class="receipt">When the whole circle orbits the same story, the host names it.</p>
+        </div>
+      </div>
+
+      <div class="hostline">
+        <div class="virtue">It <b>makes introductions</b></div>
+        <div>
+          <blockquote>“Allen and Shawn are both reading about
+            <span class="accent">digital hygiene</span>. Talk about how you're
+            managing screen time?”</blockquote>
+          <p class="receipt">Not a match score — two people, one topic, and an opening question.</p>
+        </div>
+      </div>
+
+      <div class="hostline">
+        <div class="virtue">It knows <b>who has something to give</b></div>
+        <div>
+          <blockquote>“Shawn's reading about building a business. Justin can
+            share his thoughts on <span class="accent">Paul Graham's essays</span>
+            on startups.”</blockquote>
+          <p class="receipt">Sometimes the overlap isn't mutual — one of you is
+             already where the other is headed. The host remembers.</p>
+        </div>
+      </div>
+    </div>
+
+    <p class="host-quiet">And on a week with nothing worth saying, it says
+       nothing. No streaks, no digest for the sake of a digest.</p>
+  </div>
+</section>
+
+<!-- ======================= SETUP ======================= -->
+<section class="deep" id="setup">
+  <div class="wrap">
+    <p class="eyebrow">The whole setup</p>
+    <h2>Two decisions. The host handles the rest.</h2>
+
+    <p class="madlib">
+      My saves live in
+      <span class="sel">
+        <select aria-label="Where your saves live">
+          <option>Readwise</option>
+          <option>my Obsidian vault</option>
+          <option>my podcast app</option>
+          <option>my notes app</option>
+          <option>wherever — I'll paste</option>
+        </select></span>,
+      and my people are
+      <span class="sel">
+        <select aria-label="Your circle">
+          <option>the group chat</option>
+          <option>my book club</option>
+          <option>my mastermind</option>
+        </select></span>.
+    </p>
+
+    <p class="setup-after">That's it. One invite link brings your circle in —
+       two to five people who already trust each other. From there the host
+       reads each week's overlap and speaks up where you already talk.</p>
+
+    <p class="setup-fine">Connecting a source shares nothing by itself — you
+       review what leaves your device. No feed, no followers, nothing to check.</p>
+  </div>
+</section>
+
+<!-- ======================= PRIVACY ======================= -->
+<section class="boundary">
+  <div class="wrap">
+    <p class="eyebrow">The boundary</p>
+    <h2>A reviewed slice, never your vault.</h2>
+    <div class="boundary-grid">
+      <p><strong>You approve every item</strong> before it leaves your device. The host proposes; you decide.</p>
+      <p><strong>Each circle gets its own slice.</strong> The book club never sees what you share with the group chat.</p>
+      <p><strong>Unpublish any time.</strong> Leave a circle and your slice leaves with you.</p>
+      <p><strong>Every prompt explains itself.</strong> “Why am I seeing this?” always has an answer.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= CLOSER ======================= -->
+<section class="closer">
+  <div class="wrap">
+    <p class="eyebrow">A book club for the modern era</p>
+    <h2>Don't let the podcasts, books, and articles go to waste.</h2>
+    <p class="sub">Take what you're already consuming and turn it into the
+       conversations your friendships deserve.</p>
+    <a class="btn btn-primary" href="index.html">Start a circle</a>
+  </div>
+</section>
+
+<div class="wrap">
+  <footer>
+    <span>Honeycomb — Shawn Smith · Yedu Pushpendran · Humzah Khan</span>
+    <span>Built for The AI Awakening, Stanford, 2026</span>
+  </footer>
+</div>
+
+<script>
+  // Native selects size to their longest option; fit each to the chosen one
+  // so the dashed underline hugs the word.
+  document.querySelectorAll(".sel select").forEach((select) => {
+    const probe = document.createElement("span");
+    probe.style.cssText =
+      "position:absolute;visibility:hidden;white-space:pre;" +
+      "font:600 italic " + getComputedStyle(select).fontSize + " " +
+      getComputedStyle(select).fontFamily;
+    document.body.appendChild(probe);
+    const fit = () => {
+      probe.textContent = select.options[select.selectedIndex].text;
+      select.style.width = probe.getBoundingClientRect().width + 34 + "px";
+    };
+    select.addEventListener("change", fit);
+    fit();
+  });
+</script>
+
+</body>
+</html>

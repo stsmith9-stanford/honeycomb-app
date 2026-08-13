@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Honeycomb</title>
+    <meta
+      name="description"
+      content="Honeycomb turns approved slices of trusted friends' knowledge systems into real conversation."
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Honeycomb controls">
+        <div class="brand-lockup">
+          <div class="brand-mark" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <div>
+            <p class="eyebrow">Honeycomb</p>
+            <h1>Blend</h1>
+          </div>
+        </div>
+
+        <section class="panel control-panel" aria-labelledby="pair-title">
+          <div class="panel-heading">
+            <p class="eyebrow">Core / mantle</p>
+            <h2 id="pair-title">Pair</h2>
+          </div>
+          <label class="field-label" for="active-user">Viewing as</label>
+          <select id="active-user"></select>
+          <label class="field-label" for="friend-user">Blend with</label>
+          <select id="friend-user"></select>
+        </section>
+
+        <nav class="panel nav-panel" aria-label="Workspace">
+          <button type="button" class="nav-button" data-view="blend">Blend</button>
+          <button type="button" class="nav-button" data-view="vault">Vault review</button>
+          <button type="button" class="nav-button" data-view="shelf">Shared shelf</button>
+          <button type="button" class="nav-button" data-view="conversations">Conversations</button>
+        </nav>
+
+        <section class="panel control-panel" aria-labelledby="privacy-title">
+          <div class="panel-heading">
+            <p class="eyebrow">Public layer</p>
+            <h2 id="privacy-title">Privacy</h2>
+          </div>
+          <div class="segmented" role="radiogroup" aria-label="Privacy level">
+            <button type="button" class="segment" data-privacy="themes">Themes</button>
+            <button type="button" class="segment" data-privacy="artifacts">Artifacts</button>
+            <button type="button" class="segment" data-privacy="sources">Sources</button>
+          </div>
+          <div id="privacy-readout" class="privacy-readout"></div>
+        </section>
+
+        <section class="panel system-panel" aria-labelledby="system-title">
+          <div class="panel-heading">
+            <p class="eyebrow">Live state</p>
+            <h2 id="system-title">System</h2>
+          </div>
+          <div id="system-stats" class="stat-list"></div>
+          <button type="button" id="reset-demo" class="ghost-button">Reset demo data</button>
+        </section>
+      </aside>
+
+      <main class="workspace">
+        <header class="topbar">
+          <div>
+            <p id="view-kicker" class="eyebrow">Activation-energy reducer</p>
+            <h2 id="view-title">Honeycomb Blend</h2>
+          </div>
+          <div class="topbar-actions">
+            <button type="button" id="run-agent" class="secondary-button">Run agent scan</button>
+            <button type="button" id="export-wrap" class="command-button">Copy wrap JSON</button>
+          </div>
+        </header>
+
+        <section id="screen" class="screen" aria-live="polite"></section>
+      </main>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
