@@ -74,6 +74,29 @@
   border-color: var(--ink-faint);
 }
 
+.demo-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  flex-wrap: wrap;
+  background: #fdf6e3;
+  border: 1px solid rgba(184, 118, 26, 0.35);
+  border-radius: 14px;
+  padding: 14px 18px;
+  margin-bottom: 30px;
+}
+
+.demo-banner p {
+  margin: 0;
+  font-size: 15px;
+  color: var(--ink-soft);
+}
+
+.demo-banner strong {
+  color: var(--ink);
+}
+
 .app-nav-signout {
   background: none;
   border: none;

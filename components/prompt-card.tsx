@@ -49,7 +49,14 @@ const REACTIONS: { kind: ReactionKind; label: string; glyph?: string }[] = [
   { kind: "more", label: "More like this" },
 ];
 
-export function PromptCard({ prompt }: { prompt: PromptCardData }) {
+export function PromptCard({
+  prompt,
+  demo = false,
+}: {
+  prompt: PromptCardData;
+  /** Demo cards react locally and never touch the network. */
+  demo?: boolean;
+}) {
   const [open, setOpen] = useState(false);
   const [counts, setCounts] = useState(prompt.counts);
   const [mine, setMine] = useState<ReactionKind[]>(prompt.mine);
@@ -64,6 +71,11 @@ export function PromptCard({ prompt }: { prompt: PromptCardData }) {
     setError(null);
     setMine((current) => [...current, kind]);
     setCounts((current) => ({ ...current, [kind]: current[kind] + 1 }));
+
+    if (demo) {
+      setPending(null);
+      return;
+    }
 
     const result = await postJson(`/api/prompts/${prompt.id}/react`, { kind });
 

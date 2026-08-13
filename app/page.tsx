@@ -70,9 +70,9 @@ export default function LandingPage() {
               <Link className="btn btn-primary" href="/new">
                 Start a circle
               </Link>
-              <a className="btn btn-ghost" href="/prototype/index.html">
-                See the working demo
-              </a>
+              <Link className="btn btn-ghost" href="/demo">
+                See a demo circle
+              </Link>
             </div>
             <p className="fine">
               You share a reviewed slice, never your vault. More below.
