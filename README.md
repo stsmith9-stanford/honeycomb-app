@@ -1,34 +1,88 @@
 # Honeycomb
 
-Local working prototype for the AI Awakening Honeycomb project.
+**Your second brain, shared.** Honeycomb takes what you're already saving —
+Readwise highlights, podcast queues, folders of notes — and plays host for a
+small circle of people who already trust each other: it notices what you're
+all circling, and speaks up when there's a conversation in it.
 
-## What works
+**Live:** [honeycomb-sand.vercel.app](https://honeycomb-sand.vercel.app) ·
+**Demo circle (no sign-up):** [/demo](https://honeycomb-sand.vercel.app/demo)
 
-- Three seeded users: Shawn, Yedu, and Humzah.
-- Pairwise blends across any two users.
-- Mutable public layer approval for each user's vault artifacts.
-- Agent scan that prepares private items for public review.
-- Recalculated blend scores, shared themes, prompts, and evidence.
-- Privacy modes for themes, artifacts, and approved source labels.
-- Shared shelf with recommendations, reactions, comments, and local persistence.
-- Conversation draft, copy action, text-sent log, and 20-minute talk log.
-- Copyable wrap JSON for handoff or submission notes.
+Born as the final project for Stanford's *The AI Awakening* (Econ 295 / CS 323)
+by Shawn Smith, Yedu Pushpendran, and Humzah Khan.
 
-## Run locally
+## How it works
 
-The app is static. Open `index.html` directly or serve the folder:
+1. **Start a circle** and send one invite link to 2–5 people.
+2. **Connect a library** — a Readwise token, or a local folder of Markdown
+   notes parsed entirely in your browser. Connecting shares nothing by
+   itself: you choose which circles each source feeds, and every item has a
+   Hide toggle. A reviewed slice, never your vault.
+3. **The host reads the overlap** — weekly, or on demand — and posts
+   conversation starters with receipts: every prompt cites the actual items
+   it came from, and every card takes reactions (useful / awkward /
+   discussed / more like this) that feed the next blend.
+
+## The host has no API key
+
+The deployed app never calls an LLM. It **queues** blends, and any worker
+with the shared secret completes them:
+
+- `GET /api/host/pending` — queued blends with their full payloads
+- `POST /api/host/complete` — validated results back (or a failure)
+
+The reference worker, [`scripts/run-host.mjs`](scripts/run-host.mjs), runs
+the `claude` CLI in print mode on whatever machine invokes it — a Claude
+Code subscription is the only credential. Point it anywhere:
 
 ```sh
-python3 -m http.server 5173
+APP_URL=https://your-deployment CRON_SECRET=... node scripts/run-host.mjs --loop 300
 ```
 
-Then visit `http://localhost:5173`.
+Any agent runtime can own this job instead — it's a poll → generate →
+post-back loop against those two endpoints. (Setting `HOST_RUNNER` unset
+switches to inline Anthropic API calls with `ANTHROPIC_API_KEY`, if you'd
+rather run serverless.)
 
-## Storage
+## Stack
 
-State persists in browser `localStorage` under `honeycomb-product-v1`.
-Use `Reset demo data` in the sidebar to restore the seeded product state.
+Next.js 15 (App Router) on Vercel · Supabase (Postgres, RLS, magic-link
+auth) · the `claude` CLI as the default host runtime. No other services.
 
-## Scope
+## Local development
 
-This is still a local prototype. It does not include accounts, auth, real vault ingestion, an Obsidian plugin, or networked multi-user sync.
+Prereqs: Node 20+, Docker, the Supabase CLI.
+
+```sh
+supabase start            # local Postgres + auth + Mailpit
+npm install
+npm run dev
+```
+
+Point `.env.local` at the local stack (values from `supabase status`; names
+in [.env.example](.env.example)). Magic-link emails land in Mailpit at
+[localhost:54324](http://127.0.0.1:54324). Set `HOST_RUNNER=external` and
+run `node scripts/run-host.mjs` to generate blends locally.
+
+## Repo map
+
+| Path | What |
+|---|---|
+| `app/` | Landing, `/demo`, auth, circles, library, API routes |
+| `lib/host/` | Blend payload assembly, prompt, completion |
+| `supabase/migrations/` | Schema + RLS (the source of truth) |
+| `docs/SPEC.md` | The frozen v1 build spec |
+| `docs/HOST-PROMPT.md` | The host's system prompt |
+| `prototype/` | The original static prototype (served at `/prototype/index.html`) |
+| `design-mockups/` | The Direction B design exploration |
+
+## Deploying your own
+
+1. `supabase link --project-ref <ref> && supabase db push`
+2. Set the env vars from `.env.example` on Vercel (`HOST_RUNNER=external`,
+   no Anthropic key needed) and `vercel deploy --prod`
+3. Point Supabase auth's site URL + redirect allow-list at your domain
+4. Run the host worker somewhere with a `claude` login
+
+The weekly cron (`vercel.json`) queues a blend for every eligible circle on
+Sundays; the worker completes them.
