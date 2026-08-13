@@ -43,3 +43,6 @@ next-env.d.ts
 
 # local agent config
 .claude/settings.local.json
+
+# local-only symlink to Obsidian notes (breaks Vercel builds if tracked)
+agent context
