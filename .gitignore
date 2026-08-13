@@ -46,3 +46,6 @@ next-env.d.ts
 
 # local-only symlink to Obsidian notes (breaks Vercel builds if tracked)
 agent context
+
+# holds the production cron secret
+scripts/run-host-prod.sh

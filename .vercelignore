@@ -1,0 +1,8 @@
+# local-only: broken symlink on Vercel, and build-irrelevant directories.
+# Patterns anchored to root — a bare name also matches nested dirs (lib/supabase!).
+/agent context
+/design-mockups
+/prototype
+/supabase
+/scripts
+/docs
